@@ -25,11 +25,11 @@ class Login extends React.Component {
             // Check length of getLoginData to see if data exist
             if ( (Object.keys(getLoginData.data).length !== 0) ) {
                 
-                // login data exist
+                // if login data exist
                 alert("Success");
                 this.props.history.push("/");
             } else {
-                // no login data
+                // if no login data
                 alert("Login failed.")
             }
         }    

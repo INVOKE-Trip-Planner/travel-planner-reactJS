@@ -111,7 +111,6 @@ const mapStateToProps = (store) => ({
   })
   
 const mapDispatchToProps = {
-    // onLogin: Actions.login,
     resetUserSession: Actions.resetUserSession
 }
 

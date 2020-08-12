@@ -7,7 +7,6 @@ class Home extends React.Component {
             <>  
                 <div style={styles.registerContainer}>
                     <h1>Home page</h1>
-                    {/* <SignupForm/> */}
                 </div>
             </>
         )

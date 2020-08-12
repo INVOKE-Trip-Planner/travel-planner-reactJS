@@ -24,9 +24,9 @@ function* register({data}) {
         yield put(Actions.registerSuccess(response.data));
     }
 
-    // if (error) {
-    //     yield put(Actions.registerFail(error));
-    // }
+    if (error) {
+        yield put(Actions.registerFail(error));
+    }
 }
 
 // this code runs first and call above
