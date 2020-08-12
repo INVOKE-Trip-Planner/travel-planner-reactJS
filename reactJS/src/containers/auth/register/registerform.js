@@ -1,23 +1,32 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-const SignupForm = () => {
+// Redux
+import { connect } from "react-redux";
+import Actions from "../../../actions";
+
+const SignupForm = (props) => {
+
   return (
     <Formik
-      initialValues={{ username: '', email: '', password: ''}}
+      initialValues={{ username: '', name:'', email: '', password: '', password_confirmation: ''}}
 
       validationSchema={Yup.object({
+        name: Yup.string()
+          .max(255, 'Must be 255 characters or less')
+          .required('Required'),
         username: Yup.string()
-          .min(5, 'Must be 5 characters or more')
-          .max(15, 'Must be 15 characters or less')
+          .max(25, 'Must be 25 characters or less')
           .required('Required'),
         email: Yup.string()
           .email('Invalid email address')
           .required('Required'),
         password: Yup.string()
           .min(8, 'Must be 8 characters or more')
-          .max(15, 'Must be 15 characters or less')
+          .required('Required'),
+        password_confirmation: Yup.string()
+          .oneOf([Yup.ref('password'), null], 'Passwords must match')
           .required('Required'),
       })}
 
@@ -26,78 +35,47 @@ const SignupForm = () => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
-        }, 400);
+        }, 400)
+        props.onRegister(values);
       }}
     >
       <Form style={styles.formContainer}>
+
+        <label htmlFor="name">Name</label>
+        <Field name="name" id="name" type="text" />        
+        <div style={styles.errorContainer}>
+          <ErrorMessage name="name"/>
+        </div>
+
         <label htmlFor="username">Username</label>
         <Field name="username" id="username" type="text" />        
-        <div style={styles.errorUsername}>
+        <div style={styles.errorContainer}>
           <ErrorMessage name="username"/>
         </div>
 
         <label htmlFor="email">Email Address</label>
         <Field name="email" id="email" type="email" />
-        <div style={styles.errorUsername}>
+        <div style={styles.errorContainer}>
           <ErrorMessage name="email" />         
         </div>
 
         <label htmlFor="password">Password</label>
         <Field name="password" id="password" type="password" />
-        <div style={styles.errorUsername}>
+        <div style={styles.errorContainer}>
           <ErrorMessage name="password" />         
         </div>
 
-        <button type="submit">Submit</button>
+        <label htmlFor="password_confirmation">Confirm Password</label>
+        <Field name="password_confirmation" id="password_confirmation" type="password" />
+        <div style={styles.errorContainer}>
+          <ErrorMessage name="password_confirmation" />         
+        </div>
+
+        <button type="submit">Register</button>
       </Form>
     </Formik>
   );
 };
-
-// import React, {setState} from 'react';
-// import { Formik } from 'formik';
-
-// const SignupForm = () => {
-
-//   return(
-//     <div style={styles.formContainer}>
-
-//       <Formik 
-//         initialValues={{ username: '', email: '', password: ''}}
-//         onSubmit={(values) => {
-//           console.log(values);
-//         }}
-//       >
-//         {(formikProps) => (
-//           <div>
-//             <input
-//               type="text"
-//               placeholder="username"
-//               onChange={formikProps.handleChange('username')}
-//               value={formikProps.values.username}
-//             />
-
-//             <input
-//               type="text"
-//               placeholder="email"
-//               onChange={formikProps.handleChange('email')}
-//               value={formikProps.values.email}
-//             />
-
-//             <input
-//               type="password"
-//               placeholder="password"
-//               onChange={formikProps.handleChange('password')}
-//               value={formikProps.values.password}
-//             />
-
-//             <button onClick={formikProps.handleSubmit}>Submit</button>
-//           </div>
-//         )}
-//       </Formik>
-//     </div>
-//   )
-// }
 
 const styles = {
   formContainer: {
@@ -112,10 +90,18 @@ const styles = {
     padding: 20,
   },
 
-  errorUsername: {
+  errorContainer: {
     // border: "1px solid red",
     color: "red"
   }
 }
 
-export default SignupForm;
+const mapStateToProps = (store) => ({
+  getRegisterData: Actions.getRegisterData(store),
+})
+
+const mapDispatchToProps = {
+  onRegister: Actions.register,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);

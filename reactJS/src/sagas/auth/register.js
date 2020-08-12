@@ -4,26 +4,29 @@ import * as api from "../../api";
 
 function* register({data}) {
     console.log("REGISTER SAGA");
+
+    console.log("DATA", data);
+
     // formData
     const formData = new FormData();
     formData.append('name', data.name);
+    formData.append('username', data.username);
     formData.append('email', data.email);
     formData.append('password', data.password);
     formData.append('password_confirmation', data.password_confirmation);
 
-    // pass to the api
+    // // pass to the api
     const { response, error } = yield call(api.register, formData);
 
-    console.log(response, error);
-    // yield put();
+    console.log("RESPONSE", response, error);
 
     if (response && response.data.status === "Success") {
         yield put(Actions.registerSuccess(response.data));
     }
 
-    if (error) {
-        yield put(Actions.registerFail(error));
-    }
+    // if (error) {
+    //     yield put(Actions.registerFail(error));
+    // }
 }
 
 // this code runs first and call above
