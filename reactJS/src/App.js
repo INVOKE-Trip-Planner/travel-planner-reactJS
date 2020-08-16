@@ -13,8 +13,11 @@ import {
 
 import Header from "./components/header/header.js";
 import Home from "./containers/home/home.js";
+import Dashboard from "./containers/trips/dashboard.js";
+import AddTrip from "./containers/trips/addTrip.js";
 import Login from "./containers/auth/login/login.js";
 import Register from "./containers/auth/register/register.js";
+import TripDetails from "./containers/trips/tripDetails.js";
 
 import { store, persistor } from "./store/index";
 
@@ -28,6 +31,9 @@ function App() {
           <Header />
             <Switch>
               <Route exact path="/" component={Home} />
+              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/dashboard/:id" component={TripDetails} />
+              <Route exact path="/addtrip" component={AddTrip} />
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register}/>
             </Switch>

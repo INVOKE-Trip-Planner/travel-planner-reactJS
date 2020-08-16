@@ -1,9 +1,9 @@
 import auth from "./auth";
 import profile from "./profile";
-// import todo from "./todo";
+import trips from "./trips";
 
 export default {
   ...auth,
   ...profile,
-  // ...todo,
+  ...trips,
 };

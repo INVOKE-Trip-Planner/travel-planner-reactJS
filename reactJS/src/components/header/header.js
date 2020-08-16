@@ -1,7 +1,7 @@
 import React from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import {Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,NavbarText} from 'reactstrap';
+import {Container, Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,NavbarText} from 'reactstrap';
 
 // Redux
 import { connect } from "react-redux";
@@ -26,8 +26,9 @@ class Header extends React.Component {
 
     componentDidUpdate(prevProps) {
         const { getLoginData } = this.props;
+        const { getUserSession } = this.props;
         
-        console.log("HEADER LOGIN DATA", getLoginData);
+        console.log("HEADER LOGIN DATA", getUserSession.data);
 
         if (prevProps.getLoginData.isLoading && !getLoginData.isLoading) {
 
@@ -57,6 +58,7 @@ class Header extends React.Component {
     render() {
         return (
             <>
+                <Container className="themed-container" fluid={true}>
                     <Navbar color="light" light expand="md">
                         <NavbarBrand><Link to="/">Trip Planner</Link></NavbarBrand>
                         <NavbarToggler onClick={() => this.toggle()} />
@@ -66,11 +68,17 @@ class Header extends React.Component {
                                 {this.state.isLogin ? (
                                     <Nav className="mr-auto" navbar>
                                         <NavItem>
+                                            <NavLink><Link to="/dashboard">Trips</Link></NavLink>
+                                        </NavItem>
+                                        <NavItem>
                                             <NavLink><Link onClick={() => this.logoutPressed()} to="">Logout</Link></NavLink>
                                         </NavItem>
                                     </Nav>
                                 ) : (
                                     <Nav className="mr-auto" navbar>
+                                        <NavItem>
+                                            <NavLink><Link to="/dashboard">Trips</Link></NavLink>
+                                        </NavItem>
                                         <NavItem>
                                             <NavLink><Link to="/login">Login</Link></NavLink>
                                         </NavItem>
@@ -100,6 +108,7 @@ class Header extends React.Component {
                             <NavbarText>Hi Username</NavbarText>
                         </Collapse>
                     </Navbar>
+                </Container>    
             </>
         )
     }
