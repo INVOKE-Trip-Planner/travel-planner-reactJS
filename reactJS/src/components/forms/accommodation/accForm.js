@@ -36,8 +36,38 @@ const MyTextInput = ({ label, ...props }) => {
   );
 };
 
+const MyCostInput = ({ label, ...props }) => {
+  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
+  // which we can spread on <input> and also replace ErrorMessage entirely.
+  const [field, meta] = useField(props);
 
-const EditAccForm = (props) => {
+  // console.log(...field);
+  return (
+    <>
+      <div style={styles.inputContainer}>
+
+      <div style={styles.inputStyle}>
+        <label htmlFor={props.id || props.name}>{label}:</label>
+        <input className="cost-input" step="0.01" {...field} {...props}
+          style={{
+            outline: "none",
+            width: "100%",
+            height: 50,
+            borderRadius: 5,
+            padding: 10,
+          }}
+        />
+        {meta.touched && meta.error ? (
+          <div className="error" style={styles.errorContainer}>{meta.error}</div>
+        ) : null}
+      </div>
+      </div>
+    </>
+  );
+};
+
+
+const AccForm = (props) => {
 
   return (
     <Formik
@@ -62,11 +92,12 @@ const EditAccForm = (props) => {
 
       onSubmit={(values, { setSubmitting }) => {
         console.log(values);
+
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400)
-        // props.onRegister(values);
+        props.onCreateAcc(values);
       }}
     >
       <Form >
@@ -99,10 +130,10 @@ const EditAccForm = (props) => {
           placeholder="Enter the check out date here"
         />
 
-        <MyTextInput
+        <MyCostInput
           label="Cost"
           name="accCost"
-          type="text"
+          type="number"
           placeholder="Enter the cost here"
         />
 
@@ -168,11 +199,11 @@ const styles = {
 }
 
 const mapStateToProps = (store) => ({
-//   getRegisterData: Actions.getRegisterData(store),
+  // getCreateAccData: Actions.getCreateAccData(store),
 })
 
 const mapDispatchToProps = {
-//   onRegister: Actions.register,
+  onCreateAcc: Actions.createAcc,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditAccForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AccForm);

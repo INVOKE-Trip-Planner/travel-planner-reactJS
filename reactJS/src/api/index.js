@@ -13,19 +13,24 @@ export const getAll = (headers) => {
   return fetchApi('get', "api/trip", null, headers)
 };
 
-export const editTask = (data, headers) => {
+export const getAllAcc = (headers) => {
+  return fetchApi('get', "api/accommodation", null, headers)
+};
+
+export const createAcc = (data, headers) => {
   console.log(data);
   console.log(headers);
+  return fetchApi('post', "api/accommodation", data, headers)
+};
+
+export const editAcc = (data, headers) => {
   return fetchApi('post', `api/accommodation/update/${headers.id}`, data, headers)
 };
 
-// export const create = (data, headers) => {
-//   return fetchApi('post', "api/createlist", data, headers)
-// };
 
-// export const deleteTask = (data, headers) => {
-//   // console.log("data id:",data);
-//   return fetchApi('delete', `api/deletelist/${data}`, null, headers)
-// };
+export const deleteAcc = (data, headers) => {
+  // console.log("data id:",data);
+  return fetchApi('post', 'api/accommodation/delete', data, headers)
+};
 
 // export const addToDo = data, header

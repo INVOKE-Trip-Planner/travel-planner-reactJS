@@ -50,7 +50,7 @@ class Dashboard extends React.Component {
         this.props.history.push({
             pathname: `/dashboard/${id}`,
             state: {
-                data: this.state.tripsList.filter( item => item.id === id && item)
+                data: this.state.tripsList.filter( item => item.id === id && item) // filter trip id -> to pass to the details page
             }
         });
     }

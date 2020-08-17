@@ -2,7 +2,10 @@ import React from "react";
 
 import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, ModalFooter, Button} from "reactstrap";
 
-import EditAccForm from "components/forms/accommodation/editAcc.js";
+import { connect } from "react-redux";
+import Actions from "actions";
+
+import AccForm from "components/forms/accommodation/accForm.js";
 
 class Accommodation extends React.Component {
 
@@ -11,8 +14,23 @@ class Accommodation extends React.Component {
 
         this.state = {
             isOpen: false,
+            accID: this.props.accID,
         }
     }
+
+    // componentDidUpdate(prevProps) {
+    //     const { getDeleteAccData, getGetAllAccData} = this.props;
+
+    //     if (prevProps.getGetAllAccData.isLoading && !getGetAllAccData.isLoading) {
+
+    //         if ( (Object.keys(getGetAllAccData.data).length !== 0) ) {
+    //             alert(getDeleteAccData.data.message);
+    //             window.location.reload(); // reloads the page after logging out
+    //         } else {
+    //             alert("Delete failed.")
+    //         }
+    //     }
+    // }
 
     handleEdit() {
         this.setState({
@@ -20,8 +38,9 @@ class Accommodation extends React.Component {
         });
     }
 
-    handleDelete() {
-        
+    handleDelete(id) {
+        console.log("ACC ID:", id);
+        this.props.onDeleteAcc(id);
     }
 
     toggle() {
@@ -40,7 +59,7 @@ class Accommodation extends React.Component {
                     
                     <div>
                         <button style={styles.selectButton} onClick={() => this.handleEdit()}><ion-icon name="create-outline"></ion-icon></button>
-                        <button style={styles.selectButton} onClick={() => this.handleDelete()}><ion-icon name="trash-outline"></ion-icon></button>
+                        <button style={styles.selectButton} onClick={() => this.handleDelete(this.state.accID)}><ion-icon name="trash-outline"></ion-icon></button>
                     </div>
                 </CardHeader>
                 <CardBody style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
@@ -62,7 +81,7 @@ class Accommodation extends React.Component {
                 >
                     <ModalHeader></ModalHeader>
                     <ModalBody>
-                        <EditAccForm />
+                        <AccForm />
                     </ModalBody>
                     <ModalFooter>
                     </ModalFooter>
@@ -97,4 +116,16 @@ const styles = {
     },
 }
 
-export default Accommodation;
+// get data from api
+const mapStateToProps = (store) => ({
+    // getGetAllAccData: Actions.getGetAllAccData(store),
+    // getDeleteAccData: Actions.getDeleteAccData(store),
+    // getEditAccData: Actions.getEditAccData(store),
+});
+
+const mapDispatchToProps = {
+    onDeleteAcc: Actions.deleteAcc,
+    // onEditAcc: Actions.editAcc,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Accommodation);
