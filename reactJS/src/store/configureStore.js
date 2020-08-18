@@ -15,7 +15,7 @@ const config = {
   key: "root",
   // storage: AsyncStorage,
   storage,
-  whitelist: ["PROFILE", "TRIPS", "ACC"]
+  whitelist: ["PROFILE", "TRIPS",]
 };
 
 const reducer = persistCombineReducers(config, reducers);

@@ -44,10 +44,13 @@ class Transport extends React.Component {
                 </CardHeader>
                 <CardBody style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
                     <p>Booking ID: {this.props.transBookingId}</p>
-                    <p>Departure: {this.props.transDeparture}</p>
-                    <p>Arrival: {this.props.transArrival}</p>
                     <p>Origin: {this.props.transOrigin}</p>
                     <p>Destination: {this.props.transDestination}</p>
+                    <p>Departure Date: {this.props.transDepartureDate}</p>
+                    <p>Departure Time: {this.props.transDepartureHour}:{this.props.transDepartureMin}</p>
+                    <p>Arrival Date: {this.props.transArrivalDate}</p>
+                    <p>Arrival Time: {this.props.transArrivalHour}:{this.props.transArrivalMin}</p>
+                    <p>Operator: {this.props.transOperator}</p>
                 </CardBody>
                 <CardFooter style={{width: "100%"}}>
                     <p>Cost: RM{this.props.transCost}</p>

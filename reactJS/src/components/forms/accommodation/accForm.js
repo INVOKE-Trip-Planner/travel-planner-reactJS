@@ -71,19 +71,46 @@ const AccForm = (props) => {
 
   return (
     <Formik
-      initialValues={{ accID: '', accName:'', accCheckIn: '', accCheckOut: '', accCost: '', accBookingID: ''}}
+      initialValues={{
+        accID: '',
+        accName:'',
+        accCheckInDate: '',
+        accCheckInHour: '',
+        accCheckInMin: '',
+        accCheckOutDate: '',
+        accCheckOutHour: '',
+        accCheckOutMin: '',
+        accCost: '',
+        accBookingID: ''
+      }}
 
       validationSchema={Yup.object({
-        accID: Yup.string()
+        accID: Yup.number()
           .max(255, 'Must be 255 characters or less')
           .required('Required'),
         accName: Yup.string()
           .max(100, 'Must be 100 characters or less')
           .required('Required'),
-        accCheckIn: Yup.date()
-            .min(new Date(), "Date cannot be in the past"),
-        accCheckOut: Yup.date()
+        accCheckInDate: Yup.date()
+          .min(new Date(), "Date cannot be in the past"),
+        accCheckInHour: Yup.number()
+          .positive('Must be a positive integer')
+          .min(0, 'Must be more than 0')
+          .max(23, 'Must be less than 23'),
+        accCheckInMin: Yup.number()
+          .positive('Must be a positive integer')
+          .min(0, 'Must be more than 0')
+          .max(60, 'Must be less than 60'),
+        accCheckOutDate: Yup.date()
           .min(Yup.ref('accCheckIn'), 'Must be after Check In date'),
+        accCheckOutHour: Yup.number()
+          .positive('Must be a positive integer')
+          .min(0, 'Must be more than 0')
+          .max(23, 'Must be less than 23'),
+        accCheckOutMin: Yup.number()
+          .positive('Must be a positive integer')
+          .min(0, 'Must be more than 0')
+          .max(60, 'Must be less than 60'),
         accCost: Yup.number()
             .positive('Must be a positive integer'),
         accBookingID: Yup.string()
@@ -103,7 +130,7 @@ const AccForm = (props) => {
       <Form >
 
         <MyTextInput
-          label="Accommodation ID"
+          label="Destination ID"
           name="accID"
           type="text"
           placeholder="Enter id here"
@@ -118,17 +145,52 @@ const AccForm = (props) => {
 
         <MyTextInput
           label="Check In Date"
-          name="accCheckIn"
+          name="accCheckInDate"
           type="date"
           placeholder="Enter the check in date here"
         />
 
+        
+        <MyTextInput
+          label="Check In Hour"
+          name="accCheckInHour"
+          type="number"
+          placeholder="Enter the check in hour here"
+        />
+        <MyTextInput
+          label="Check In Min"
+          name="accCheckInMin"
+          type="number"
+          placeholder="Enter the check in minute here"
+        />
+
         <MyTextInput
           label="Check Out Date"
-          name="accCheckOut"
+          name="accCheckOutDate"
           type="date"
           placeholder="Enter the check out date here"
         />
+
+        <MyTextInput
+          label="Check Out Hour"
+          name="accCheckOutHour"
+          type="number"
+          placeholder="Enter the check out hour here"
+        />
+
+        <MyTextInput
+          label="Check Out Min"
+          name="accCheckOutMin"
+          type="number"
+          placeholder="Enter the check out minute here"
+        />
+
+        {/* <MyTextInput
+          label="Check Out Time"
+          name="accCheckOutTime"
+          type="time"
+          placeholder="Enter the check out time here"
+        />     */}
 
         <MyCostInput
           label="Cost"

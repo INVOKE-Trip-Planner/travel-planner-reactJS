@@ -19,7 +19,7 @@ function* getAll() {
     // pass to the api
     const { response, error } = yield call(api.getAll, headers);
 
-    console.log("RESPONSE ", response, error);
+    console.log("GET ALL RESPONSE ", response, error);
     // yield put();
 
     if (response) {

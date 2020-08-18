@@ -5,12 +5,12 @@ import * as api from "../../api";
 // import {getStore} from "../../store/configureStore";
 import {store} from "store/index";
 
-function* createAcc( {data} ) {
-    console.log("CREATE ACC SAGA");
+function* editAcc( {data} ) {
+    console.log("EDIT ACC SAGA");
 
     let token = store.getState().PROFILE.userSession.data;
 
-    console.log("createAcc saga DATA: ", data);
+    console.log("editAcc saga DATA: ", data);
     const headers = { Authorization: `Bearer ${token}` };
 
     const formData = new FormData();
@@ -28,26 +28,26 @@ function* createAcc( {data} ) {
     console.log(formData);
 
     // pass to the api
-    const { response, error } = yield call(api.createAcc, formData, headers);
+    const { response, error } = yield call(api.editAcc, formData, headers);
 
     console.log("RESPONSE", response, error);
     // // yield put();
 
     // if (response && response.data.user_data.status === "Success") {
-    //     yield put(Actions.createSuccess(response.data));
+    //     yield put(Actions.editSuccess(response.data));
     //     yield put(Actions.getAll());
     // }
 
     // if (error) {
-    //     yield put(Actions.createFail(error));
+    //     yield put(Actions.editFail(error));
     // }
 }
 
 // this code runs first and call above
-function* watchCreateAcc() {
-    yield takeLatest(Actions.CREATE_ACC, createAcc)
+function* watchEditAcc() {
+    yield takeLatest(Actions.EDIT_ACC, editAcc)
 }
 
 export default function* submit() {
-    yield all([fork(watchCreateAcc)]);
+    yield all([fork(watchEditAcc)]);
 }

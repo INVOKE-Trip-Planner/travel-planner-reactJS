@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Button, Spinner } from 'reactstrap';
 // import reducers from "../../reducers";
 
 import { connect } from 'react-redux';
@@ -18,6 +18,7 @@ class Dashboard extends React.Component {
             showPop: false,
             listData: [],
             tripDetailsId: "",
+            loading: true,
         };
     }
 
@@ -40,6 +41,7 @@ class Dashboard extends React.Component {
                 this.setState(
                     {
                         tripsList: getGetAllData.data,
+                        loading: false,
                     }
                 )
             }
@@ -51,6 +53,7 @@ class Dashboard extends React.Component {
             pathname: `/dashboard/${id}`,
             state: {
                 data: this.state.tripsList.filter( item => item.id === id && item) // filter trip id -> to pass to the details page
+                // tripId: id,
             }
         });
     }
@@ -98,11 +101,26 @@ class Dashboard extends React.Component {
 
                                 <h1>Dashboard</h1>
 
-                                <Row style={{justifyContent: "center", alignItems: "flex-start", flexWrap: "wrap"}}>
+                                <div style={styles.selectContainer}>
+                                    <button style={styles.selectButton} onClick={() => this.handleAll()}>Upcoming</button>
+                                    <button style={styles.selectButton} onClick={() => this.handleAcc()}>Past Trips</button>
+                                </div>
+
+                                {this.state.loading ? (
+                                    
+                                <Row style={{justifyContent: "center", alignItems: "center"}}>
+                                
+                                    <Spinner animation="border" role="status">
+                                        <span className="sr-only">Loading...</span>
+                                    </Spinner>
+                                </Row>) : (
+
+                                <Row style={{justifyContent: "center", alignItems: "center", flexWrap: "wrap"}}>
 
                                     {
                                         this.state.tripsList.map( list => (
                                             <Col xs="2" md="6" lg="3" style={styles.columnStyle}>
+
                                                 <TripsCard
                                                     tripData={list}
                                                     tripId={list.id}
@@ -111,17 +129,20 @@ class Dashboard extends React.Component {
                                                     tripCreatedBy={list.created_by}
                                                     tripStartDate={list.start_date}
                                                     tripEndDate={list.end_date}
-                                                    tripCost={list.cost}
+                                                    tripTotal={list.total}
                                                     tripUsers={list.users}
+                                                    tripBanner={list.trip_banner}
                                                     onClick={() => this.detailsPressed()}
                                                 />
                                             
                                                 <div style={styles.buttonContainer}>
                                                     <Button 
-                                                        style={{border: "none", backgroundImage: "linear-gradient(to bottom right, #E74C3C, #B03A2E)"}} 
-                                                        type="submit" 
-                                                        size="sm"
+                                                        style={{border: "rgba(0,0,0,0.4)"}} // backgroundImage: "linear-gradient(to bottom right, #E74C3C, #B03A2E)"}}
+                                                        type="submit"
+                                                        color="link"
+                                                        // size="sm"
                                                         onClick={() => this.detailsPressed(list.id)}
+                                                        block
                                                     >Trip Details</Button>
                                                 </div>
                                             </Col>
@@ -129,6 +150,7 @@ class Dashboard extends React.Component {
                                     }
 
                                 </Row>
+                                )}
                             </Container>
                         {/* </Col> */}
 
@@ -152,7 +174,7 @@ const styles = {
         alignItems: "flex-start",
         padding: 0,
         margin: 10,
-        overflow: "hidden",
+        // overflow: "hidden",
     },
     sidebarBox: {
         border: "2px solid black",
@@ -165,6 +187,29 @@ const styles = {
         // margin: 10,
         padding: 10,
     },
+    selectContainer: {
+        // width: "80%",
+        // height: 40,
+        backgroundColor: "white",
+        margin: 20,
+        overflow: "hidden",
+        borderRadius: 10,
+        // border: "1px solid rgba(0,0,0,0.4)",
+
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    selectButton: {
+        backgroundColor: "transparent",
+        outline: "none",
+        border: "1px solid rgba(0,0,0,0.4)",
+        // borderRadius: 10,
+        padding: 10,
+        color: "black",
+        // borderRadius: "50 0 0 0",
+    },
 
     tripContent: {
         minWidth: 200,
@@ -176,9 +221,12 @@ const styles = {
     buttonContainer: {
         width: "100%",
         display: "flex",
-        justifyContent: "flex-end",
-        marginBottom: 5,
-        paddingRight: 20,
+        justifyContent: "center",
+        // backgroundColor: "grey",
+        // marginBottom: 5,
+        // paddingRight: 20,
+        paddingBottom: 10,
+        borderTop: "1px solid rgba(0,0,0,0.4)",
     }
 }
 

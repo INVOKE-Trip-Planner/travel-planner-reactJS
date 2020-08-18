@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-import { Button } from "reactstrap";
+import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 
 import placeholder from "assets/images/placeholder.png";
 
@@ -12,8 +12,17 @@ class TripsCard extends React.Component {
         this.state = {
             usersList: this.props.tripUsers,
             listId: this.props.tripId,
+            dropdownOpen: false,
+
         }
     }
+
+    toggle() {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen,
+        })
+    }
+
     render() {
         return (
             <>
@@ -40,8 +49,24 @@ class TripsCard extends React.Component {
 
                     {/* CONTENT BOX */}
                     <div style={styles.tripContent}>
-                        <p>Date: {this.props.tripStartDate} - {this.props.tripEndDate}</p>
-                        <p>Cost: {this.props.cost}</p>
+                        <div style={styles.tripInfoContainer}>
+                            <h6>Date: {this.props.tripStartDate} - {this.props.tripEndDate}</h6>
+                            <h6>Origin: {this.props.tripOrigin}</h6>
+                            <h6>Created by: user {this.props.tripCreatedBy}</h6>
+                            <h6>Trip Total: RM {this.props.tripTotal}</h6>
+                        </div>
+                        
+                        <div style={styles.dropdownContainer}>
+                        <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} style={styles.dropdownStyle} color="none" size="sm">
+                            <DropdownToggle>
+                                <ion-icon name="chevron-down-outline"></ion-icon>
+                            </DropdownToggle>
+                            <DropdownMenu right style={{width: 20,}}>
+                                <div style={styles.dropdownItemContainer}><ion-icon name="create-outline"></ion-icon></div>
+                                <div><ion-icon name="trash-outline"></ion-icon></div>
+                            </DropdownMenu>
+                        </Dropdown>
+                        </div>
                     </div>
                 </div>
             </>
@@ -52,7 +77,7 @@ class TripsCard extends React.Component {
 const styles = {
     imageContainer: {
         width: "100%",
-        height: "60%",
+        height: "50%",
         // borderRadius: 2,
         borderColor: "red",
         backgroundColor: "white",
@@ -77,9 +102,15 @@ const styles = {
     tripContent: {
         minWidth: 200,
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
+        justifyContent: "space-between",
         alignItems: "flex-start",
-        padding: 10,
+        padding: 20,
+    },
+    tripInfoContainer: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start"
     },
     usersContainer: {
         display: "flex",
@@ -95,6 +126,20 @@ const styles = {
         justifyContent: "flex-end",
         marginBottom: 5,
         paddingRight: 20,
+    },
+    dropdownContainer:{
+        border: "1px solid black",
+    },
+    dropdownStyle: {
+        backgroundColor: "none",
+        width: 20,
+    },
+    dropdownItemContainer: {
+        width: 10,
+        backgroundColor: "yellow",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
     }
 }
 

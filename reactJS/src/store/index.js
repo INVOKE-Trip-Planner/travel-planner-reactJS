@@ -11,7 +11,7 @@ const reducer = persistReducer(
   {
     key: "root", // key is required
     storage, // storage is now required
-    whitelist: ["PROFILE", "TRIPS", "ACC"]
+    whitelist: ["PROFILE", "TRIPS",]
   },
   combineReducers({ ...rootReducer })
 );

@@ -64,8 +64,10 @@ class Accommodation extends React.Component {
                 </CardHeader>
                 <CardBody style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
                     <p>Booking ID: {this.props.accBookingId}</p>
-                    <p>Check In: {this.props.accCheckIn}</p>
-                    <p>Check Out: {this.props.accCheckOut}</p>
+                    <p>Check In Date: {this.props.accCheckInDate}</p>
+                    <p>Check In Time: {this.props.accCheckInHour}:{this.props.accCheckInMin}</p>
+                    <p>Check Out Date: {this.props.accCheckOutDate}</p>
+                    <p>Check Out Time: {this.props.accCheckOutHour}:{this.props.accCheckOutMin}</p>
                 </CardBody>
                 <CardFooter style={{width: "100%"}}>
                     <p>Cost: RM{this.props.accCost}</p>

@@ -21,39 +21,75 @@ class TripDetails extends React.Component {
         super(props);
         this.state = {
             tripData: this.props.history.location.state.data,
+            tripId: this.props.history.location.state.data[0].id,
             openModalAcc: false,
             openModalTrans: false,
             openModalItin: false,
             isOpen: false,
+            filterGetAllData: [],
         }
     }
 
     componentDidMount() {
-        console.log(this.state.tripData);
 
-        this.props.onGetAllAcc();
+        // console.log("DETAILS PAGE MOUNT, ID: ", this.state.tripId);
+
+        this.props.onGetAll();
     }
 
     componentDidUpdate(prevProps) {
-        const { getDeleteAccData } = this.props;
+        const { getDeleteAccData, getGetAllData } = this.props;
 
-        // console.log("1. GET ALL ACC DATA UPDATE", getGetAllAccData);
+        console.log("1. DATA UPDATED", this.state.filterGetAllData);
 
-        if (prevProps.getDeleteAccData.isLoading && !getDeleteAccData.isLoading) {
-            console.log("2. acc loading check");
-            console.log("DELETE MESSAGE", getDeleteAccData.data.message);
-            if ( (Object.keys(getDeleteAccData.data.message).length !== 0) ) {
-                console.log("3. acc data check")
-                alert(getDeleteAccData.data.message);
+        if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
 
-                // this.setState({
-                //     tripData:
-                // });
-                window.location.reload(); // reloads the page after logging out
-            } else {
-                alert("Delete failed.")
+            console.log("get all loading");
+
+            if ( Object.keys(getGetAllData.data).length !== 0 ) {
+
+                // console.log("1. GET ALL DATA UPDATE", getGetAllData);
+                this.setState({
+                    filterGetAllData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
+                    tripData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
+                })
+                console.log("filter set", this.state.filterGetAllData);   
             }
         }
+
+        // console.log("1. GET ALL DATA UPDATE", x);
+
+        // if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
+
+        //     if ( (Object.keys(getGetAllData.data).length !== 0) ) {
+        //         this.setState(
+        //             {
+        //                 tripData: getGetAllData.data,
+        //             }
+        //         )
+        //     }
+        // }
+
+        // if (prevProps.getDeleteAccData.isLoading && !getDeleteAccData.isLoading) {
+        //     console.log("2. acc loading check");
+
+        //     if ( (Object.keys(getDeleteAccData.data.message).length !== 0) ) {
+        //         console.log("3. DELETE MESSAGE", getDeleteAccData.data.message);
+        //         alert(getDeleteAccData.data.message);
+
+        //         this.setState({
+        //             tripData: this.state.filterGetAllData,
+        //         });
+
+        //         console.log("4. trip data check", this.state.tripData)
+
+        //         console.log("5. RELOAD");
+        //         window.location.reload(); // reloads the page after logging out
+        //         // }
+        //     } else {
+        //         alert("Delete failed.")
+        //     }
+        // }
     }
 
     handleCreate(category = "") {
@@ -180,8 +216,12 @@ class TripDetails extends React.Component {
                                                                 accID = {accommodation.id}
                                                                 accName = {accommodation.accommodation_name}
                                                                 accBookingId = {accommodation.booking_id}
-                                                                accCheckIn = {accommodation.checkin_time}
-                                                                accCheckOut = {accommodation.checkout_time}
+                                                                accCheckInDate = {accommodation.checkin_date}
+                                                                accCheckInHour = {accommodation.checkin_hour}
+                                                                accCheckInMin = {accommodation.checkin_minute}
+                                                                accCheckOutDate = {accommodation.checkout_date}
+                                                                accCheckOutHour = {accommodation.checkout_hour}
+                                                                accCheckOutMin = {accommodation.checkout_minute}
                                                                 accCost = {accommodation.cost}
                                                             />
                                                         </CardDeck>
@@ -208,8 +248,12 @@ class TripDetails extends React.Component {
                                                             <Transport 
                                                                 transMode = {transport.mode}
                                                                 transBookingId = {transport.booking_id}
-                                                                transDeparture = {transport.departure_time}
-                                                                transArrival = {transport.arrival_time}
+                                                                transDepartureDate = {transport.departure_date}
+                                                                transDepartureHour = {transport.departure_hour}
+                                                                transDepartureMin = {transport.departure_minute}
+                                                                transArrivalDate = {transport.arrival_date}
+                                                                transArrivalHour = {transport.arrival_hour}
+                                                                transArrivalMin = {transport.arrival_minute}
                                                                 transOrigin = {transport.origin}
                                                                 transDestination = {transport.destination}
                                                                 transOperator = {transport.operator}
@@ -237,9 +281,10 @@ class TripDetails extends React.Component {
                                                 destination.itineraries.map( itinerary => (
                                                     <CardDeck>
                                                         <Itinerary 
-                                                            itiDate={itinerary.date}
-                                                            itiScheduleData={itinerary.schedule}
-                                                            itiCost={itinerary.cost}
+                                                            itinId={itinerary.id}
+                                                            itinDay={itinerary.day}
+                                                            itinScheduleData={itinerary.schedules}
+                                                            // itiCost={itinerary.cost}
                                                         />
                                                     </CardDeck>
                                                 ))
@@ -351,13 +396,13 @@ const styles = {
 
 // get data from api
 const mapStateToProps = (store) => ({
-    getGetAllAccData: Actions.getGetAllAccData(store),
+    getGetAllData: Actions.getGetAllData(store),
     getDeleteAccData: Actions.getDeleteAccData(store),
     // getEditAccData: Actions.getEditAccData(store),
 });
 
 const mapDispatchToProps = {
-    onGetAllAcc: Actions.getAllAcc,
+    onGetAll: Actions.getAll,
     onDeleteAcc: Actions.deleteAcc,
     // onEditAcc: Actions.editAcc,
 };

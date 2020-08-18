@@ -19,7 +19,7 @@ function* getAllAcc() {
     // pass to the api
     const { response, error } = yield call(api.getAllAcc, headers);
 
-    console.log("RESPONSE ", response, error);
+    console.log("get all RESPONSE: ", response, error);
     // yield put();
 
     if (response) {

@@ -8,7 +8,7 @@ class Itinerary extends React.Component {
         super(props);
 
         this.state = {
-            scheduleData: this.props.itiScheduleData,
+            scheduleData: this.props.itinScheduleData,
             isOpen: false,
         }
     }
@@ -36,7 +36,7 @@ class Itinerary extends React.Component {
             <>
             <Card body outline color="danger">
                     <CardHeader style={{width: "100%"}}>
-                        <p>Date: {this.props.itiDate}</p>
+                        <p>Day: {this.props.itinDay}</p>
                         <p>Activity:</p>
 
                         <div>
@@ -49,14 +49,16 @@ class Itinerary extends React.Component {
                     <CardBody>  
                         {this.state.scheduleData.map(schedule => (
                             <div style={{border: "1px solid black", display: "flex", flexDirection: "column", alignItems: "flex-start", textAlign: "justify"}}>
-                                <p>{schedule.activity}</p>
+                                <p>Title: {schedule.title}</p>
+                                <p>Desc: {schedule.description}</p>
+                                <p>Time: {schedule.hour}:{schedule.minute}</p>
                                 <p>Cost: RM {schedule.cost}</p>
                             </div>
                         ))}
                 
                     </CardBody>
                 <CardFooter>
-                    <p>Total cost: RM{this.props.itiCost}</p>
+                    <p>Total cost: RM{this.props.itinCost}</p>
                 </CardFooter>
             </Card>
 

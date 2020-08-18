@@ -24,7 +24,7 @@ export const createAcc = (data, headers) => {
 };
 
 export const editAcc = (data, headers) => {
-  return fetchApi('post', `api/accommodation/update/${headers.id}`, data, headers)
+  return fetchApi('post', 'api/accommodation/update', data, headers)
 };
 
 
