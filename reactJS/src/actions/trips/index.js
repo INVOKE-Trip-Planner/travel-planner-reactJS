@@ -1,12 +1,12 @@
 import * as getAll from "./getAll";
-// import * as create from "../acc/create";
-// import * as deleteTask from "./deleteTask";
-// import * as editTask from "./editTask";
+import * as createTrip from "./createTrip";
+import * as deleteTrip from "./deleteTrip";
+import * as updateTrip from "./updateTrip";
 
 
 export default {
   ...getAll,
-  // ...create,
-//   ...deleteTask,
-//   ...editTask
+  ...createTrip,
+  ...deleteTrip,
+  ...updateTrip,
 };
