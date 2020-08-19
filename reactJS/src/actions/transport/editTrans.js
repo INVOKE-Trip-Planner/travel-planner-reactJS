@@ -4,7 +4,7 @@ export const EDIT_TRANS = `${NAME}/EDIT_TRANS`; // AUTH/EDITTRANS
 export const EDIT_TRANS_SUCCESS = `${NAME}/EDIT_TRANS_SUCCESS`; // AUTH/EDITTRANS_SUCCESS
 export const EDIT_TRANS_FAIL = `${NAME}/EDIT_TRANS_FAIL`; // AUTH/EDITTRANS_FAIL
 
-export const geteEditTransData = store => store[NAME].editTrans;
+export const getEditTransData = store => store[NAME].editTrans;
 
 // create action function
 export const editTrans = (data) => ({

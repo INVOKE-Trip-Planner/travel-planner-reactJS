@@ -31,63 +31,68 @@ class TripDetails extends React.Component {
     }
 
     componentDidMount() {
-        // console.log("DETAILS PAGE MOUNT, ID: ", this.state.tripId);
-
         this.props.onGetAll();
     }
 
     componentDidUpdate(prevProps) {
-        const { getDeleteAccData, getGetAllData } = this.props;
-
-        console.log("isLoading status: ", getGetAllData.isLoading);
-        console.log("get ALL data status: ", getGetAllData.data);
+        const { getGetAllData, getEditAccData, getEditTransData, getDeleteAccData, getDeleteTransData, } = this.props;
 
         if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
 
-            console.log("get all loading");
+            // console.log("get all loading");
 
             if ( Object.keys(getGetAllData.data).length !== 0 ) {
-
-                // console.log("1. GET ALL DATA UPDATE", getGetAllData);
                 this.setState({
                     // filterGetAllData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
                     tripData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
                     loading: false,
                 })
-                console.log("filter set", this.state.filterGetAllData);   
-            }
-
-                console.log("delete isLoading status: ", getDeleteAccData.isLoading);
-                
-            if (prevProps.getDeleteAccData.isLoading && !getDeleteAccData.isLoading) {
-
-                if ( (Object.keys(getDeleteAccData.data.message).length !== 0) ) {
-
-                    console.log("2. delete loading check");
-                    console.log("3. DELETE MESSAGE", getDeleteAccData.data.message);
-                    alert(getDeleteAccData.data.message);
-
-                    console.log("5. RELOAD");
-                    // window.location.reload(); // reloads the page after logging out
-
-                } else {
-                    alert("Delete failed.")
-                }
             }
         }
 
-        // console.log("1. GET ALL DATA UPDATE", x);
+        if (prevProps.getEditAccData.isLoading && !getEditAccData.isLoading) {
+            if ( (Object.keys(getEditAccData.data.message).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                })
+                // alert(getEditAccData.data.message);
+                alert(getEditAccData.data.message);
+            } else {alert("Edit accommodation failed.")}
+        }
 
-        // if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
+        if (prevProps.getEditTransData.isLoading && !getEditTransData.isLoading) {
+            if ( (Object.keys(getEditTransData.data.message).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                })
+                // alert(getEditAccData.data.message);
+                alert(getEditTransData.data.message);
+            } else {alert("Edit transport failed.")}
+        }
 
-        //     if ( (Object.keys(getGetAllData.data).length !== 0) ) {
-        //         this.setState(
-        //             {
-        //                 tripData: getGetAllData.data,
-        //             }
-        //         )
-        //     }
-        // }
+        if (prevProps.getDeleteAccData.isLoading && !getDeleteAccData.isLoading) {
+            if ( (Object.keys(getDeleteAccData.data.message).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                })
+                alert(getDeleteAccData.data.message);
+            } else {alert("Delete accommodation failed.") }
+        }
+
+        if (prevProps.getDeleteTransData.isLoading && !getDeleteTransData.isLoading) {
+
+            if ( (Object.keys(getDeleteTransData.data.message).length !== 0) ) {
+
+                this.setState({
+                    loading: true,
+                })
+
+                alert(getDeleteTransData.data.message);
+
+            } else {
+                alert("Delete failed.")
+            }
+        }
     }
 
     handleCreate(category = "") {
@@ -221,7 +226,8 @@ class TripDetails extends React.Component {
                                                     destination.accommodations.map( accommodation => (
                                                         <CardDeck>
                                                             <Accommodation
-                                                                accID = {accommodation.id}
+                                                                destinationId = {destination.id}
+                                                                accId = {accommodation.id}
                                                                 accName = {accommodation.accommodation_name}
                                                                 accBookingId = {accommodation.booking_id}
                                                                 accCheckInDate = {accommodation.checkin_date}
@@ -265,7 +271,9 @@ class TripDetails extends React.Component {
 
                                                         destination.transports.map( transport => (
                                                             <CardDeck>
-                                                                <Transport 
+                                                                <Transport
+                                                                    destinationId = {destination.id}
+                                                                    transId = {transport.id}
                                                                     transMode = {transport.mode}
                                                                     transBookingId = {transport.booking_id}
                                                                     transDepartureDate = {transport.departure_date}
@@ -338,17 +346,20 @@ class TripDetails extends React.Component {
                     isOpen={this.state.openModalAcc}
                     toggle={() => this.toggle()}
                     destinationId = {this.state.tripId}
+                    tripData = {this.state.tripData}
                 />
                 <CreateTransModal 
                     isOpen={this.state.openModalTrans}
                     toggle={() => this.toggle()}
                     destinationId = {this.state.tripId}
+                    tripData = {this.state.tripData}
                     
                 />
                 <CreateItinModal 
                     isOpen={this.state.openModalItin}
                     toggle={() => this.toggle()}
                     destinationId = {this.state.tripId}
+                    tripData = {this.state.tripData}
                 />
             </>
         )
@@ -435,13 +446,15 @@ const styles = {
 // get data from api
 const mapStateToProps = (store) => ({
     getGetAllData: Actions.getGetAllData(store),
+    getEditAccData: Actions.getEditAccData(store),
     getDeleteAccData: Actions.getDeleteAccData(store),
-    // getEditAccData: Actions.getEditAccData(store),
+    getEditTransData: Actions.getEditTransData(store),
+    getDeleteTransData: Actions.getDeleteTransData(store),
 });
 
 const mapDispatchToProps = {
     onGetAll: Actions.getAll,
-    onDeleteAcc: Actions.deleteAcc,
+    // onDeleteAcc: Actions.deleteAcc,
     // onEditAcc: Actions.editAcc,
 };
 

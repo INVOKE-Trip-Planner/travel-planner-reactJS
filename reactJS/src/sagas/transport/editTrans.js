@@ -10,22 +10,23 @@ function* editTrans( {data} ) {
 
     let token = store.getState().PROFILE.userSession.data;
 
-    console.log("editTrans saga DATA: ", data);
+    // console.log("editTrans saga DATA: ", data);
     const headers = { Authorization: `Bearer ${token}` };
 
     const formData = new FormData();
-    formData.append('destination_id', data.accID);
-    formData.append('accommodation_name', data.accName);
-    formData.append('checkin_date', data.accCheckInDate);
-    formData.append('checkin_hour', data.accCheckInHour);
-    formData.append('checkin_minute', data.accCheckInMin);
-    formData.append('checkout_date', data.accCheckOutDate);
-    formData.append('checkout_hour', data.accCheckOutHour);
-    formData.append('checkout_minute', data.accCheckOutMin);
-    formData.append('cost', data.accCost);
-    formData.append('booking_id', data.accBookingID);
-
-    console.log(formData);
+    formData.append('id', data.transId);
+    formData.append('mode', data.transMode);
+    formData.append('origin', data.transOrigin);
+    formData.append('destination', data.transDestination);
+    formData.append('departure_date', data.transDepartureDate);
+    formData.append('departure_hour', data.transDepartureHour);
+    formData.append('departure_minute', data.transDepartureMin);
+    formData.append('arrival_date', data.transArrivalDate);
+    formData.append('arrival_hour', data.transArrivalHour);
+    formData.append('arrival_minute', data.transArrivalMin);
+    formData.append('cost', data.transCost);
+    formData.append('booking_id', data.transBookingID);
+    formData.append('operator', data.transOperator);
 
     // pass to the api
     const { response, error } = yield call(api.editTrans, formData, headers);
@@ -33,14 +34,14 @@ function* editTrans( {data} ) {
     console.log("RESPONSE", response, error);
     // // yield put();
 
-    // if (response && response.data.user_data.status === "Success") {
-    //     yield put(Actions.editSuccess(response.data));
-    //     yield put(Actions.getAll());
-    // }
+    if (response) {
+        yield put(Actions.editTransSuccess(response.data));
+        yield put(Actions.getAll(response.data));
+    }
 
-    // if (error) {
-    //     yield put(Actions.editFail(error));
-    // }
+    if (error) {
+        yield put(Actions.editTransFail(error));
+    }
 }
 
 // this code runs first and call above

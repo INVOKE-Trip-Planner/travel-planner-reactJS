@@ -1,5 +1,6 @@
 import React from 'react';
-import { Formik, Field, useField, Form, ErrorMessage } from 'formik';
+import { Formik, Field, useField, Form, ErrorMessage, } from 'formik';
+import styled from '@emotion/styled';
 import * as Yup from 'yup';
 
 import { Button } from "reactstrap";
@@ -45,21 +46,57 @@ const MyTextInput = ({ label, ...props }) => {
     <>
       <div style={styles.inputContainer}>
 
-      <div style={styles.inputStyle}>
-        <label htmlFor={props.id || props.name}>{label}:</label>
-        <input className="text-input" {...field} {...props} 
-          style={{
-            outline: "none",
-            width: "100%",
-            height: 50,
-            borderRadius: 5,
-            padding: 10,
-          }}
-        />
-        {meta.touched && meta.error ? (
-          <div className="error" style={styles.errorContainer}>{meta.error}</div>
-        ) : null}
+        <div style={styles.inputStyle}>
+          <label htmlFor={props.id || props.name}>{label}:</label>
+          <input className="text-input" {...field} {...props} 
+            style={{
+              outline: "none",
+              width: "100%",
+              height: 50,
+              borderRadius: 5,
+              padding: 10,
+            }}
+          />
+          {meta.touched && meta.error ? (
+            <div className="error" style={styles.errorContainer}>{meta.error}</div>
+          ) : null}
+        </div>
       </div>
+    </>
+  );
+};
+
+ // Styled components ....
+ const StyledSelect = styled.select`
+   color: black;
+   border: 1px solid black;
+   padding: 10px;
+   width: 400px;
+   border-radius: 5px;
+   outline: none;
+
+ `;
+ 
+ const StyledErrorMessage = styled.div`
+   color: black;
+ `;
+ 
+ const StyledLabel = styled.label`
+  color: black;
+ `;
+
+const MySelect = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+  return (
+    <>
+      <div style={styles.inputContainer}>
+        <div style={styles.inputStyle}>
+          <StyledLabel htmlFor={props.id || props.name}>{label}</StyledLabel>
+          <StyledSelect {...field} {...props} />
+          {meta.touched && meta.error ? (
+          <div className="error" style={styles.errorContainer}>{meta.error}</div>
+          ) : null}
+        </div>
       </div>
     </>
   );
@@ -96,54 +133,66 @@ const MyCostInput = ({ label, ...props }) => {
 };
 
 
-const AccForm = (props) => {
+const TransEditForm = (props) => {
 
   return (
     <Formik
       initialValues={{
-        destinationId: props.destinationId,
-        accName:'',
-        accCheckInDate: '',
-        accCheckInHour: '',
-        accCheckInMin: '',
-        accCheckOutDate: '',
-        accCheckOutHour: '',
-        accCheckOutMin: '',
-        accCost: '',
-        accBookingID: ''
+        transId: props.transId,
+        transMode: props.transMode,
+        transOrigin:props.transOrigin,
+        transDestination: props.transDestination,
+        transDepartureDate: props.transDepartureDate,
+        transDepartureHour: props.transDepartureHour,
+        transDepartureMin: props.transDepartureMin,
+        transArrivalDate: props.transArrivalDate,
+        transArrivalHour: props.transArrivalHour,
+        transArrivalMin: props.transArrivalMin,
+        transCost: props.transCost,
+        transBookingID: props.transBookingID,
+        transOperator: props.transOperator,
       }}
 
       validationSchema={Yup.object({
-        destinationId: Yup.number()
+        transId: Yup.number()
           // .max(255, 'Must be 255 characters or less')
           .required('Required'),
-        accName: Yup.string()
-          .max(100, 'Must be 100 characters or less')
+        transMode: Yup.string()
+          .oneOf(
+            ['FLIGHT', 'TRAIN', 'BUS', 'FERRY', 'OTHER'],
+            'Invalid Transportation Mode'
+          )
           .required('Required'),
-        accCheckInDate: Yup.date()
+        transOrigin: Yup.string()
+          .required('Required'),
+        transDestination: Yup.string()
+          .required('Required'),
+        transDepartureDate: Yup.date()
           .min(new Date(), "Date cannot be in the past"),
-        accCheckInHour: Yup.number()
+        transDepartureHour: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
           .max(23, 'Must be less than 23'),
-        accCheckInMin: Yup.number()
+        transDepartureMin: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
-          .max(60, 'Must be less than 60'),
-        accCheckOutDate: Yup.date()
-          .min(Yup.ref('accCheckInDate'), 'Must be after Check In date'),
-        accCheckOutHour: Yup.number()
+          .max(59, 'Must be less than 59'),
+        transArrivalDate: Yup.date()
+          .min(Yup.ref('transDepartureDate'), 'Must be after Departure date'),
+        transArrivalHour: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
           .max(23, 'Must be less than 23'),
-        accCheckOutMin: Yup.number()
+        transArrivalMin: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
-          .max(60, 'Must be less than 60'),
-        accCost: Yup.number()
-            .positive('Must be a positive integer'),
-        accBookingID: Yup.string()
-            .max(20, 'Must be 20 characters or less')
+          .max(59, 'Must be less than 59'),
+        transCost: Yup.number()
+            .min(0, 'Must be more than 0'),
+        transBookingID: Yup.string()
+            .max(20, 'Must be 20 characters or less'),
+        transOperator: Yup.string()
+            .max(100, 'Must be 100 characters or less')
       })}
 
       onSubmit={(values, { setSubmitting }) => {
@@ -153,86 +202,109 @@ const AccForm = (props) => {
           alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400)
-        props.onCreateAcc(values);
+        props.onEditTrans(values);
       }}
     >
       <Form >
 
-            <ReadOnlyTextInput
-              label="Destination ID"
-              name="destinationId"
-              type="text"
-              placeholder="Enter id here"
-            />
+        <ReadOnlyTextInput
+          label="Transport ID"
+          name="transId"
+          type="text"
+          placeholder="Enter id here"
+        />
+
+        <MySelect label="Transport Mode" name="transMode">
+          <option value="">Select a transportation mode</option>
+          <option value="FLIGHT">FLIGHT</option>
+          <option value="TRAIN">TRAIN</option>
+          <option value="BUS">BUS</option>
+          <option value="FERRY">FERRY</option>
+          <option value="OTHER">OTHER</option>
+        </MySelect>
 
         <MyTextInput
-          label="Accommodation Name"
-          name="accName"
+          label="Origin"
+          name="transOrigin"
           type="text"
-          placeholder="Enter your accommodation name here"
+          placeholder="Enter your origin here"
         />
 
         <MyTextInput
-          label="Check In Date"
-          name="accCheckInDate"
+          label="Destination"
+          name="transDestination"
+          type="text"
+          placeholder="Enter your destination here"
+        />
+
+        <MyTextInput
+          label="Departure Date"
+          name="transDepartureDate"
           type="date"
-          placeholder="Enter the check in date here"
+          placeholder="Enter the departure date here"
         />
 
         
         <MyTextInput
-          label="Check In Hour"
-          name="accCheckInHour"
+          label="Departure Hour"
+          name="transDepartureHour"
           type="number"
-          placeholder="Enter the check in hour here"
+          placeholder="Enter the departure hour here"
         />
         <MyTextInput
-          label="Check In Min"
-          name="accCheckInMin"
+          label="Departure Min"
+          name="transDepartureMin"
           type="number"
-          placeholder="Enter the check in minute here"
+          placeholder="Enter the departure minute here"
         />
 
         <MyTextInput
-          label="Check Out Date"
-          name="accCheckOutDate"
+          label="Arrival Date"
+          name="transArrivalDate"
           type="date"
-          placeholder="Enter the check out date here"
+          placeholder="Enter the arrival date here"
         />
 
         <MyTextInput
-          label="Check Out Hour"
-          name="accCheckOutHour"
+          label="Arrival Hour"
+          name="transArrivalHour"
           type="number"
-          placeholder="Enter the check out hour here"
+          placeholder="Enter the arrival hour here"
         />
 
         <MyTextInput
-          label="Check Out Min"
-          name="accCheckOutMin"
+          label="Arrival Min"
+          name="transArrivalMin"
           type="number"
-          placeholder="Enter the check out minute here"
+          placeholder="Enter the arrival minute here"
         />
 
         {/* <MyTextInput
-          label="Check Out Time"
-          name="accCheckOutTime"
+          label="Arrival Time"
+          name="transArrivalTime"
           type="time"
           placeholder="Enter the check out time here"
         />     */}
 
         <MyCostInput
           label="Cost"
-          name="accCost"
+          name="transCost"
           type="number"
-          placeholder="Enter the cost here"
+          placeholder="Enter the transport cost here"
         />
 
         <MyTextInput
           label="Booking ID"
-          name="accBookingID"
+          name="transBookingID"
           type="text"
           placeholder="Enter the booking id here"
+        />
+
+        <MyTextInput
+          label="Operator"
+          name="transOperator"
+          type="text"
+          placeholder="Enter the operator here"
         />
 
         <div style={styles.buttonContainer}>
@@ -294,7 +366,7 @@ const mapStateToProps = (store) => ({
 })
 
 const mapDispatchToProps = {
-  onCreateAcc: Actions.createAcc,
+  onEditTrans: Actions.editTrans,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccForm);
+export default connect(mapStateToProps, mapDispatchToProps)(TransEditForm);

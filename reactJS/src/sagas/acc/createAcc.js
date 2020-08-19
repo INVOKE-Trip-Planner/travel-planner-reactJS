@@ -14,7 +14,7 @@ function* createAcc( {data} ) {
     const headers = { Authorization: `Bearer ${token}` };
 
     const formData = new FormData();
-    formData.append('destination_id', data.accID);
+    formData.append('destination_id', data.destinationId);
     formData.append('accommodation_name', data.accName);
     formData.append('checkin_date', data.accCheckInDate);
     formData.append('checkin_hour', data.accCheckInHour);

@@ -9,9 +9,26 @@ class CreateTransModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            destinationId: this.props.destinationId,
+            tripData: this.props.tripData,
+            destinationId: this.props.tripData.map( list => list.destinations.map( destination => destination.id) )[0]
         }
 
+    }
+
+    componentDidMount() {
+        console.log('TRANS MODAL MOUNT')
+
+        // const x = this.state.tripData.map( list => list.destinations.map( destination => destination.id) )
+
+        console.log("X", this.state.destinationId);
+
+        const [ destinationId ] = this.state.destinationId;
+
+        this.setState({
+            destinationId: destinationId,
+        })
+
+        console.log("check", destinationId)
     }
 
     render() {

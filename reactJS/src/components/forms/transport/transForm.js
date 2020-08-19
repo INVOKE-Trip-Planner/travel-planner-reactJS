@@ -138,7 +138,7 @@ const TransForm = (props) => {
   return (
     <Formik
       initialValues={{
-        transID: props.destinationId,
+        destinationId: props.destinationId,
         transMode:'',
         transOrigin:'',
         transDestination: '',
@@ -154,8 +154,8 @@ const TransForm = (props) => {
       }}
 
       validationSchema={Yup.object({
-        transID: Yup.number()
-          .max(255, 'Must be 255 characters or less')
+        destinationId: Yup.number()
+          // .max(255, 'Must be 255 characters or less')
           .required('Required'),
         transMode: Yup.string()
           .oneOf(
@@ -209,7 +209,7 @@ const TransForm = (props) => {
 
         <ReadOnlyTextInput
           label="Destination ID"
-          name="transID"
+          name="destinationId"
           type="text"
           placeholder="Enter id here"
         />

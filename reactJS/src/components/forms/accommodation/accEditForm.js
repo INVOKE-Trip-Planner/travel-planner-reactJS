@@ -96,12 +96,12 @@ const MyCostInput = ({ label, ...props }) => {
 };
 
 
-const AccForm = (props) => {
+const AccEditForm = (props) => {
 
   return (
     <Formik
       initialValues={{
-        destinationId: props.destinationId,
+        accId: props.accId,
         accName:'',
         accCheckInDate: '',
         accCheckInHour: '',
@@ -114,9 +114,9 @@ const AccForm = (props) => {
       }}
 
       validationSchema={Yup.object({
-        destinationId: Yup.number()
-          // .max(255, 'Must be 255 characters or less')
-          .required('Required'),
+        accId: Yup.number()
+        // .max(255, 'Must be 255 characters or less')
+        .required('Required'),
         accName: Yup.string()
           .max(100, 'Must be 100 characters or less')
           .required('Required'),
@@ -153,14 +153,14 @@ const AccForm = (props) => {
           alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400)
-        props.onCreateAcc(values);
+        props.onEditAcc(values);
       }}
     >
       <Form >
 
             <ReadOnlyTextInput
-              label="Destination ID"
-              name="destinationId"
+              label="Accommodation ID"
+              name="accId"
               type="text"
               placeholder="Enter id here"
             />
@@ -294,7 +294,7 @@ const mapStateToProps = (store) => ({
 })
 
 const mapDispatchToProps = {
-  onCreateAcc: Actions.createAcc,
+  onEditAcc: Actions.editAcc,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AccEditForm);

@@ -2,11 +2,14 @@ import React from "react";
 
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 
+import ItinArrayForm from "components/forms/itinerary/itinArray.js";
+
 class CreateItinModal extends React.Component {
     
     constructor(props) {
         super(props);
         this.state = {
+            destinationId: this.props.destinationId,
         }
 
     }
@@ -22,11 +25,12 @@ class CreateItinModal extends React.Component {
                         toggle={this.props.toggle}
                 >
                     <ModalHeader>Create New Itinerary</ModalHeader>
-                    <ModalBody></ModalBody>
+                    <ModalBody>
+                        <ItinArrayForm 
+                            destinationId={this.state.destinationId}
+                        />
+                    </ModalBody>
                     <ModalFooter>
-                            <Button color="primary">
-                            Edit Details
-                            </Button>
                     </ModalFooter>
                 </Modal>
             </>

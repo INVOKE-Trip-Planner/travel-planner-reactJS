@@ -14,7 +14,7 @@ function* createTrans( {data} ) {
     const headers = { Authorization: `Bearer ${token}` };
 
     const formData = new FormData();
-    formData.append('destination_id', data.accID);
+    formData.append('destination_id', data.destinationId);
     formData.append('mode', data.transMode);
     formData.append('origin', data.transOrigin);
     formData.append('destination', data.transDestination);

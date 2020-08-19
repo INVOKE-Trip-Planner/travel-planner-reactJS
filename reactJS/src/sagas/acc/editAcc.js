@@ -14,7 +14,7 @@ function* editAcc( {data} ) {
     const headers = { Authorization: `Bearer ${token}` };
 
     const formData = new FormData();
-    formData.append('destination_id', data.accID);
+    formData.append('id', data.accId);
     formData.append('accommodation_name', data.accName);
     formData.append('checkin_date', data.accCheckInDate);
     formData.append('checkin_hour', data.accCheckInHour);
@@ -33,14 +33,14 @@ function* editAcc( {data} ) {
     console.log("RESPONSE", response, error);
     // // yield put();
 
-    // if (response && response.data.user_data.status === "Success") {
-    //     yield put(Actions.editSuccess(response.data));
-    //     yield put(Actions.getAll());
-    // }
+    if (response) {
+        yield put(Actions.editAccSuccess(response.data));
+        yield put(Actions.getAll(response.data));
+    }
 
-    // if (error) {
-    //     yield put(Actions.editFail(error));
-    // }
+    if (error) {
+        yield put(Actions.editAccFail(error));
+    }
 }
 
 // this code runs first and call above

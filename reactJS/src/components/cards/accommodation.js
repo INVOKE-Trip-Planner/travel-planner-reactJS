@@ -5,7 +5,7 @@ import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, 
 import { connect } from "react-redux";
 import Actions from "actions";
 
-import AccForm from "components/forms/accommodation/accForm.js";
+import AccEditForm from "components/forms/accommodation/accEditForm.js";
 
 class Accommodation extends React.Component {
 
@@ -14,23 +14,32 @@ class Accommodation extends React.Component {
 
         this.state = {
             isOpen: false,
-            accID: this.props.accID,
+            accId: this.props.accId,
+            tripData: this.props.tripData,
         }
     }
 
-    // componentDidUpdate(prevProps) {
-    //     const { getDeleteAccData, getGetAllAccData} = this.props;
+    componentDidMount() {
+        // console.log("ACCOMMODATION MOUNT", this.state.tripData);
+    }
 
-    //     if (prevProps.getGetAllAccData.isLoading && !getGetAllAccData.isLoading) {
+    componentDidUpdate(prevProps) {
 
-    //         if ( (Object.keys(getGetAllAccData.data).length !== 0) ) {
-    //             alert(getDeleteAccData.data.message);
-    //             window.location.reload(); // reloads the page after logging out
-    //         } else {
-    //             alert("Delete failed.")
-    //         }
-    //     }
-    // }
+        // console.log("ACCOMMODATION UPDATE", this.state.tripData);
+
+        
+        // const { getDeleteAccData, getGetAllAccData} = this.props;
+
+        // if (prevProps.getGetAllAccData.isLoading && !getGetAllAccData.isLoading) {
+
+        //     if ( (Object.keys(getGetAllAccData.data).length !== 0) ) {
+        //         alert(getDeleteAccData.data.message);
+        //         window.location.reload(); // reloads the page after logging out
+        //     } else {
+        //         alert("Delete failed.")
+        //     }
+        // }
+    }
 
     handleEdit() {
         this.setState({
@@ -38,9 +47,9 @@ class Accommodation extends React.Component {
         });
     }
 
-    handleDelete(id) {
-        console.log("ACC ID:", id);
-        this.props.onDeleteAcc(id);
+    handleDelete(accId) {
+        console.log("ACC ID:", accId);
+        this.props.onDeleteAcc(accId);
     }
 
     toggle() {
@@ -59,7 +68,7 @@ class Accommodation extends React.Component {
                     
                     <div>
                         <button style={styles.selectButton} onClick={() => this.handleEdit()}><ion-icon name="create-outline"></ion-icon></button>
-                        <button style={styles.selectButton} onClick={() => this.handleDelete(this.state.accID)}><ion-icon name="trash-outline"></ion-icon></button>
+                        <button style={styles.selectButton} onClick={() => this.handleDelete(this.state.accId)}><ion-icon name="trash-outline"></ion-icon></button>
                     </div>
                 </CardHeader>
                 <CardBody style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
@@ -83,7 +92,9 @@ class Accommodation extends React.Component {
                 >
                     <ModalHeader></ModalHeader>
                     <ModalBody>
-                        <AccForm />
+                        <AccEditForm 
+                            accId = {this.props.accId}
+                        />
                     </ModalBody>
                     <ModalFooter>
                     </ModalFooter>

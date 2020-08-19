@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* deleteTrans( {data} ) {
-    // console.log("DELETE TRANS SAGA");
+    console.log("DELETE TRANS SAGA");
 
     // let store = getStore().getState();
 
@@ -38,7 +38,7 @@ function* deleteTrans( {data} ) {
 
 // this code runs first and call above
 function* watchDeleteTrans() {
-    yield takeLatest(Actions.DELETE_ACC, deleteTrans)
+    yield takeLatest(Actions.DELETE_TRANS, deleteTrans)
 }
 
 export default function* submit() {
