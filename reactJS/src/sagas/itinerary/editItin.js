@@ -5,16 +5,16 @@ import * as api from "../../api";
 // import {getStore} from "../../store/configureStore";
 import {store} from "store/index";
 
-function* createTrans( {data} ) {
-    console.log("CREATE TRANS SAGA");
+function* editItin( {data} ) {
+    console.log("EDIT ITIN SAGA");
 
     let token = store.getState().PROFILE.userSession.data;
 
-    console.log("createTrans saga DATA: ", data);
+    // console.log("editItin saga DATA: ", data);
     const headers = { Authorization: `Bearer ${token}` };
 
     const formData = new FormData();
-    formData.append('destination_id', data.destinationId);
+    formData.append('id', data.transId);
     formData.append('mode', data.transMode);
     formData.append('origin', data.transOrigin);
     formData.append('destination', data.transDestination);
@@ -28,30 +28,27 @@ function* createTrans( {data} ) {
     formData.append('booking_id', data.transBookingID);
     formData.append('operator', data.transOperator);
 
-
-    console.log(formData);
-
     // pass to the api
-    const { response, error } = yield call(api.createTrans, formData, headers);
+    const { response, error } = yield call(api.editItin, formData, headers);
 
     console.log("RESPONSE", response, error);
     // // yield put();
 
     if (response) {
-        yield put(Actions.createTransSuccess(response.data));
-        yield put(Actions.getAll());
+        yield put(Actions.editItinSuccess(response.data));
+        yield put(Actions.getAll(response.data));
     }
 
     if (error) {
-        yield put(Actions.createTransFail(error));
+        yield put(Actions.editItinFail(error));
     }
 }
 
 // this code runs first and call above
-function* watchCreateTrans() {
-    yield takeLatest(Actions.CREATE_TRANS, createTrans)
+function* watchEditItin() {
+    yield takeLatest(Actions.EDIT_ITIN, editItin)
 }
 
 export default function* submit() {
-    yield all([fork(watchCreateTrans)]);
+    yield all([fork(watchEditItin)]);
 }

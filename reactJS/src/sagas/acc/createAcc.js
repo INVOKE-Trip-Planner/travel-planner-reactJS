@@ -33,14 +33,14 @@ function* createAcc( {data} ) {
     console.log("RESPONSE", response, error);
     // // yield put();
 
-    // if (response && response.data.user_data.status === "Success") {
-    //     yield put(Actions.createSuccess(response.data));
-    //     yield put(Actions.getAll());
-    // }
+    if (response) {
+        yield put(Actions.createAccSuccess(response.data));
+        yield put(Actions.getAll());
+    }
 
-    // if (error) {
-    //     yield put(Actions.createFail(error));
-    // }
+    if (error) {
+        yield put(Actions.createAccFail(error));
+    }
 }
 
 // this code runs first and call above

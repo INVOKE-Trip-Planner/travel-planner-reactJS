@@ -1,23 +1,23 @@
-export const NAME = "TRANSPORT"; // folder name
+export const NAME = "ITINERARY"; // folder name
 
-export const GET_ALL_TRANS = `${NAME}/GET_ALL_TRANS`; // AUTH/GET_ALL_TRANS
-export const GET_ALL_TRANS_SUCCESS = `${NAME}/GET_ALL_TRANS_SUCCESS`; // AUTH/GET_ALL_TRANS_SUCCESS
-export const GET_ALL_TRANS_FAIL = `${NAME}/GET_ALL_TRANS_FAIL`; // AUTH/GET_ALL_TRANS_FAIL
+export const GET_ALL_ITIN = `${NAME}/GET_ALL_ITIN`; // AUTH/GET_ALL_ITIN
+export const GET_ALL_ITIN_SUCCESS = `${NAME}/GET_ALL_ITIN_SUCCESS`; // AUTH/GET_ALL_ITIN_SUCCESS
+export const GET_ALL_ITIN_FAIL = `${NAME}/GET_ALL_ITIN_FAIL`; // AUTH/GET_ALL_ITIN_FAIL
 
-export const getGetAllTransData = store => store[NAME].getAllTrans;
+export const getGetAllItinData = store => store[NAME].getAllItin;
 
 // create action function
-export const getAllTrans = (data) => ({
-    type: GET_ALL_TRANS,
+export const getAllItin = (data) => ({
+    type: GET_ALL_ITIN,
     data: data,
 });
 
-export const getAllTransSuccess = (data) => ({
-    type: GET_ALL_TRANS_SUCCESS,
+export const getAllItinSuccess = (data) => ({
+    type: GET_ALL_ITIN_SUCCESS,
     data,
 });
 
-export const getAllTransFail = (error) => ({
-    type: GET_ALL_TRANS_FAIL,
+export const getAllItinFail = (error) => ({
+    type: GET_ALL_ITIN_FAIL,
     error: error,
 });

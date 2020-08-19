@@ -3,6 +3,7 @@ import profile from "./profile";
 import trips from "./trips";
 import acc from "./acc";
 import transport from "./transport";
+import itinerary from "./itinerary";
 
 export default {
   AUTH: auth,
@@ -10,4 +11,5 @@ export default {
   TRIPS: trips,
   ACC: acc,
   TRANSPORT: transport,
+  ITINERARY: itinerary,
 };

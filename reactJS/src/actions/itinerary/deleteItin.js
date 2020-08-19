@@ -1,23 +1,23 @@
-export const NAME = "TRANSPORT"; // folder name
+export const NAME = "ITINERARY"; // folder name
 
-export const DELETE_TRANS = `${NAME}/DELETE_TRANS`; // AUTH/DELETE_TRANS
-export const DELETE_TRANS_SUCCESS = `${NAME}/DELETE_TRANS_SUCCESS`; // AUTH/DELETE_TRANS_SUCCESS
-export const DELETE_TRANS_FAIL = `${NAME}/DELETE_TRANS_FAIL`; // AUTH/DELETE_TRANS_FAIL
+export const DELETE_ITIN = `${NAME}/DELETE_ITIN`; // AUTH/DELETE_ITIN
+export const DELETE_ITIN_SUCCESS = `${NAME}/DELETE_ITIN_SUCCESS`; // AUTH/DELETE_ITIN_SUCCESS
+export const DELETE_ITIN_FAIL = `${NAME}/DELETE_ITIN_FAIL`; // AUTH/DELETE_ITIN_FAIL
 
-export const getDeleteTransData = store => store[NAME].deleteTrans;
+export const getDeleteItinData = store => store[NAME].deleteItin;
 
 // create action function
-export const deleteTrans = (data) => ({
-    type: DELETE_TRANS,
+export const deleteItin = (data) => ({
+    type: DELETE_ITIN,
     data: data,
 });
 
-export const deleteTransSuccess = (data) => ({
-    type: DELETE_TRANS_SUCCESS,
+export const deleteItinSuccess = (data) => ({
+    type: DELETE_ITIN_SUCCESS,
     data,
 });
 
-export const deleteTransFail = (error) => ({
-    type: DELETE_TRANS_FAIL,
+export const deleteItinFail = (error) => ({
+    type: DELETE_ITIN_FAIL,
     error: error,
 });

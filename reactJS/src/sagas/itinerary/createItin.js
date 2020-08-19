@@ -5,12 +5,12 @@ import * as api from "../../api";
 // import {getStore} from "../../store/configureStore";
 import {store} from "store/index";
 
-function* createTrans( {data} ) {
-    console.log("CREATE TRANS SAGA");
+function* createItin( {data} ) {
+    console.log("CREATE ITIN SAGA");
 
     let token = store.getState().PROFILE.userSession.data;
 
-    console.log("createTrans saga DATA: ", data);
+    console.log("createItin saga DATA: ", data);
     const headers = { Authorization: `Bearer ${token}` };
 
     const formData = new FormData();
@@ -32,26 +32,26 @@ function* createTrans( {data} ) {
     console.log(formData);
 
     // pass to the api
-    const { response, error } = yield call(api.createTrans, formData, headers);
+    const { response, error } = yield call(api.createItin, formData, headers);
 
     console.log("RESPONSE", response, error);
     // // yield put();
 
     if (response) {
-        yield put(Actions.createTransSuccess(response.data));
+        yield put(Actions.createItinSuccess(response.data));
         yield put(Actions.getAll());
     }
 
     if (error) {
-        yield put(Actions.createTransFail(error));
+        yield put(Actions.createItinFail(error));
     }
 }
 
 // this code runs first and call above
-function* watchCreateTrans() {
-    yield takeLatest(Actions.CREATE_TRANS, createTrans)
+function* watchCreateItin() {
+    yield takeLatest(Actions.CREATE_ITIN, createItin)
 }
 
 export default function* submit() {
-    yield all([fork(watchCreateTrans)]);
+    yield all([fork(watchCreateItin)]);
 }

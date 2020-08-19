@@ -1,23 +1,23 @@
-export const NAME = "TRANSPORT"; // folder name
+export const NAME = "ITINERARY"; // folder name
 
-export const EDIT_TRANS = `${NAME}/EDIT_TRANS`; // AUTH/EDITTRANS
-export const EDIT_TRANS_SUCCESS = `${NAME}/EDIT_TRANS_SUCCESS`; // AUTH/EDITTRANS_SUCCESS
-export const EDIT_TRANS_FAIL = `${NAME}/EDIT_TRANS_FAIL`; // AUTH/EDITTRANS_FAIL
+export const EDIT_ITIN = `${NAME}/EDIT_ITIN`; // AUTH/EDITITIN
+export const EDIT_ITIN_SUCCESS = `${NAME}/EDIT_ITIN_SUCCESS`; // AUTH/EDITITIN_SUCCESS
+export const EDIT_ITIN_FAIL = `${NAME}/EDIT_ITIN_FAIL`; // AUTH/EDITITIN_FAIL
 
-export const getEditTransData = store => store[NAME].editTrans;
+export const getEditItinData = store => store[NAME].editItin;
 
 // create action function
-export const editTrans = (data) => ({
-    type: EDIT_TRANS,
+export const editItin = (data) => ({
+    type: EDIT_ITIN,
     data: data,
 });
 
-export const editTransSuccess = (data) => ({
-    type: EDIT_TRANS_SUCCESS,
+export const editItinSuccess = (data) => ({
+    type: EDIT_ITIN_SUCCESS,
     data,
 });
 
-export const editTransFail = (error) => ({
-    type: EDIT_TRANS_FAIL,
+export const editItinFail = (error) => ({
+    type: EDIT_ITIN_FAIL,
     error: error,
 });
