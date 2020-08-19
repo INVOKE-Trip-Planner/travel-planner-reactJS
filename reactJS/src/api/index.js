@@ -13,6 +13,21 @@ export const getAll = (headers) => {
   return fetchApi('get', "api/trip", null, headers)
 };
 
+export const createTrip = (data, headers) => {
+  console.log(data);
+  console.log(headers);
+  return fetchApi('post', "api/trip", data, headers)
+};
+
+export const updateTrip = (data, headers) => {
+  return fetchApi('post', `api/trip/update`, data, headers)
+};
+
+export const deleteTrip = (data, headers) => {
+  // console.log("data id:",data);
+  return fetchApi('post', 'api/trip/delete', data, headers)
+};
+
 export const getAllAcc = (headers) => {
   return fetchApi('get', "api/accommodation", null, headers)
 };

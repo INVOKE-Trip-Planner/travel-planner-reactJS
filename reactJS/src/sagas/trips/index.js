@@ -1,16 +1,16 @@
 import { all, fork } from "redux-saga/effects";
 import getAll from "./getAll";
-// import create from "./create";
-// import deleteTask from "./deleteTask";
-// import editTask from "./editTask";
+import createTrip from "./createTrip";
+import deleteTrip from "./deleteTrip";
+import updateTrip from "./updateTrip";
 
 export default function* home() {
   yield all(
       [
         fork(getAll),
-        // fork(create),
-        // fork(deleteTask),
-        // fork(editTask),
+        fork(createTrip),
+        fork(deleteTrip),
+        fork(updateTrip),
       ]
     );
 }
