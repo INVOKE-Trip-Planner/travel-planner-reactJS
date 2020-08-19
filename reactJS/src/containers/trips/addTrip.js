@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Container} from "reactstrap";
+import { Container } from "reactstrap";
 
 import AddTripForm from "../../components/forms/trips/addTripForm.js";
 

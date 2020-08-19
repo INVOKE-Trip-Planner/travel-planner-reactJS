@@ -1,13 +1,13 @@
 import { combineReducers } from "redux";
 
 import getAll from "./getAll";
-// import create from "./create";
-// import deleteTask from "./deleteTask";
-// import editTask from "./editTask";
+import createTrip from "./createTrip";
+import deleteTrip from "./deleteTrip";
+import updateTrip from "./updateTrip";
 
 export default combineReducers({
     getAll,
-    // create,
-    // deleteTask,
-    // editTask,
+    createTrip,
+    deleteTrip,
+    updateTrip,
 });
