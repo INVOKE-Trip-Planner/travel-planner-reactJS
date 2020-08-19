@@ -1,0 +1,53 @@
+import {takeLatest, call, all, fork, put} from "redux-saga/effects";
+import Actions from "../../actions";
+import * as api from "../../api";
+
+// import {getStore} from "../../store/configureStore";
+import {store} from "store/index";
+
+function* editTrans( {data} ) {
+    console.log("EDIT TRANS SAGA");
+
+    let token = store.getState().PROFILE.userSession.data;
+
+    console.log("editTrans saga DATA: ", data);
+    const headers = { Authorization: `Bearer ${token}` };
+
+    const formData = new FormData();
+    formData.append('destination_id', data.accID);
+    formData.append('accommodation_name', data.accName);
+    formData.append('checkin_date', data.accCheckInDate);
+    formData.append('checkin_hour', data.accCheckInHour);
+    formData.append('checkin_minute', data.accCheckInMin);
+    formData.append('checkout_date', data.accCheckOutDate);
+    formData.append('checkout_hour', data.accCheckOutHour);
+    formData.append('checkout_minute', data.accCheckOutMin);
+    formData.append('cost', data.accCost);
+    formData.append('booking_id', data.accBookingID);
+
+    console.log(formData);
+
+    // pass to the api
+    const { response, error } = yield call(api.editTrans, formData, headers);
+
+    console.log("RESPONSE", response, error);
+    // // yield put();
+
+    // if (response && response.data.user_data.status === "Success") {
+    //     yield put(Actions.editSuccess(response.data));
+    //     yield put(Actions.getAll());
+    // }
+
+    // if (error) {
+    //     yield put(Actions.editFail(error));
+    // }
+}
+
+// this code runs first and call above
+function* watchEditTrans() {
+    yield takeLatest(Actions.EDIT_TRANS, editTrans)
+}
+
+export default function* submit() {
+    yield all([fork(watchEditTrans)]);
+}

@@ -33,4 +33,24 @@ export const deleteAcc = (data, headers) => {
   return fetchApi('post', 'api/accommodation/delete', data, headers)
 };
 
+export const getAllTrans = (headers) => {
+  return fetchApi('get', "api/transport", null, headers)
+};
+
+export const createTrans = (data, headers) => {
+  console.log(data);
+  console.log(headers);
+  return fetchApi('post', "api/transport", data, headers)
+};
+
+export const editTrans = (data, headers) => {
+  return fetchApi('post', 'api/transport/update', data, headers)
+};
+
+
+export const deleteTrans = (data, headers) => {
+  // console.log("data id:",data);
+  return fetchApi('post', 'api/transport/delete', data, headers)
+};
+
 // export const addToDo = data, header

@@ -3,8 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Actions from "actions";
 
-import { Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Button, Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, CardGroup, CardDeck, Jumbotron,CardHeader, CardFooter } from 'reactstrap';
+import { Container, Row, Col, CardDeck, Jumbotron, Spinner } from 'reactstrap';
 
 import placeholder from "assets/images/placeholder.png";
 import Accommodation from "../../components/cards/accommodation";
@@ -27,11 +26,11 @@ class TripDetails extends React.Component {
             openModalItin: false,
             isOpen: false,
             filterGetAllData: [],
+            loading: true,
         }
     }
 
     componentDidMount() {
-
         // console.log("DETAILS PAGE MOUNT, ID: ", this.state.tripId);
 
         this.props.onGetAll();
@@ -40,7 +39,8 @@ class TripDetails extends React.Component {
     componentDidUpdate(prevProps) {
         const { getDeleteAccData, getGetAllData } = this.props;
 
-        console.log("1. DATA UPDATED", this.state.filterGetAllData);
+        console.log("isLoading status: ", getGetAllData.isLoading);
+        console.log("get ALL data status: ", getGetAllData.data);
 
         if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
 
@@ -50,10 +50,29 @@ class TripDetails extends React.Component {
 
                 // console.log("1. GET ALL DATA UPDATE", getGetAllData);
                 this.setState({
-                    filterGetAllData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
+                    // filterGetAllData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
                     tripData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
+                    loading: false,
                 })
                 console.log("filter set", this.state.filterGetAllData);   
+            }
+
+                console.log("delete isLoading status: ", getDeleteAccData.isLoading);
+                
+            if (prevProps.getDeleteAccData.isLoading && !getDeleteAccData.isLoading) {
+
+                if ( (Object.keys(getDeleteAccData.data.message).length !== 0) ) {
+
+                    console.log("2. delete loading check");
+                    console.log("3. DELETE MESSAGE", getDeleteAccData.data.message);
+                    alert(getDeleteAccData.data.message);
+
+                    console.log("5. RELOAD");
+                    // window.location.reload(); // reloads the page after logging out
+
+                } else {
+                    alert("Delete failed.")
+                }
             }
         }
 
@@ -67,27 +86,6 @@ class TripDetails extends React.Component {
         //                 tripData: getGetAllData.data,
         //             }
         //         )
-        //     }
-        // }
-
-        // if (prevProps.getDeleteAccData.isLoading && !getDeleteAccData.isLoading) {
-        //     console.log("2. acc loading check");
-
-        //     if ( (Object.keys(getDeleteAccData.data.message).length !== 0) ) {
-        //         console.log("3. DELETE MESSAGE", getDeleteAccData.data.message);
-        //         alert(getDeleteAccData.data.message);
-
-        //         this.setState({
-        //             tripData: this.state.filterGetAllData,
-        //         });
-
-        //         console.log("4. trip data check", this.state.tripData)
-
-        //         console.log("5. RELOAD");
-        //         window.location.reload(); // reloads the page after logging out
-        //         // }
-        //     } else {
-        //         alert("Delete failed.")
         //     }
         // }
     }
@@ -206,7 +204,17 @@ class TripDetails extends React.Component {
                                             </div>
                                         </div>
 
+                                        {this.state.loading ? (
+
+                                        <Row style={{justifyContent: "center", alignItems: "center"}}>
+                                
+                                            <Spinner animation="border" role="status">
+                                                <span className="sr-only">Loading...</span>
+                                            </Spinner>
+                                        </Row>) : (
+
                                         <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+                                            
 
                                                 {list.destinations.map( destination => (
 
@@ -229,6 +237,8 @@ class TripDetails extends React.Component {
                                                 ))}
                                         </Row>
 
+                                        )}
+
                                         {/* ----------------------------TRANSPORT------------------------------------------- */}
                                         <div style={{width: "100%", display:"flex", justifyContent: "space-between", alignItems: "space-between", marginTop: 20, marginBottom: 20,}}>
                                             <div></div>
@@ -239,30 +249,41 @@ class TripDetails extends React.Component {
                                                 <button style={styles.selectButton} onClick={() => this.handleCreate("transport")}><ion-icon name="add-circle-outline"></ion-icon></button>
                                             </div>
                                         </div>
-                                        <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
 
-                                                {list.destinations.map( destination => (
+                                        {this.state.loading ? (
 
-                                                    destination.transports.map( transport => (
-                                                        <CardDeck>
-                                                            <Transport 
-                                                                transMode = {transport.mode}
-                                                                transBookingId = {transport.booking_id}
-                                                                transDepartureDate = {transport.departure_date}
-                                                                transDepartureHour = {transport.departure_hour}
-                                                                transDepartureMin = {transport.departure_minute}
-                                                                transArrivalDate = {transport.arrival_date}
-                                                                transArrivalHour = {transport.arrival_hour}
-                                                                transArrivalMin = {transport.arrival_minute}
-                                                                transOrigin = {transport.origin}
-                                                                transDestination = {transport.destination}
-                                                                transOperator = {transport.operator}
-                                                                transCost = {transport.cost}
-                                                            />
-                                                        </CardDeck>
-                                                    ))
-                                                ))}
-                                        </Row>
+                                            <Row style={{justifyContent: "center", alignItems: "center"}}>
+
+                                                <Spinner animation="border" role="status">
+                                                    <span className="sr-only">Loading...</span>
+                                                </Spinner>
+                                            </Row>) : (
+
+                                            <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+
+                                                    {list.destinations.map( destination => (
+
+                                                        destination.transports.map( transport => (
+                                                            <CardDeck>
+                                                                <Transport 
+                                                                    transMode = {transport.mode}
+                                                                    transBookingId = {transport.booking_id}
+                                                                    transDepartureDate = {transport.departure_date}
+                                                                    transDepartureHour = {transport.departure_hour}
+                                                                    transDepartureMin = {transport.departure_minute}
+                                                                    transArrivalDate = {transport.arrival_date}
+                                                                    transArrivalHour = {transport.arrival_hour}
+                                                                    transArrivalMin = {transport.arrival_minute}
+                                                                    transOrigin = {transport.origin}
+                                                                    transDestination = {transport.destination}
+                                                                    transOperator = {transport.operator}
+                                                                    transCost = {transport.cost}
+                                                                />
+                                                            </CardDeck>
+                                                        ))
+                                                    ))}
+                                            </Row>
+                                        )}
 
                                         {/* -------------------------------ITINERARIES------------------------------------------------ */}
                                         <div style={{width: "100%", display:"flex", justifyContent: "space-between", alignItems: "space-between", marginTop: 20, marginBottom: 20,}}>
@@ -274,6 +295,16 @@ class TripDetails extends React.Component {
                                                 <button style={styles.selectButton} onClick={() => this.handleCreate("itinerary")}><ion-icon name="add-circle-outline"></ion-icon></button>
                                             </div>
                                         </div>
+
+                                        {this.state.loading ? (
+
+                                            <Row style={{justifyContent: "center", alignItems: "center"}}>
+
+                                                <Spinner animation="border" role="status">
+                                                    <span className="sr-only">Loading...</span>
+                                                </Spinner>
+                                            </Row>) : (
+
                                         <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
 
                                             {list.destinations.map( destination => (
@@ -290,6 +321,9 @@ class TripDetails extends React.Component {
                                                 ))
                                             ))}
                                         </Row>
+
+                                        )}
+
                                     </div>
                                 ) )
                                 }
@@ -303,14 +337,18 @@ class TripDetails extends React.Component {
                 <CreateAccModal 
                     isOpen={this.state.openModalAcc}
                     toggle={() => this.toggle()}
+                    destinationId = {this.state.tripId}
                 />
                 <CreateTransModal 
                     isOpen={this.state.openModalTrans}
                     toggle={() => this.toggle()}
+                    destinationId = {this.state.tripId}
+                    
                 />
                 <CreateItinModal 
                     isOpen={this.state.openModalItin}
                     toggle={() => this.toggle()}
+                    destinationId = {this.state.tripId}
                 />
             </>
         )

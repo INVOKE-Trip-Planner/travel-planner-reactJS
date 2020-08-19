@@ -8,7 +8,7 @@ const getDefaultState = () => ({
 });
 
 //pure function
-function getAll(state, action) {
+function getAllTrans(state, action) {
     // validation
     if (typeof state === 'undefined') {
         return getDefaultState();
@@ -19,25 +19,25 @@ function getAll(state, action) {
 
     switch(action.type) {
 
-        case Actions.GET_ALL:
+        case Actions.GET_ALL_TRANS:
             return {
                 isLoading: true,
                 error: null,
-                data: {},// state.data,
+                data: {},
             };
 
-        case Actions.GET_ALL_SUCCESS:
+        case Actions.GET_ALL_TRANS_SUCCESS:
             return {
                 isLoading: false,
                 error: null,
                 data: action.data,
             };
 
-        case Actions.GET_ALL_FAIL:
+        case Actions.GET_ALL_TRANS_FAIL:
             return {
                 isLoading: false,
                 error: action.error,
-                data: {}, // state.data,
+                data: {},
             };
 
         default:
@@ -45,4 +45,4 @@ function getAll(state, action) {
     }
 }
 
-export default getAll;
+export default getAllTrans;

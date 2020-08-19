@@ -9,6 +9,7 @@ class CreateAccModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            destinationId: this.props.destinationId,
         }
 
     }
@@ -25,7 +26,7 @@ class CreateAccModal extends React.Component {
                 >
                     <ModalHeader>Create New Accommodation</ModalHeader>
                     <ModalBody>
-                        <AccForm />
+                        <AccForm destinationId = {this.state.destinationId}/>
                     </ModalBody>
                     <ModalFooter>
                     </ModalFooter>

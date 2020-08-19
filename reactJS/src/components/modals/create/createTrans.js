@@ -2,11 +2,14 @@ import React from "react";
 
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 
+import TransForm from "components/forms/transport/transForm.js";
+
 class CreateTransModal extends React.Component {
     
     constructor(props) {
         super(props);
         this.state = {
+            destinationId: this.props.destinationId,
         }
 
     }
@@ -22,11 +25,10 @@ class CreateTransModal extends React.Component {
                         toggle={this.props.toggle}
                 >
                     <ModalHeader>Create New Transport</ModalHeader>
-                    <ModalBody></ModalBody>
+                    <ModalBody>
+                        <TransForm destinationId = {this.state.destinationId} />
+                    </ModalBody>
                     <ModalFooter>
-                            <Button color="primary">
-                            Edit Details
-                            </Button>
                     </ModalFooter>
                 </Modal>
             </>
