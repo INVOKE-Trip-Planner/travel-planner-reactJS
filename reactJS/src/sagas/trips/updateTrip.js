@@ -8,7 +8,7 @@ import {store} from "store/index";
 function* updateTrip({ data }) {
     // console.log("GETALL SAGA");
     const formData = new FormData();
-    const fields = ['id', 'trip_name', 'origin', 'start_date', 'end_date', 'group_type', 'trip_type', 'users', 'trip_banenr'];
+    const fields = ['id', 'trip_name', 'origin', 'start_date', 'end_date', 'group_type', 'trip_type', 'users', 'trip_banner'];
 
     fields.forEach(field => {
         if (data[field]) {

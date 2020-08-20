@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Formik, Form, FieldArray, ErrorMessage } from 'formik';
-import { MyTextInput, DestinationInput, MySelectInput } from './components';
+import { MyTextInput, DestinationInput, MySelectInput, MyPhotoInput } from './components';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import Actions from "actions";
@@ -9,7 +9,19 @@ import { Button } from 'reactstrap';
 const EditTripForm = props => {
 
     // console.log('editTripForm', props.tripData);
-    const { id, trip_name, origin, start_date, end_date, group_type, trip_type } = props.tripData
+    const { id, trip_name, origin, start_date, end_date, group_type, trip_type, trip_banner } = props.tripData
+
+    const postProcessValue = (values) => {
+        const fields = ['trip_name', 'trip_banner']
+        
+        fields.forEach(field => {
+            if (values[field] == props.tripData[field]) {
+                delete values[field];
+            }
+        })
+
+        return values;
+    }
 
     return (
       <>
@@ -22,6 +34,7 @@ const EditTripForm = props => {
             end_date: end_date || '',
             group_type: group_type || '',
             trip_type: trip_type || '',
+            trip_banner: trip_banner || '',
             // users: [],
             // destinations: [
             //   {
@@ -49,6 +62,7 @@ const EditTripForm = props => {
           })}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
+              values = postProcessValue(values);
               alert(JSON.stringify(values, null, 2));
               props.onUpdateTrip(values);
               setSubmitting(false);
@@ -58,6 +72,14 @@ const EditTripForm = props => {
           {/* {(formikProps) => ( */}
           {({ values, isSubmitting, ...formikProps }) => (
               <Form>
+
+                <MyPhotoInput 
+                    label="trip banner"
+                    name="trip_banner"
+                    { ...formikProps }
+                    // onChange={(e) => formikProps.setFieldValue('trip_banner', e.currentTarget.files[0])}
+                />
+
                 <MyTextInput
                   label="trip name"
                   name="trip_name"
