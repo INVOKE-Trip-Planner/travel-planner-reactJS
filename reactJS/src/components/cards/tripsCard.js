@@ -4,6 +4,8 @@ import {Link} from "react-router-dom";
 import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 
 import placeholder from "assets/images/placeholder.png";
+import { connect } from "react-redux";
+import Actions from "actions";
 
 class TripsCard extends React.Component {
 
@@ -62,12 +64,35 @@ class TripsCard extends React.Component {
                                 <ion-icon name="chevron-down-outline"></ion-icon>
                             </DropdownToggle>
                             <DropdownMenu right style={{width: 20,}}>
-                                <div style={styles.dropdownItemContainer}><ion-icon name="create-outline"></ion-icon></div>
-                                <div><ion-icon name="trash-outline"></ion-icon></div>
+                                <div style={styles.dropdownItemContainer}>
+                                    <ion-icon 
+                                        name="create-outline"
+                                        onClick={ this.props.handleEdit }
+                                        size="large"
+                                        style={{
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                    </ion-icon>
+                                </div>
+                                <div style={styles.dropdownItemContainer}>
+                                    <ion-icon 
+                                        name="trash-outline"
+                                        onClick={ this.props.handleDelete }
+                                        size="large"
+                                        style={{
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                    </ion-icon>
+                                </div>
                             </DropdownMenu>
                         </Dropdown>
                         </div>
                     </div>
+
+                                        
+
                 </div>
             </>
         )
@@ -135,7 +160,7 @@ const styles = {
         width: 20,
     },
     dropdownItemContainer: {
-        width: 10,
+        width: 20,
         backgroundColor: "yellow",
         display: "flex",
         justifyContent: "center",
@@ -143,4 +168,16 @@ const styles = {
     }
 }
 
-export default TripsCard;
+const mapStateToProps = (store) => ({
+    getDeleteTripData: Actions.getDeleteTripData(store),
+    getGetAllData: Actions.getGetAllData(store),
+})
+  
+const mapDispatchToProps = {
+    onDeleteTrip: Actions.deleteTrip,
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(TripsCard);

@@ -16,13 +16,16 @@ function* deleteTrip({ data }) {
 
     const headers = { Authorization: `Bearer ${token}` };
 
+    const formData = new FormData();
+    formData.append('id', data.id)
     // pass to the api
-    const { response, error } = yield call(api.deleteTrip, headers);
+    const { response, error } = yield call(api.deleteTrip, formData, headers);
 
     console.log("RESPONSE ", response, error);
     // yield put();
 
     if (response) {
+        yield put(Actions.getAll());
         yield put(Actions.deleteTripSuccess(response.data));
         // yield put(Actions.deleteTrip(response.data));
     }

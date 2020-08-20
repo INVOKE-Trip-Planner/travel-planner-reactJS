@@ -45,6 +45,50 @@ export const MyTextInput = ({ label, placeholder, containerStyle, ...props }) =>
     );
 };
 
+export const MySelectInput = ({ label, placeholder, containerStyle, ...props }) => {
+    // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
+    // which we can spread on <input> and also replace ErrorMessage entirely.
+    const [field, meta] = useField(props);
+    return (
+      <div 
+        className={ `form-group` }
+        style={{
+            display: "flex", 
+            flexDirection: "column",
+            ...containerStyle,
+        }}
+      >
+        <label 
+            htmlFor={ props.id || props.name } 
+            style={{ 
+                textTransform: 'capitalize', 
+            }}
+        > 
+            { label || props.name } 
+        </label>
+        
+        <select 
+            className="select-input" 
+            // placeholder={ placeholder || `Enter ${ label || props.name } here.` }
+            {...field} 
+            {...props} 
+        />
+        { meta.touched && meta.error ? 
+        (
+            <div 
+                style={{
+                    color: 'red',
+                }}
+            >
+                { meta.error } 
+            </div>
+        ) : 
+            null 
+        }
+      </div>
+    );
+};
+
 export const DestinationInput = ({ index, handleRemove, ...props }) => {
     // const [field, meta] = useField(props);
     console.log(props);

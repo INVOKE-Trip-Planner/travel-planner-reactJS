@@ -67,11 +67,11 @@ const AddTripForm = props => {
               Yup.object().shape({
                 location: Yup.string().required('Required'),
                 start_date: Yup.date()
-                  .min(new Date(), 'Date cannot be in the past')
-                  .required('Required'),
+                  // .required('Required')
+                  .min(new Date(), 'Date cannot be in the past'),
                 end_date: Yup.date()
+                  // .required('Required')
                   .min(Yup.ref('start_date'), 'Must be after start date')
-                  .required('Required'),
               })
             )
             // .strict()
@@ -129,7 +129,6 @@ const AddTripForm = props => {
                             name="close-outline"
                             onClick={() => remove(index)}
                             size="large"
-                            className="hover-pointer"
                             style={{
                                 position: 'absolute',
                                 right: '0.5em',
@@ -224,7 +223,7 @@ const AddTripForm = props => {
                   top: '0.5em',
                 }}
               >
-                Submit
+                Save
               </Button>
             </Form>
           </div>
