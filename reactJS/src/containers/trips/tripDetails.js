@@ -395,7 +395,7 @@ class TripDetails extends React.Component {
 
                                                 <div style={styles.categoryTitleContainer}>
                                                     <h4>Transports</h4>
-                                                    <button style={styles.selectButton} onClick={() => this.handleCreate("accommodation")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                    <button style={styles.selectButton} onClick={() => this.handleCreate("transport")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
                                                 </div>
                                             </div>
 
@@ -472,7 +472,7 @@ class TripDetails extends React.Component {
 
                                                 <div style={styles.categoryTitleContainer}>
                                                     <h4>Itineraries</h4>
-                                                    <button style={styles.selectButton} onClick={() => this.handleCreate("accommodation")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                    <button style={styles.selectButton} onClick={() => this.handleCreate("itinerary")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
                                                 </div>
                                             </div>
 
@@ -541,7 +541,6 @@ class TripDetails extends React.Component {
                     toggle={() => this.toggle()}
                     destinationId = {this.state.filterLocationData.id}
                     // tripData = {this.state.filterLocationData.id}
-                    
                 />
                 <CreateItinModal 
                     isOpen={this.state.openModalItin}

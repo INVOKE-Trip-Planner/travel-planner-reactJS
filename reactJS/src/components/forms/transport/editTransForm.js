@@ -5,6 +5,8 @@ import * as Yup from 'yup';
 
 import { Button } from "reactstrap";
 
+import {FORMCONTAINER} from "common/styles/index.js";
+
 // Redux
 import { connect } from "react-redux";
 import Actions from "actions";
@@ -205,6 +207,7 @@ const TransEditForm = (props) => {
         props.onEditTrans(values);
       }}
     >
+      <div style={FORMCONTAINER}>
       <Form >
 
         <ReadOnlyTextInput
@@ -312,6 +315,7 @@ const TransEditForm = (props) => {
           {/* <button type="submit">Register</button> */}
         </div>
       </Form>
+      </div>
 
     </Formik>
   );
@@ -337,7 +341,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 20,
-    width: 600,
+    width: "100%",
 
     padding: 20,
 

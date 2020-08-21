@@ -10,6 +10,8 @@ function* updateTrip({ data }) {
     const formData = new FormData();
     const fields = ['id', 'trip_name', 'origin', 'start_date', 'end_date', 'group_type', 'trip_type', 'users', 'trip_banner'];
 
+    // add append for update destination
+
     fields.forEach(field => {
         if (data[field]) {
           if (field === 'users') {

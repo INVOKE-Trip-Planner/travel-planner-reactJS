@@ -140,8 +140,8 @@ class Dashboard extends React.Component {
                                 <h1>Dashboard</h1>
 
                                 <div style={styles.selectContainer}>
-                                    <button style={styles.selectButton} onClick={() => this.handleAll()}>Upcoming</button>
-                                    <button style={styles.selectButton} onClick={() => this.handleAcc()}>Past Trips</button>
+                                    <button style={styles.selectButton}>Upcoming</button>
+                                    <button style={styles.selectButton}>Past Trips</button>
                                 </div>
 
                                 {this.state.loading ? (

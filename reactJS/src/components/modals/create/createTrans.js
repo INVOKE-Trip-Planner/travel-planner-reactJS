@@ -28,6 +28,7 @@ class CreateTransModal extends React.Component {
                         scrollable={true}
                         backdrop={true}
                         toggle={this.props.toggle}
+                        size="lg"
                 >
                     <ModalHeader>Create New Transport</ModalHeader>
                     <ModalBody>

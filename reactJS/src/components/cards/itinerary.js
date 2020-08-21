@@ -64,25 +64,50 @@ class Itinerary extends React.Component {
     render() {
         return (
             <>
-            <Card body outline color="danger">
+            <Card body outline color="danger" style={styles.removeStrap}>
                     <CardHeader style={{width: "100%"}}>
-                        <p>Day: <strong>{this.props.itinDay}</strong></p>
-                        <p>Activity:</p>
+                        <div style={styles.cardContentCenter}>
+                            <h5>Day: <strong>{this.props.itinDay}</strong></h5>
+                        </div>
                     </CardHeader>
 
                     {/* ----Itinerary Schedule-------- */}
-                    <CardBody>  
-                        {this.state.scheduleData.map(schedule => (
-                            <div style={{border: "1px solid black", display: "flex", flexDirection: "column", alignItems: "flex-start", textAlign: "justify"}}>
-                                <p>Title: <strong>{schedule.title}</strong></p>
-                                <p>Desc: <strong>{schedule.description}</strong></p>
-                                <p>Time: <strong>{schedule.hour}:{schedule.minute}</strong></p>
-                                <p>Cost: <strong>RM {schedule.cost}</strong></p>
+                    <CardBody style={{overflow: "scroll", position: "relative"}}>
+                        <div style={styles.cardContentActivity}>
+                                <h5>Activity</h5>
+                        </div>
+                        
+                        <div style={styles.cardContentOutsideContainer}>
+                            <div style={styles.cardContentContainer}>
+                                
+                                {this.state.scheduleData.map(schedule => (
+                                    <div style={styles.cardContent}>
+                                        <p>Title: <strong>{schedule.title}</strong></p>
+                                        <p>Desc: <strong>{schedule.description}</strong></p>
+                                        <p>Time: <strong>{schedule.hour}:{schedule.minute}</strong></p>
+                                        <p>Cost: <strong>RM {schedule.cost}</strong></p>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                
+
+                            <div style={styles.dropdownContainer}>
+                                <Dropdown isOpen={this.state.dropDownOpen} toggle={() => this.toggleDropDown()} style={styles.dropdownStyle} color="none" size="sm">
+                                    <DropdownToggle>
+                                        <ion-icon name="chevron-down-outline"></ion-icon>
+                                    </DropdownToggle>
+                                    <DropdownMenu style={styles.dropdownStyle}>
+                                        <div style={styles.dropdownItemContainer} onClick={() => this.handleEdit()}>
+                                            <ion-icon name="create-outline" style={{fontSize: 24}} onClick={() => this.handleEdit()}></ion-icon>
+                                        </div>
+                                        <div style={styles.dropdownItemContainer} >
+                                            <ion-icon name="trash-outline" style={{fontSize: 24}} onClick={() => this.handleDelete(this.state.transId)}></ion-icon>
+                                        </div>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </div>
+                        </div>
                     </CardBody>
-                <CardFooter>
+                <CardFooter style={{width: "100%"}}>
                     <p>Total cost: <strong>RM{this.props.itinCost}</strong></p>
                 </CardFooter>
             </Card>
@@ -93,6 +118,7 @@ class Itinerary extends React.Component {
                         scrollable={true}
                         backdrop={true}
                         toggle={() => this.toggle()}
+                        size="lg"
                 >
                     <ModalHeader></ModalHeader>
                     <ModalBody>
@@ -112,24 +138,9 @@ const styles = {
     removeStrap: {
         margin: 0,
         padding: 0,
-        minWidth: 500,
+        maxWidth: 500,
         borderRadius: 20,
-    },
-    cardContent: {
-        padding: 10,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-        // border: "1px solid black"
-    },
-    cardContentContainer: {
-        padding: 10,
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        // border: "1px solid black",
-        overflow: "hidden",
+        maxHeight: 450,
     },
     cardContentCenter: {
         padding: 10,
@@ -138,6 +149,54 @@ const styles = {
         justifyContent: "center",
         alignItems: "center",
         // border: "1px solid black"
+    },
+    cardContentActivity: {
+        padding: 10,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        // border: "1px solid black",
+        width: "100%"
+    },
+    cardContentOutsideContainer: {
+        padding: 10,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        // border: "1px solid black",
+        width: "100%",
+    },
+    cardContentContainer: {
+        padding: 10,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        // border: "1px solid black",
+        overflow: "hidden",
+    },
+    cardContent: {
+        padding: 10,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        borderTop: "1px solid rgba(0, 0, 0, 0.4)",
+        width: "100%",
+        // overflow: "scroll"
+    },
+    dropdownContainer: {
+        padding: 10,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-end",
+        // border: "1px solid rgba(0, 0, 0, 0.4)",
+        // width: "100%",
+        // overflow: "scroll"
+        position: "absolute",
+        top: 10,
+        right: 20,
     },
     updateContainer: {
         // width: "80%",
@@ -174,6 +233,15 @@ const styles = {
         // backgroundColor: "yellow",
         marginBottom: 20
 
+    },
+
+    bodyContainer: {
+        // backgroundColor: "yellow",
+        // border: "1px solid black",
+        // overflowY: "scroll",
+        disply: "flex",
+        justifyContent: "center",
+        alignItems: "center"
     }
 }
 

@@ -5,6 +5,8 @@ import * as Yup from 'yup';
 
 import { Button } from "reactstrap";
 
+import {REMOVESTRAP, FORMCONTAINER} from "common/styles/index.js";
+
 // Redux
 import { connect } from "react-redux";
 import Actions from "actions";
@@ -205,7 +207,9 @@ const TransForm = (props) => {
         props.onCreateTrans(values);
       }}
     >
-      <Form >
+      <div style={FORMCONTAINER}>
+
+      <Form>
 
         <ReadOnlyTextInput
           label="Destination ID"
@@ -278,13 +282,6 @@ const TransForm = (props) => {
           placeholder="Enter the arrival minute here"
         />
 
-        {/* <MyTextInput
-          label="Arrival Time"
-          name="transArrivalTime"
-          type="time"
-          placeholder="Enter the check out time here"
-        />     */}
-
         <MyCostInput
           label="Cost"
           name="transCost"
@@ -312,6 +309,8 @@ const TransForm = (props) => {
         </div>
       </Form>
 
+      </div>
+
     </Formik>
   );
 };
@@ -336,7 +335,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 20,
-    width: 600,
+    width: "100%",
 
     padding: 20,
 

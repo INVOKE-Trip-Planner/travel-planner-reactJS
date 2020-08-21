@@ -104,15 +104,15 @@ const AccEditForm = (props) => {
     <Formik
       initialValues={{
         accId: props.accId,
-        accName:'',
-        accCheckInDate: '',
-        accCheckInHour: '',
-        accCheckInMin: '',
-        accCheckOutDate: '',
-        accCheckOutHour: '',
-        accCheckOutMin: '',
-        accCost: '',
-        accBookingID: ''
+        accName: props.accName,
+        accCheckInDate: props.accCheckInDate,
+        accCheckInHour: props.accCheckInHour,
+        accCheckInMin: props.accCheckInMin,
+        accCheckOutDate: props.accCheckInDate,
+        accCheckOutHour: props.accCheckOutHour,
+        accCheckOutMin: props.accCheckOutMin,
+        accCost: props.accCost,
+        accBookingId: props.accBookingId,
       }}
 
       validationSchema={Yup.object({
@@ -144,7 +144,7 @@ const AccEditForm = (props) => {
           .max(60, 'Must be less than 60'),
         accCost: Yup.number()
             .positive('Must be a positive integer'),
-        accBookingID: Yup.string()
+        accBookingId: Yup.string()
             .max(20, 'Must be 20 characters or less')
       })}
 
@@ -226,7 +226,7 @@ const AccEditForm = (props) => {
 
         <MyTextInput
           label="Booking ID"
-          name="accBookingID"
+          name="accBookingId"
           type="text"
           placeholder="Enter the booking id here"
         />
@@ -261,7 +261,7 @@ const styles = {
   },
 
   inputContainer: {
-    border: "1px solid green",
+    // border: "1px solid green",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",

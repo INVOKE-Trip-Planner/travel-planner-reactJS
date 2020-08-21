@@ -101,6 +101,15 @@ class Accommodation extends React.Component {
                             {/* ------------ACC EDIT FORM----------------- */}
                             <AccEditForm 
                                 accId = {this.props.accId}
+                                accName = {this.props.accName}
+                                accBookingId = {this.props.accBookingId}
+                                accCheckInDate = {this.props.accCheckInDate}
+                                accCheckInHour = {this.props.accCheckInHour}
+                                accCheckInMin = {this.props.accCheckInMin}
+                                accCheckOutDate = {this.props.accCheckOutDate}
+                                accCheckOutHour = {this.props.accCheckOutHour}
+                                accCheckOutMin = {this.props.accCheckOutMin}
+                                accCost = {this.props.accCost}
                             />
                         </div>
                     </ModalBody>
