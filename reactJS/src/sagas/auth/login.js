@@ -26,6 +26,7 @@ function* login({ data }) { // data coming from view
 
     // update the user session
     yield put(Actions.activateUserSession(token)); // login success => user get token
+    yield put(Actions.updateUserSuccess(response.data.user)); // login success => user get token
   }
 
   if(error) {

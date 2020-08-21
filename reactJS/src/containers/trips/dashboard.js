@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import Actions from 'actions';
 import TripsCard from "../../components/cards/tripsCard";
 import TripDetailsModal from "components/modals/tripDetails";
+import EditTripModal from "../../components/modals/editTrip";
+import DeleteTripModal from "../../components/modals/deleteTrip";
 
 class Dashboard extends React.Component {
 
@@ -19,6 +21,9 @@ class Dashboard extends React.Component {
             listData: [],
             tripDetailsId: "",
             loading: true,
+            openModalDelete: false,
+            openModalEdit: false,
+            tripData: null,
         };
     }
 
@@ -42,6 +47,8 @@ class Dashboard extends React.Component {
                     {
                         tripsList: getGetAllData.data,
                         loading: false,
+                        openModalDelete: false,
+                        openModalEdit: false,
                     }
                 )
             }
@@ -63,6 +70,37 @@ class Dashboard extends React.Component {
         this.setState({
             showPop: !this.state.showPop,
         });
+    }
+
+    closeModal() {
+        this.setState({
+            openModalEdit: false,
+            openModalDelete: false,
+        })
+    }
+
+    handleShowModal(action, details) {
+        // console.log('handleShowModal called', details);
+        switch(action) {
+            case "EDIT":
+              this.setState({
+                  openModalEdit: true,
+                  tripData: details,
+              })
+              break;
+
+            case "DELETE":
+              this.setState({
+                  openModalDelete: true,
+                  tripData: details,
+              })
+              break;            
+
+            default:
+              // code block
+              console.log("invalid planner category")
+              break;
+          }
     }
 
     render() {
@@ -133,6 +171,8 @@ class Dashboard extends React.Component {
                                                     tripUsers={list.users}
                                                     tripBanner={list.trip_banner}
                                                     onClick={() => this.detailsPressed()}
+                                                    handleEdit={ () => this.handleShowModal('EDIT', list) }
+                                                    handleDelete={ () => this.handleShowModal('DELETE', list) }
                                                 />
                                             
                                                 <div style={styles.buttonContainer}>
@@ -153,10 +193,24 @@ class Dashboard extends React.Component {
                                 )}
                             </Container>
                         {/* </Col> */}
-
+                        
                     {/* </Row> */}
                 </Container>
-
+                {/* --------------------------------------MODALS FOR CREATE FORMS----------------------------------- */}
+                <EditTripModal
+                    isOpen={this.state.openModalEdit}
+                    toggle={() => this.closeModal()}
+                    // destinationId = {this.state.tripId}
+                    tripData = {this.state.tripData}
+                    handleEdit = { this.props.onUpdateTrip }
+                />
+                <DeleteTripModal
+                    isOpen={this.state.openModalDelete}
+                    toggle={() => this.closeModal()}
+                    // destinationId = {this.state.tripId}
+                    tripData = {this.state.tripData}
+                    handleDelete = { () => this.props.onDeleteTrip( {id: this.state.tripData.id} ) }
+                />
             </>
         )
     }
@@ -239,8 +293,12 @@ const mapStateToProps = store => ({
 
 // dispatch to action
 const mapDispatchToProps = {
+    onUpdateTrip: Actions.updateTrip,
+    onDeleteTrip: Actions.deleteTrip,
     onGetAll: Actions.getAll,
-    // onCreate: Actions.create,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps
+)(Dashboard);

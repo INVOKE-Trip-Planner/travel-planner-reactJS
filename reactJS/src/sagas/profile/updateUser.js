@@ -5,20 +5,14 @@ import * as api from "../../api";
 // import {getStore} from "../../store/configureStore";
 import {store} from "store/index";
 
-function* updateTrip({ data }) {
+function* updateUser({ data }) {
     // console.log("GETALL SAGA");
     const formData = new FormData();
-    const fields = ['id', 'trip_name', 'origin', 'start_date', 'end_date', 'group_type', 'trip_type', 'users', 'trip_banner'];
+    const fields = ['name', 'username', 'email', 'password', 'password_confirmation', 'phone', 'gender', 'birth_date', 'avatar'];
 
     fields.forEach(field => {
         if (data[field]) {
-          if (field === 'users') {
-            data[field].forEach((user) => {
-              formData.append('users[]', user);
-            })
-          } else {
-            formData.append(field, data[field]);
-          }
+          formData.append(field, data[field]);
         }
     });   
     // // let store = getStore().getState();
@@ -30,27 +24,27 @@ function* updateTrip({ data }) {
     const headers = { Authorization: `Bearer ${token}` };
 
     // pass to the api
-    const { response, error } = yield call(api.updateTrip, formData, headers);
+    const { response, error } = yield call(api.updateUser, formData, headers);
 
     console.log("RESPONSE ", response, error);
     // yield put();
 
     if (response) {
-        yield put(Actions.getAll());
-        yield put(Actions.updateTripSuccess(response.data));
-        // yield put(Actions.updateTrip(response.data));
+        // yield put(Actions.getAll());
+        yield put(Actions.updateUserSuccess(response.data));
+        // yield put(Actions.updateUser(response.data));
     }
 
     if (error) {
-        yield put(Actions.updateTripFail(error));
+        yield put(Actions.updateUserFail(error));
     }
 }
 
 // this code runs first and call above
-function* watchUpdateTrip() {
-    yield takeLatest(Actions.UPDATE_TRIP, updateTrip)
+function* watchUpdateUser() {
+    yield takeLatest(Actions.UPDATE_USER, updateUser)
 }
 
 export default function* submit() {
-    yield all([fork(watchUpdateTrip)]);
+    yield all([fork(watchUpdateUser)]);
 }

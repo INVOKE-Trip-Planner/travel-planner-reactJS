@@ -5,7 +5,7 @@ import * as api from "../../api";
 // import {getStore} from "../../store/configureStore";
 import {store} from "store/index";
 
-function* deleteTrip({ data }) {
+function* logout() {
     // console.log("GETALL SAGA");
 
     // // let store = getStore().getState();
@@ -16,30 +16,29 @@ function* deleteTrip({ data }) {
 
     const headers = { Authorization: `Bearer ${token}` };
 
-    const formData = new FormData();
-    formData.append('id', data.id)
     // pass to the api
-    const { response, error } = yield call(api.deleteTrip, formData, headers);
+    const { response, error } = yield call(api.logout, headers);
 
-    console.log("RESPONSE ", response, error);
+    console.log("GET ALL RESPONSE ", response, error);
     // yield put();
 
     if (response) {
-        yield put(Actions.getAll());
-        yield put(Actions.deleteTripSuccess(response.data));
-        // yield put(Actions.deleteTrip(response.data));
+        yield put(Actions.logoutSuccess(response.data));
+        yield put(Actions.resetUserSession());
+        yield put(Actions.resetUpdateUser());
+        // yield put(Actions.logout(response.data));
     }
 
     if (error) {
-        yield put(Actions.deleteTripFail(error));
+        yield put(Actions.logoutFail(error));
     }
 }
 
 // this code runs first and call above
-function* watchDeleteTrip() {
-    yield takeLatest(Actions.DELETE_TRIP, deleteTrip)
+function* watchLogout() {
+    yield takeLatest(Actions.LOGOUT, logout)
 }
 
 export default function* submit() {
-    yield all([fork(watchDeleteTrip)]);
+    yield all([fork(watchLogout)]);
 }
