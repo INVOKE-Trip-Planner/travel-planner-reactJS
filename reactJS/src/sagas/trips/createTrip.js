@@ -35,7 +35,7 @@ function* createTrip({ data }) {
     console.log("RESPONSE ", response, error);
 
     if (response) {
-        // yield put(Actions.getAll());
+        yield put(Actions.getAll());
         yield put(Actions.createTripSuccess(response.data));
     }
 
