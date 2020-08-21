@@ -10,6 +10,16 @@ export const register = (data) => {
   return fetchApi('post', 'api/register', data)
 };
 
+// ------------LOGOUT------------
+export const logout = token => {
+  return fetchApi('post', 'api/logout', null, token);
+}
+
+//-----------USER------------------------
+export const updateUser = (data, token) => {
+  return fetchApi('post', 'api/user', data, token);
+}
+
 //--------------TRIPS------------------------
 export const getAll = (headers) => {
   return fetchApi('get', "api/trip", null, headers)

@@ -84,6 +84,7 @@ const EditTripForm = props => {
                   label="trip name"
                   name="trip_name"
                 />
+                
                 <MyTextInput
                   label="origin"
                   name="origin"

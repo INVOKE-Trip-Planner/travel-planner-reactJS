@@ -20,6 +20,7 @@ import Register from "./containers/auth/register/register.js";
 import TripDetails from "./containers/trips/tripDetails.js";
 
 import { store, persistor } from "./store/index";
+import Profile from './containers/profile/profile';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/dashboard/:id" component={TripDetails} />
               <Route exact path="/addtrip" component={AddTrip} />
+              <Route exact path="/profile" component={Profile} />
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register}/>
             </Switch>
