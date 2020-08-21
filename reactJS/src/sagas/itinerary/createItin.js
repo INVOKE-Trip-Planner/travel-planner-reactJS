@@ -14,20 +14,19 @@ function* createItin( {data} ) {
     const headers = { Authorization: `Bearer ${token}` };
 
     const formData = new FormData();
-    formData.append('destination_id', data.destinationId);
-    formData.append('mode', data.transMode);
-    formData.append('origin', data.transOrigin);
-    formData.append('destination', data.transDestination);
-    formData.append('departure_date', data.transDepartureDate);
-    formData.append('departure_hour', data.transDepartureHour);
-    formData.append('departure_minute', data.transDepartureMin);
-    formData.append('arrival_date', data.transArrivalDate);
-    formData.append('arrival_hour', data.transArrivalHour);
-    formData.append('arrival_minute', data.transArrivalMin);
-    formData.append('cost', data.transCost);
-    formData.append('booking_id', data.transBookingID);
-    formData.append('operator', data.transOperator);
+    const fields = ['day','destination_id', 'schedules'];
 
+    fields.forEach(field => {
+        if (data[field]) {
+            if (field === 'schedules') {
+                data[field].forEach((schedule) => {
+                    formData.append('schedules[]', JSON.stringify(schedule));
+                })
+            } else {
+                formData.append(field, data[field]);
+            }
+        }
+    })
 
     console.log(formData);
 
@@ -35,11 +34,11 @@ function* createItin( {data} ) {
     const { response, error } = yield call(api.createItin, formData, headers);
 
     console.log("RESPONSE", response, error);
-    // // yield put();
+    // // // yield put();
 
     if (response) {
         yield put(Actions.createItinSuccess(response.data));
-        yield put(Actions.getAll());
+        yield put(Actions.getAll(response.data));
     }
 
     if (error) {

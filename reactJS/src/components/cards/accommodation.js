@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, ModalFooter, Button} from "reactstrap";
+import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, ModalFooter, Button, Dropdown, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Row, Col} from "reactstrap";
 
 import { connect } from "react-redux";
 import Actions from "actions";
@@ -16,29 +16,8 @@ class Accommodation extends React.Component {
             isOpen: false,
             accId: this.props.accId,
             tripData: this.props.tripData,
+            dropDownOpen: false,
         }
-    }
-
-    componentDidMount() {
-        // console.log("ACCOMMODATION MOUNT", this.state.tripData);
-    }
-
-    componentDidUpdate(prevProps) {
-
-        // console.log("ACCOMMODATION UPDATE", this.state.tripData);
-
-        
-        // const { getDeleteAccData, getGetAllAccData} = this.props;
-
-        // if (prevProps.getGetAllAccData.isLoading && !getGetAllAccData.isLoading) {
-
-        //     if ( (Object.keys(getGetAllAccData.data).length !== 0) ) {
-        //         alert(getDeleteAccData.data.message);
-        //         window.location.reload(); // reloads the page after logging out
-        //     } else {
-        //         alert("Delete failed.")
-        //     }
-        // }
     }
 
     handleEdit() {
@@ -59,45 +38,72 @@ class Accommodation extends React.Component {
         });
     }
 
+    toggleDropDown() {
+
+        this.setState({
+            dropDownOpen: !this.state.dropDownOpen,
+        });
+    }
+
     render() {
         return (
             <>
-            <Card body outline color="danger">
-                <CardHeader style={{display: "flex", }}>
-                    <p>{this.props.accName}</p>
-                    
-                    <div>
-                        <button style={styles.selectButton} onClick={() => this.handleEdit()}><ion-icon name="create-outline"></ion-icon></button>
-                        <button style={styles.selectButton} onClick={() => this.handleDelete(this.state.accId)}><ion-icon name="trash-outline"></ion-icon></button>
+            <Card body outline color="danger" style={styles.removeStrap}>
+                <CardHeader>
+                    <div style={styles.cardContentCenter}>
+                        <h5>{this.props.accName}</h5>
                     </div>
                 </CardHeader>
-                <CardBody style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
-                    <p>Booking ID: {this.props.accBookingId}</p>
-                    <p>Check In Date: {this.props.accCheckInDate}</p>
-                    <p>Check In Time: {this.props.accCheckInHour}:{this.props.accCheckInMin}</p>
-                    <p>Check Out Date: {this.props.accCheckOutDate}</p>
-                    <p>Check Out Time: {this.props.accCheckOutHour}:{this.props.accCheckOutMin}</p>
+                <CardBody>
+                    <div style={styles.cardContentContainer}>
+                        <div style={styles.cardContent}>
+                            <p>Booking ID: <strong>{this.props.accBookingId}</strong></p>
+                            <p>Check In Date: <strong>{this.props.accCheckInDate}</strong></p>
+                            <p>Check In Time: <strong>{this.props.accCheckInHour}:{this.props.accCheckInMin}</strong></p>
+                            <p>Check Out Date: <strong>{this.props.accCheckOutDate}</strong></p>
+                            <p>Check Out Time: <strong>{this.props.accCheckOutHour}:{this.props.accCheckOutMin}</strong></p>
+                        </div>
+
+                        <div style={styles.cardContent}>
+                            <Dropdown isOpen={this.state.dropDownOpen} toggle={() => this.toggleDropDown()} style={styles.dropdownStyle} color="none" size="sm">
+                                <DropdownToggle>
+                                    <ion-icon name="chevron-down-outline"></ion-icon>
+                                </DropdownToggle>
+                                <DropdownMenu style={styles.dropdownStyle}>
+                                    <div style={styles.dropdownItemContainer} onClick={() => this.handleEdit()}>
+                                        <ion-icon name="create-outline" style={{fontSize: 24}} onClick={() => this.handleEdit()}></ion-icon>
+                                    </div>
+                                    <div style={styles.dropdownItemContainer} >
+                                        <ion-icon name="trash-outline" style={{fontSize: 24}} onClick={() => this.handleDelete(this.state.accId)}></ion-icon>
+                                    </div>
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+                    </div>
                 </CardBody>
                 <CardFooter style={{width: "100%"}}>
-                    <p>Cost: RM{this.props.accCost}</p>
+                    <p><strong>Cost: RM{this.props.accCost}</strong></p>
                 </CardFooter>
             </Card>
 
+                {/* -------------EDIT ACC MODAL-------------------- */}
                 <Modal 
                     isOpen={this.state.isOpen} 
                     centered={true}
                     scrollable={true}
                     backdrop={true}
                     toggle={() => this.toggle()}
+                    size="lg"
                 >
-                    <ModalHeader></ModalHeader>
+                    <ModalHeader>Edit Accommodation Details</ModalHeader>
                     <ModalBody>
-                        <AccEditForm 
-                            accId = {this.props.accId}
-                        />
+                        <div style={styles.bodyContainer}>
+                            {/* ------------ACC EDIT FORM----------------- */}
+                            <AccEditForm 
+                                accId = {this.props.accId}
+                            />
+                        </div>
                     </ModalBody>
-                    <ModalFooter>
-                    </ModalFooter>
                 </Modal>              
             </>
         )
@@ -105,6 +111,36 @@ class Accommodation extends React.Component {
 };
 
 const styles = {
+    removeStrap: {
+        margin: 0,
+        padding: 0,
+        minWidth: 500,
+        borderRadius: 20,
+    },
+    cardContent: {
+        padding: 10,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        // border: "1px solid black"
+    },
+    cardContentContainer: {
+        padding: 10,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        // border: "1px solid black",
+        overflow: "hidden",
+    },
+    cardContentCenter: {
+        padding: 10,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        // border: "1px solid black"
+    },
     updateContainer: {
         // width: "80%",
         // height: 40,
@@ -112,7 +148,7 @@ const styles = {
         margin: 20,
         overflow: "hidden",
         borderRadius: 10,
-        border: "1px solid rgba(0,0,0,0.4)",
+        // border: "1px solid rgba(0,0,0,0.4)",
 
         display: "flex",
         flexDirection: "column",
@@ -127,6 +163,29 @@ const styles = {
         color: "black",
         // borderRadius: "50 0 0 0",
     },
+    dropdownStyle: {
+        backgroundColor: "none",
+        border: "none",
+        // width: 20,
+        // border: "1px solid black",
+    },
+    dropdownItemContainer: {
+        width: 40,
+        padding: 5,
+        boxSizing: "border-box",
+        // backgroundColor: "yellow",
+        marginBottom: 20
+
+    },
+
+    bodyContainer: {
+        // backgroundColor: "yellow",
+        // border: "1px solid black",
+        overflowX: "scroll",
+        disply: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    }
 }
 
 // get data from api

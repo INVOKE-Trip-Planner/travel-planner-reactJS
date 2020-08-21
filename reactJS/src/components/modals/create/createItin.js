@@ -2,16 +2,21 @@ import React from "react";
 
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 
-import ItinArrayForm from "components/forms/itinerary/itinArray.js";
+import CreateItinForm from "components/forms/itinerary/createItinForm.js";
 
 class CreateItinModal extends React.Component {
     
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             destinationId: this.props.destinationId,
         }
+    }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            destinationId: nextProps.destinationId
+        })
     }
 
     render() {
@@ -26,7 +31,7 @@ class CreateItinModal extends React.Component {
                 >
                     <ModalHeader>Create New Itinerary</ModalHeader>
                     <ModalBody>
-                        <ItinArrayForm 
+                        <CreateItinForm 
                             destinationId={this.state.destinationId}
                         />
                     </ModalBody>

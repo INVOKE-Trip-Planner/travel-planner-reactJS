@@ -28,11 +28,11 @@ class Header extends React.Component {
         const { getLoginData } = this.props;
         const { getUserSession } = this.props;
         
-        console.log("HEADER LOGIN DATA", getUserSession.data);
+        console.log("HEADER LOGIN DATA", getUserSession);
 
         if (prevProps.getLoginData.isLoading && !getLoginData.isLoading) {
 
-            console.log("LOGIN DATA", Object.keys(getLoginData.data));
+            console.log("LOGIN DATA", Object.keys(getUserSession.data).length);
 
             // Check length of getLoginData to see if data exist
             if ( (Object.keys(getLoginData.data).length !== 0) ) {
@@ -46,7 +46,12 @@ class Header extends React.Component {
                 // no login data
                 console.log("no user");
             }
-        }    
+        }
+
+        if (Object.keys(getUserSession.data).length == 0) {
+            alert('Session expired. Please login again.');
+            this.props.history.push("/login");
+        }
     }
 
     logoutPressed() {
@@ -60,7 +65,7 @@ class Header extends React.Component {
             <>
                 <Container className="themed-container" fluid={true}>
                     <Navbar color="light" light expand="md">
-                        <NavbarBrand><Link to="/">Trip Planner</Link></NavbarBrand>
+                        <NavbarBrand><Link to="/">TripBantu</Link></NavbarBrand>
                         <NavbarToggler onClick={() => this.toggle()} />
                         <Collapse isOpen={this.state.isOpen} navbar>
 

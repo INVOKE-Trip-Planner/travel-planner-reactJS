@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 
 import { Button } from "reactstrap";
 
+import {REMOVESTRAP, FORMCONTAINER} from "common/styles/index.js";
+
 // Redux
 import { connect } from "react-redux";
 import Actions from "actions";
@@ -16,22 +18,22 @@ const ReadOnlyTextInput = ({ label, ...props }) => {
     <>
       <div style={styles.inputContainer}>
 
-      <div style={styles.inputStyle}>
-        <label htmlFor={props.id || props.name}>{label}:</label>
-        <input className="text-input" {...field} {...props} 
-          style={{
-            outline: "none",
-            width: "100%",
-            height: 50,
-            borderRadius: 5,
-            padding: 10,
-          }}
-          readOnly
-        />
-        {meta.touched && meta.error ? (
-          <div className="error" style={styles.errorContainer}>{meta.error}</div>
-        ) : null}
-      </div>
+        <div style={styles.inputStyle}>
+          <label htmlFor={props.id || props.name}>{label}:</label>
+          <input className="text-input" {...field} {...props} 
+            style={{
+              outline: "none",
+              width: "100%",
+              height: 50,
+              borderRadius: 5,
+              padding: 10,
+            }}
+            readOnly
+          />
+          {meta.touched && meta.error ? (
+            <div className="error" style={styles.errorContainer}>{meta.error}</div>
+          ) : null}
+        </div>
       </div>
     </>
   );
@@ -156,14 +158,15 @@ const AccEditForm = (props) => {
         props.onEditAcc(values);
       }}
     >
+      <div style={FORMCONTAINER}>
       <Form >
 
-            <ReadOnlyTextInput
-              label="Accommodation ID"
-              name="accId"
-              type="text"
-              placeholder="Enter id here"
-            />
+        <ReadOnlyTextInput
+          label="Accommodation ID"
+          name="accId"
+          type="text"
+          placeholder="Enter id here"
+        />
 
         <MyTextInput
           label="Accommodation Name"
@@ -214,13 +217,6 @@ const AccEditForm = (props) => {
           placeholder="Enter the check out minute here"
         />
 
-        {/* <MyTextInput
-          label="Check Out Time"
-          name="accCheckOutTime"
-          type="time"
-          placeholder="Enter the check out time here"
-        />     */}
-
         <MyCostInput
           label="Cost"
           name="accCost"
@@ -240,12 +236,18 @@ const AccEditForm = (props) => {
           {/* <button type="submit">Register</button> */}
         </div>
       </Form>
-
+      </div>
     </Formik>
   );
 };
 
 const styles = {
+  formContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   buttonContainer: {
     // border: "1px solid black",
     
@@ -259,13 +261,13 @@ const styles = {
   },
 
   inputContainer: {
-    // border: "1px solid green",
+    border: "1px solid green",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 20,
-    width: 600,
+    width: "100%",
 
     padding: 20,
 

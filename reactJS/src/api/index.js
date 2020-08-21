@@ -53,8 +53,6 @@ export const getAllTrans = (headers) => {
   return fetchApi('get', "api/transport", null, headers)
 };
 export const createTrans = (data, headers) => {
-  console.log(data);
-  console.log(headers);
   return fetchApi('post', "api/transport", data, headers)
 };
 export const editTrans = (data, headers) => {
@@ -70,8 +68,7 @@ export const getAllItin = (headers) => {
   return fetchApi('get', "api/itinerary", null, headers)
 };
 export const createItin = (data, headers) => {
-  console.log(data);
-  console.log(headers);
+  console.log("DATA pass to api", data);
   return fetchApi('post', "api/itinerary", data, headers)
 };
 export const editItin = (data, headers) => {

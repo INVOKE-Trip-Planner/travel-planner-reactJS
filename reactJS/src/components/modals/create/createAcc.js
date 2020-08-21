@@ -7,27 +7,16 @@ import AccForm from "components/forms/accommodation/accForm.js";
 class CreateAccModal extends React.Component {
     
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
-            tripData: this.props.tripData,
-            destinationId: this.props.tripData.map( list => list.destinations.map( destination => destination.id) )[0]
+            destinationId: this.props.destinationId,
         }
     }
 
-    componentDidMount() {
-        console.log('ACC MODAL MOUNT')
-
-        // const x = this.state.tripData.map( list => list.destinations.map( destination => destination.id) )
-
-        console.log("X", this.state.destinationId);
-
-        const [ destinationId ] = this.state.destinationId;
-
+    componentWillReceiveProps(nextProps) {
         this.setState({
-            destinationId: destinationId,
+            destinationId: nextProps.destinationId
         })
-
-        console.log("check", destinationId)
     }
 
     render() {
@@ -39,12 +28,12 @@ class CreateAccModal extends React.Component {
                         scrollable={true}
                         backdrop={true}
                         toggle={this.props.toggle}
+                        size="lg"
                 >
                     <ModalHeader>Create New Accommodation</ModalHeader>
                     <ModalBody>
                         <AccForm 
                             destinationId = {this.state.destinationId}
-                            accId = ''
                         />
                     </ModalBody>
                     <ModalFooter>

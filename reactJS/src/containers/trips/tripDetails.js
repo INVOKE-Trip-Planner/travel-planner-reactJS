@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Actions from "actions";
 
-import { Container, Row, Col, CardDeck, Jumbotron, Spinner } from 'reactstrap';
+import { Container, Row, Col, CardDeck, Jumbotron, Spinner, ButtonGroup, Button } from 'reactstrap';
 
 import placeholder from "assets/images/placeholder.png";
 import Accommodation from "../../components/cards/accommodation";
@@ -21,21 +21,39 @@ class TripDetails extends React.Component {
         this.state = {
             tripData: this.props.history.location.state.data,
             tripId: this.props.history.location.state.data[0].id,
+            destinationId: this.props.history.location.state.data[0].destinations[0].id,
             openModalAcc: false,
             openModalTrans: false,
             openModalItin: false,
             isOpen: false,
             filterGetAllData: [],
             loading: true,
+
+            filterLocation: false,
+            filterLocationData: 'ok',
+            filterLocationId: '',
+
+            categorySelectAll: true,
+            categorySelectAcc: false,
+            categorySelectTrans: false,
+            categorySelectItin: false,
         }
     }
 
     componentDidMount() {
+
+        this.setState({
+            filterLocationData: this.state.tripData[0].destinations[0],
+            filterLocationId: this.state.destinationId,
+        }, () => {console.log("filter id", this.state.filterLocationId)})
+
         this.props.onGetAll();
     }
 
     componentDidUpdate(prevProps) {
-        const { getGetAllData, getEditAccData, getEditTransData, getDeleteAccData, getDeleteTransData, } = this.props;
+        const { getGetAllData, getCreateAccData, getEditAccData, getEditTransData, getDeleteAccData, getDeleteTransData, getDeleteItinData } = this.props;
+
+        // console.log("FIRST Trip Data", this.state.filterLocationData);
 
         if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
 
@@ -45,15 +63,30 @@ class TripDetails extends React.Component {
                 this.setState({
                     // filterGetAllData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
                     tripData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
+                    // filterLocationData: this.state.tripData[0].destinations[0],
+                    filterLocationId: this.state.destinationId,
                     loading: false,
+                    filterLocation: true,
                 })
             }
+        }
+
+        if (prevProps.getCreateAccData.isLoading && !getCreateAccData.isLoading) {
+            if ( (Object.keys(getCreateAccData.data).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                    isOpen: false,
+                })
+                // alert(getEditAccData.data.message);
+                alert("Create accommodation successful!");
+            } else {alert("Create accommodation failed.")}
         }
 
         if (prevProps.getEditAccData.isLoading && !getEditAccData.isLoading) {
             if ( (Object.keys(getEditAccData.data.message).length !== 0) ) {
                 this.setState({
                     loading: true,
+                    isOpen: false,
                 })
                 // alert(getEditAccData.data.message);
                 alert(getEditAccData.data.message);
@@ -64,6 +97,7 @@ class TripDetails extends React.Component {
             if ( (Object.keys(getEditTransData.data.message).length !== 0) ) {
                 this.setState({
                     loading: true,
+                    isOpen: false,
                 })
                 // alert(getEditAccData.data.message);
                 alert(getEditTransData.data.message);
@@ -90,9 +124,69 @@ class TripDetails extends React.Component {
                 alert(getDeleteTransData.data.message);
 
             } else {
-                alert("Delete failed.")
+                alert("Delete transport failed.")
             }
         }
+        if (prevProps.getDeleteItinData.isLoading && !getDeleteItinData.isLoading) {
+
+            if ( (Object.keys(getDeleteItinData.data.message).length !== 0) ) {
+
+                this.setState({
+                    loading: true,
+                })
+
+                alert(getDeleteItinData.data.message);
+
+            } else {
+                alert("Delete itinerary failed.")
+            }
+        }
+    }
+
+    handleCategory(category) {
+
+        switch(category) {
+            case "accommodation":
+
+              this.setState({
+                  categorySelectAcc: true,
+                  categorySelectAll: false,
+                  categorySelectTrans: false,
+                  categorySelectItin: false,
+              })
+              break;
+
+            case "transport":
+
+              this.setState({
+                  categorySelectTrans: true,
+                  categorySelectAll: false,
+                  categorySelectAcc: false,
+                  categorySelectItin: false,
+              })
+              break;            
+              
+            case "itinerary":
+
+              this.setState({
+                  categorySelectItin: true,
+                  categorySelectAll: false,
+                  categorySelectTrans: false,
+                  categorySelectAcc: false,
+              })
+              break;
+
+            default:
+                console.log("default")
+              // code block
+              this.setState({
+                  categorySelectAll: true,
+                  categorySelectAcc: false,
+                  categorySelectTrans: false,
+                  categorySelectItin: false,
+              })
+              break;
+          }
     }
 
     handleCreate(category = "") {
@@ -135,6 +229,17 @@ class TripDetails extends React.Component {
         });
     }
 
+    filterLocation(data){
+        // console.log("filter data", data);
+        // console.log("trip data", this.state.tripData.map( list => list.destinations.filter( destination => (destination.id === data.id) && destination )[0])[0]);
+
+        this.setState({
+            filterLocation: true,
+            filterLocationData: this.state.tripData.map( list => list.destinations.filter( destination => (destination.id === data.id) && destination )[0])[0],
+            filterLocationId: data.id,
+        })
+    }
+
     render() {
         return (
             <>
@@ -167,7 +272,7 @@ class TripDetails extends React.Component {
 
                         {/* <Col md="10" lg="10" xl="10" style={{padding: 0, margin: 0}}> */}
                             {/*-------------------------Dashboard------------------------------------------------------------------------------------------------- */}
-                            <Container className="themed-container" style={{border: "1px solid black", borderRadius: 10, textAlign:"center", margin: 0, padding: 0,}} fluid="xl" >
+                            <Container className="themed-container" style={{border: "1px solid black", borderRadius: 10, textAlign:"center", margin: 0, padding: 0,}} fluid={true} >
 
                                 <h3>Trip Details</h3>
                                 {this.state.tripData.map( list => (
@@ -189,23 +294,36 @@ class TripDetails extends React.Component {
                                         </Row>
 
                                         {/* -----------------------------------FILTER------------------------------------------------------------------------------------ */}
-                                        <Row style={{display: "flex", justifyContent: "flex-end"}}>
-                                            <div style={styles.selectContainer}>
-                                                <button style={styles.selectButton} onClick={() => this.handleAll()}>All</button>
-                                                <button style={styles.selectButton} onClick={() => this.handleAcc()}>Accommodations</button>
-                                                <button style={styles.selectButton} onClick={() => this.handleTrans()}>Tranports</button>
-                                                <button style={styles.selectButton} onClick={() => this.handleItin()}>Itineraries</button>
-                                            </div>
+                                        <Row style={{display: "flex", justifyContent: "space-between", padding: 20, border: "1px solid black"}}>
+                                            <Col>
+                                            <h6>Destinations:</h6>
+                                            <ButtonGroup>                                               
+                                                { list.destinations.map( destination => (
+                                                    <Button onClick={() => this.filterLocation(destination)}>{destination.location}</Button>
+                                                ))}
+                                            </ButtonGroup>
+                                            </Col>
+                                            <Col>
+                                            <h6>Category:</h6>
+                                            <ButtonGroup>
+                                                <Button  onClick={() => this.handleCategory()}>All</Button>
+                                                <Button  onClick={() => this.handleCategory("accommodation")}>Accommodations</Button>
+                                                <Button  onClick={() => this.handleCategory("transport")}>Tranports</Button>
+                                                <Button  onClick={() => this.handleCategory("itinerary")}>Itineraries</Button>
+                                            </ButtonGroup>
+                                            </Col>
                                         </Row>
                                         
                                         {/* --------------------ACCOMMODATIONS------------------------------------------ */}
-                                        <div style={{width: "100%", display:"flex", justifyContent: "space-between", alignItems: "space-between", marginTop: 20, marginBottom: 20,}}>
-                                            <div></div>
+                                        { (this.state.categorySelectAll || this.state.categorySelectAcc) &&
 
-                                            <div><h4>Accommodations</h4></div>
+                                        <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
 
-                                            <div style={styles.selectContainer}>
-                                                <button style={styles.selectButton} onClick={() => this.handleCreate("accommodation")}><ion-icon name="add-circle-outline"></ion-icon></button>
+                                        <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, marginBottom: 20,}}>
+
+                                            <div style={styles.categoryTitleContainer}>
+                                                <h4>Accommodations</h4>
+                                                <button style={styles.selectButton} onClick={() => this.handleCreate("accommodation")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
                                             </div>
                                         </div>
 
@@ -219,12 +337,32 @@ class TripDetails extends React.Component {
                                         </Row>) : (
 
                                         <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+
+                                                { this.state.filterLocation && (
+
+                                                    this.state.filterLocationData.accommodations.map( accommodation => (
+                                                        <CardDeck style={styles.cardDeckStyle}>
+                                                        <Accommodation
+                                                                accId = {accommodation.id}
+                                                                accName = {accommodation.accommodation_name}
+                                                                accBookingId = {accommodation.booking_id}
+                                                                accCheckInDate = {accommodation.checkin_date}
+                                                                accCheckInHour = {accommodation.checkin_hour}
+                                                                accCheckInMin = {accommodation.checkin_minute}
+                                                                accCheckOutDate = {accommodation.checkout_date}
+                                                                accCheckOutHour = {accommodation.checkout_hour}
+                                                                accCheckOutMin = {accommodation.checkout_minute}
+                                                                accCost = {accommodation.cost}
+                                                            />
+                                                        </CardDeck>
+                                                    ))
+                                                )}
                                             
 
-                                                {list.destinations.map( destination => (
+                                                {/* {list.destinations.map( destination => 
 
                                                     destination.accommodations.map( accommodation => (
-                                                        <CardDeck>
+                                                        <CardDeck style={styles.cardDeckStyle}>
                                                             <Accommodation
                                                                 destinationId = {destination.id}
                                                                 accId = {accommodation.id}
@@ -239,22 +377,27 @@ class TripDetails extends React.Component {
                                                                 accCost = {accommodation.cost}
                                                             />
                                                         </CardDeck>
-                                                    ))
-                                                ))}
+                                                    ) )
+                                                )} */}
                                         </Row>
 
                                         )}
+</Row>
+                                }
 
                                         {/* ----------------------------TRANSPORT------------------------------------------- */}
-                                        <div style={{width: "100%", display:"flex", justifyContent: "space-between", alignItems: "space-between", marginTop: 20, marginBottom: 20,}}>
-                                            <div></div>
 
-                                            <div><h4>Transport</h4></div>
+                                        {(this.state.categorySelectAll || this.state.categorySelectTrans) && 
 
-                                            <div style={styles.selectContainer}>
-                                                <button style={styles.selectButton} onClick={() => this.handleCreate("transport")}><ion-icon name="add-circle-outline"></ion-icon></button>
+                                        (<Row style={{width: "100%", justifyContent: "center", margin: 0}}>
+
+                                            <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, marginBottom: 20,}}>
+
+                                                <div style={styles.categoryTitleContainer}>
+                                                    <h4>Transports</h4>
+                                                    <button style={styles.selectButton} onClick={() => this.handleCreate("accommodation")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                </div>
                                             </div>
-                                        </div>
 
                                         {this.state.loading ? (
 
@@ -267,7 +410,30 @@ class TripDetails extends React.Component {
 
                                             <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
 
-                                                    {list.destinations.map( destination => (
+                                            { this.state.filterLocation && (
+
+                                                this.state.filterLocationData.transports.map( transport => (
+                                                    <CardDeck style={styles.cardDeckStyle}>
+                                                        <Transport
+                                                            transId = {transport.id}
+                                                            transMode = {transport.mode}
+                                                            transBookingId = {transport.booking_id}
+                                                            transDepartureDate = {transport.departure_date}
+                                                            transDepartureHour = {transport.departure_hour}
+                                                            transDepartureMin = {transport.departure_minute}
+                                                            transArrivalDate = {transport.arrival_date}
+                                                            transArrivalHour = {transport.arrival_hour}
+                                                            transArrivalMin = {transport.arrival_minute}
+                                                            transOrigin = {transport.origin}
+                                                            transDestination = {transport.destination}
+                                                            transOperator = {transport.operator}
+                                                            transCost = {transport.cost}
+                                                        />
+                                                    </CardDeck>
+                                                ))
+                                            )}
+
+                                                    {/* {list.destinations.map( destination => (
 
                                                         destination.transports.map( transport => (
                                                             <CardDeck>
@@ -289,20 +455,26 @@ class TripDetails extends React.Component {
                                                                 />
                                                             </CardDeck>
                                                         ))
-                                                    ))}
+                                                    ))} */}
                                             </Row>
                                         )}
 
+                                        </Row>)
+                                        }
+
                                         {/* -------------------------------ITINERARIES------------------------------------------------ */}
-                                        <div style={{width: "100%", display:"flex", justifyContent: "space-between", alignItems: "space-between", marginTop: 20, marginBottom: 20,}}>
-                                            <div></div>
 
-                                            <div><h4>Itinerary</h4></div>
+                                        {(this.state.categorySelectAll || this.state.categorySelectItin) && 
 
-                                            <div style={styles.selectContainer}>
-                                                <button style={styles.selectButton} onClick={() => this.handleCreate("itinerary")}><ion-icon name="add-circle-outline"></ion-icon></button>
+                                        <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+
+                                            <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, marginBottom: 20,}}>
+
+                                                <div style={styles.categoryTitleContainer}>
+                                                    <h4>Itineraries</h4>
+                                                    <button style={styles.selectButton} onClick={() => this.handleCreate("accommodation")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                </div>
                                             </div>
-                                        </div>
 
                                         {this.state.loading ? (
 
@@ -315,6 +487,20 @@ class TripDetails extends React.Component {
 
                                         <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
 
+                                            { this.state.filterLocation && (
+
+                                                this.state.filterLocationData.itineraries.map( itinerary => (
+                                                    <CardDeck style={styles.cardDeckStyle}>
+                                                        <Itinerary 
+                                                            itinId={itinerary.id}
+                                                            itinDay={itinerary.day}
+                                                            itinScheduleData={itinerary.schedules}
+                                                            // itiCost={itinerary.cost}
+                                                        />
+                                                    </CardDeck>
+                                                ))
+                                            )}
+{/* 
                                             {list.destinations.map( destination => (
 
                                                 destination.itineraries.map( itinerary => (
@@ -327,10 +513,13 @@ class TripDetails extends React.Component {
                                                         />
                                                     </CardDeck>
                                                 ))
-                                            ))}
+                                            ))} */}
                                         </Row>
 
                                         )}
+
+                                        </Row>
+                                        }
 
                                     </div>
                                 ) )
@@ -339,28 +528,30 @@ class TripDetails extends React.Component {
                         {/* </Col> */}
 
                     {/* </Row> */}
-                </Container>
 
-                {/* --------------------------------------MODALS FOR CREATE FORMS----------------------------------- */}
+                                    {/* --------------------------------------MODALS FOR CREATE FORMS----------------------------------- */}
                 <CreateAccModal 
                     isOpen={this.state.openModalAcc}
                     toggle={() => this.toggle()}
-                    destinationId = {this.state.tripId}
-                    tripData = {this.state.tripData}
+                    destinationId = {this.state.filterLocationData.id}
+                    // tripData = {this.state.filterLocationData.id}
                 />
                 <CreateTransModal 
                     isOpen={this.state.openModalTrans}
                     toggle={() => this.toggle()}
-                    destinationId = {this.state.tripId}
-                    tripData = {this.state.tripData}
+                    destinationId = {this.state.filterLocationData.id}
+                    // tripData = {this.state.filterLocationData.id}
                     
                 />
                 <CreateItinModal 
                     isOpen={this.state.openModalItin}
                     toggle={() => this.toggle()}
-                    destinationId = {this.state.tripId}
-                    tripData = {this.state.tripData}
+                    data = {this.state.filterLocationData.id}
+                    // tripData = {this.state.filterLocationData.id}
                 />
+                </Container>
+
+
             </>
         )
     }
@@ -405,10 +596,26 @@ const styles = {
         justifyContent: "center",
         alignItems: "center"
     },
+    categoryTitleContainer: {
+        // width: "80%",
+        // height: 40,
+        backgroundColor: "white",
+        margin: 20,
+        padding: 20,
+        // overflow: "hidden",
+        borderRadius: 10,
+        // border: "1px solid rgba(0,0,0,0.4)",
+
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center"
+    },
     selectButton: {
         backgroundColor: "transparent",
         outline: "none",
-        border: "1px solid rgba(0,0,0,0.4)",
+        // border: "1px solid rgba(0,0,0,0.4)",
+        border: "none",
         padding: 10,
         color: "black",
         // borderRadius: "50 0 0 0",
@@ -440,16 +647,21 @@ const styles = {
         justifyContent: "flex-end",
         marginBottom: 5,
         paddingRight: 20,
+    },
+    cardDeckStyle: {
+        margin: 10,
     }
 }
 
 // get data from api
 const mapStateToProps = (store) => ({
     getGetAllData: Actions.getGetAllData(store),
+    getCreateAccData: Actions.getCreateAccData(store),
     getEditAccData: Actions.getEditAccData(store),
     getDeleteAccData: Actions.getDeleteAccData(store),
     getEditTransData: Actions.getEditTransData(store),
     getDeleteTransData: Actions.getDeleteTransData(store),
+    getDeleteItinData: Actions.getDeleteItinData(store),
 });
 
 const mapDispatchToProps = {

@@ -35,7 +35,7 @@ function* createAcc( {data} ) {
 
     if (response) {
         yield put(Actions.createAccSuccess(response.data));
-        yield put(Actions.getAll());
+        yield put(Actions.getAll(response.data));
     }
 
     if (error) {

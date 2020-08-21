@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, ModalFooter, Button} from "reactstrap";
+import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, ModalFooter, Button, Dropdown, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Row, Col} from "reactstrap";
 
 import { connect } from "react-redux";
 import Actions from "actions";
@@ -15,13 +15,12 @@ class Transport extends React.Component {
         this.state = {
             isOpen: false,
             transId: this.props.transId,
-            tripData: this.props.tripData
+            tripData: this.props.tripData,
+            dropDownOpen: false,
         }
     }
 
-    componentDidMount() {
-        // console.log('tripData', this.state.tripData)
-    }
+
 
     handleEdit() {
         this.setState({
@@ -39,60 +38,90 @@ class Transport extends React.Component {
 
         this.setState({
             isOpen: !this.state.isOpen,
+            dropDownOpen: !this.state.dropDownOpen,
+        });
+    }
+
+    toggleDropDown() {
+
+        this.setState({
+            dropDownOpen: !this.state.dropDownOpen,
         });
     }
 
     render() {
         return (
             <>
-            <Card body outline color="danger">
-                <CardHeader style={{display: "flex", }}>
-                    <p>{this.props.transMode}</p>
-                    
-                    <div>
-                        <button style={styles.selectButton} onClick={() => this.handleEdit()}><ion-icon name="create-outline"></ion-icon></button>
-                        <button style={styles.selectButton} onClick={() => this.handleDelete(this.state.transId)}><ion-icon name="trash-outline"></ion-icon></button>
-                    </div>
-                </CardHeader>
-                <CardBody style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
-                    <p>Booking ID: {this.props.transBookingId}</p>
-                    <p>Origin: {this.props.transOrigin}</p>
-                    <p>Destination: {this.props.transDestination}</p>
-                    <p>Departure Date: {this.props.transDepartureDate}</p>
-                    <p>Departure Time: {this.props.transDepartureHour}:{this.props.transDepartureMin}</p>
-                    <p>Arrival Date: {this.props.transArrivalDate}</p>
-                    <p>Arrival Time: {this.props.transArrivalHour}:{this.props.transArrivalMin}</p>
-                    <p>Operator: {this.props.transOperator}</p>
-                </CardBody>
-                <CardFooter style={{width: "100%"}}>
-                    <p>Cost: RM{this.props.transCost}</p>
-                </CardFooter>
-            </Card>
+                <Card body outline color="danger" style={styles.removeStrap}>
+                    <CardHeader>
+                        <div style={styles.cardContentCenter}>
+                            <h5>{this.props.transMode}</h5>
+                        </div>
+                    </CardHeader>
+                    <CardBody>
+                        <div style={styles.cardContentContainer}>
+                            <div style={styles.cardContent}>
+                                <p>Booking ID: <strong>{this.props.transBookingId}</strong></p>
+                                <p>Origin: <strong>{this.props.transOrigin}</strong></p>
+                                <p>Destination: <strong>{this.props.transDestination}</strong></p>
+                                <p>Departure Date: <strong>{this.props.transDepartureDate}</strong></p>
+                                <p>Departure Time: <strong>{this.props.transDepartureHour}:{this.props.transDepartureMin}</strong></p>
+                                <p>Arrival Date: <strong>{this.props.transArrivalDate}</strong></p>
+                                <p>Arrival Time: <strong>{this.props.transArrivalHour}:{this.props.transArrivalMin}</strong></p>
+                                <p>Operator: <strong>{this.props.transOperator}</strong></p>
+                            </div>
+
+                            <div style={styles.cardContent}>
+                                <Dropdown isOpen={this.state.dropDownOpen} toggle={() => this.toggleDropDown()} style={styles.dropdownStyle} color="none" size="sm">
+                                    <DropdownToggle>
+                                        <ion-icon name="chevron-down-outline"></ion-icon>
+                                    </DropdownToggle>
+                                    <DropdownMenu style={styles.dropdownStyle}>
+                                        <div style={styles.dropdownItemContainer} onClick={() => this.handleEdit()}>
+                                            <ion-icon name="create-outline" style={{fontSize: 24}} onClick={() => this.handleEdit()}></ion-icon>
+                                        </div>
+                                        <div style={styles.dropdownItemContainer} >
+                                            <ion-icon name="trash-outline" style={{fontSize: 24}} onClick={() => this.handleDelete(this.state.transId)}></ion-icon>
+                                        </div>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </div>
+                        </div>
+                    </CardBody>
+                    <CardFooter style={{width: "100%"}}>
+                        <p><strong>Cost: RM{this.props.transCost}</strong></p>
+                    </CardFooter>
+                </Card>
             
-            <Modal 
-                        isOpen={this.state.isOpen} 
-                        centered={true}
-                        scrollable={true}
-                        backdrop={true}
-                        toggle={() => this.toggle()}
+                {/* -------------------- CREATE TRANS MODAL ------------------------- */}
+                <Modal 
+                    isOpen={this.state.isOpen} 
+                    centered={true}
+                    scrollable={true}
+                    backdrop={true}
+                    toggle={() => this.toggle()}
+                    size="lg"
                 >
-                    <ModalHeader></ModalHeader>
+                    <ModalHeader>Edit Transport Details</ModalHeader>
                     <ModalBody>
-                        <TransEditForm 
-                            transId = {this.state.transId}
-                            transMode={this.props.transMode}
-                            transOrigin={this.props.transOrigin}
-                            transDestination= {this.props.transDestination}
-                            transDepartureDate= {this.props.transDepartureDate}
-                            transDepartureHour= {this.props.transDepartureHour}
-                            transDepartureMin= {this.props.transDepartureMin}
-                            transArrivalDate= {this.props.transArrivalDate}
-                            transArrivalHour= {this.props.transArrivalHour}
-                            transArrivalMin= {this.props.transArrivalMin}
-                            transCost= {this.props.transCost}
-                            transBookingID= {this.props.transBookingId}
-                            transOperator= {this.props.transOperator}
-                        />
+                        <div style={styles.bodyContainer}>
+                            {/* ------------TRANSPORT EDIT FORM----------------- */}
+                            <TransEditForm 
+                                transId = {this.state.transId}
+                                transMode={this.props.transMode}
+                                transOrigin={this.props.transOrigin}
+                                transDestination= {this.props.transDestination}
+                                transDepartureDate= {this.props.transDepartureDate}
+                                transDepartureHour= {this.props.transDepartureHour}
+                                transDepartureMin= {this.props.transDepartureMin}
+                                transArrivalDate= {this.props.transArrivalDate}
+                                transArrivalHour= {this.props.transArrivalHour}
+                                transArrivalMin= {this.props.transArrivalMin}
+                                transCost= {this.props.transCost}
+                                transBookingID= {this.props.transBookingId}
+                                transOperator= {this.props.transOperator}
+                            />
+                        </div>
                     </ModalBody>
                     <ModalFooter>
                     </ModalFooter>
@@ -103,6 +132,36 @@ class Transport extends React.Component {
 };
 
 const styles = {
+    removeStrap: {
+        margin: 0,
+        padding: 0,
+        minWidth: 500,
+        borderRadius: 20,
+    },
+    cardContent: {
+        padding: 10,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        // border: "1px solid black"
+    },
+    cardContentContainer: {
+        padding: 10,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        // border: "1px solid black",
+        overflow: "hidden",
+    },
+    cardContentCenter: {
+        padding: 10,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        // border: "1px solid black"
+    },
     updateContainer: {
         // width: "80%",
         // height: 40,
@@ -110,7 +169,7 @@ const styles = {
         margin: 20,
         overflow: "hidden",
         borderRadius: 10,
-        border: "1px solid rgba(0,0,0,0.4)",
+        // border: "1px solid rgba(0,0,0,0.4)",
 
         display: "flex",
         flexDirection: "column",
@@ -125,6 +184,29 @@ const styles = {
         color: "black",
         // borderRadius: "50 0 0 0",
     },
+    dropdownStyle: {
+        backgroundColor: "none",
+        border: "none",
+        // width: 20,
+        // border: "1px solid black",
+    },
+    dropdownItemContainer: {
+        width: 40,
+        padding: 5,
+        boxSizing: "border-box",
+        // backgroundColor: "yellow",
+        marginBottom: 20
+
+    },
+
+    bodyContainer: {
+        // backgroundColor: "yellow",
+        // border: "1px solid black",
+        // overflowY: "scroll",
+        disply: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    }
 }
 
 // get data from api

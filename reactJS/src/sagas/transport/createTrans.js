@@ -39,7 +39,7 @@ function* createTrans( {data} ) {
 
     if (response) {
         yield put(Actions.createTransSuccess(response.data));
-        yield put(Actions.getAll());
+        yield put(Actions.getAll(response.data));
     }
 
     if (error) {

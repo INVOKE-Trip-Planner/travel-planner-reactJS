@@ -1,53 +1,23 @@
-import React from 'react';
-import { Formik, Field, useField, Form, ErrorMessage, FieldArray } from 'formik';
-import styled from '@emotion/styled';
-import * as Yup from 'yup';
+import React from "react";
+// import ReactDOM from "react-dom";
+import { Formik, useField, Field, Form, ErrorMessage, FieldArray } from "formik";
 
 import { Button } from "reactstrap";
 
-import ItinArrayForm from './itinArray.js'
+import * as Yup from 'yup';
 
 // Redux
 import { connect } from "react-redux";
 import Actions from "actions";
 
 const ReadOnlyTextInput = ({ label, ...props }) => {
-  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-  // which we can spread on <input> and also replace ErrorMessage entirely.
-  const [field, meta] = useField(props);
-  return (
-    <>
-      <div style={styles.inputContainer}>
-
-      <div style={styles.inputStyle}>
-        <label htmlFor={props.id || props.name}>{label}:</label>
-        <input className="text-input" {...field} {...props} 
-          style={{
-            outline: "none",
-            width: "100%",
-            height: 50,
-            borderRadius: 5,
-            padding: 10,
-          }}
-          readOnly
-        />
-        {meta.touched && meta.error ? (
-          <div className="error" style={styles.errorContainer}>{meta.error}</div>
-        ) : null}
-      </div>
-      </div>
-    </>
-  );
-};
-
-const MyTextInput = ({ label, ...props }) => {
-  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-  // which we can spread on <input> and also replace ErrorMessage entirely.
-  const [field, meta] = useField(props);
-  return (
-    <>
-      <div style={styles.inputContainer}>
-
+    // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
+    // which we can spread on <input> and also replace ErrorMessage entirely.
+    const [field, meta] = useField(props);
+    return (
+      <>
+        <div style={styles.inputContainer}>
+  
         <div style={styles.inputStyle}>
           <label htmlFor={props.id || props.name}>{label}:</label>
           <input className="text-input" {...field} {...props} 
@@ -58,227 +28,284 @@ const MyTextInput = ({ label, ...props }) => {
               borderRadius: 5,
               padding: 10,
             }}
+            readOnly
           />
           {meta.touched && meta.error ? (
-          <div className="error" style={styles.errorContainer}>{meta.error}</div>
-            ) : null}
-          </div>
-      </div>
-    </>
-  );
-};
-
- // Styled components ....
- const StyledSelect = styled.select`
-   color: black;
-   border: 1px solid black;
-   padding: 10px;
-   width: 400px;
-   border-radius: 5px;
-   outline: none;
-
- `;
- 
- const StyledErrorMessage = styled.div`
-   color: black;
- `;
- 
- const StyledLabel = styled.label`
-  color: black;
- `;
-
-const MySelect = ({ label, ...props }) => {
-  const [field, meta] = useField(props);
-  return (
-    <>
-      <div style={styles.inputContainer}>
-        <div style={styles.inputStyle}>
-          <StyledLabel htmlFor={props.id || props.name}>{label}</StyledLabel>
-          <StyledSelect {...field} {...props} />
-          {meta.touched && meta.error ? (
-          <div className="error" style={styles.errorContainer}>{meta.error}</div>
+            <div className="error" style={styles.errorContainer}>{meta.error}</div>
           ) : null}
         </div>
-      </div>
-    </>
-  );
-};
+        </div>
+      </>
+    );
+  };
 
-const MyCostInput = ({ label, ...props }) => {
-  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-  // which we can spread on <input> and also replace ErrorMessage entirely.
-  const [field, meta] = useField(props);
+  const MyTextInput = ({ label, ...props }) => {
+    // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
+    // which we can spread on <input> and also replace ErrorMessage entirely.
+    const [field, meta] = useField(props);
+    return (
+      <>
+        <div style={styles.inputContainer}>
+  
+          <div style={styles.inputStyle}>
+            <label htmlFor={props.id || props.name}>{label}:</label>
+            <input className="text-input" {...field} {...props} 
+              style={{
+                outline: "none",
+                width: "100%",
+                height: 50,
+                borderRadius: 5,
+                padding: 10,
+              }}
+            />
+            {meta.touched && meta.error ? (
+            <div className="error" style={styles.errorContainer}>{meta.error}</div>
+              ) : null}
+            </div>
+        </div>
+      </>
+    );
+  };
+  
 
-  // console.log(...field);
-  return (
-    <>
-      <div style={styles.inputContainer}>
-
-      <div style={styles.inputStyle}>
-        <label htmlFor={props.id || props.name}>{label}:</label>
-        <input className="cost-input" step="0.01" {...field} {...props}
-          style={{
-            outline: "none",
-            width: "100%",
-            height: 50,
-            borderRadius: 5,
-            padding: 10,
-          }}
-        />
-        {meta.touched && meta.error ? (
-          <div className="error" style={styles.errorContainer}>{meta.error}</div>
-        ) : null}
-      </div>
-      </div>
-    </>
-  );
-};
-
-
-const CreateItineraryForm = (props) => {
-
-  return (
+const CreateItinForm = (props) => (
+  <div style={{display: "flex", flexDirection: "column",}}>
+    <h6>Create schedule</h6>
     <Formik
-      initialValues={{
-        destinationId: props.destinationId,
-        day: '',
-        body: [],
-      }}
+      initialValues={
+        {
+            destination_id: props.destinationId,
+            day: '',
+            schedules: [
+                {
+                title: "",
+                description: "",
+                hour: '',
+                minute:'',
+                cost: '',
+                }
+            ]
+        }}
 
-      validationSchema={Yup.object({
-        destinationId: Yup.number()
-          // .max(255, 'Must be 255 characters or less')
-          .required('Required'),
-        day: Yup.number()
-          .min(0, 'Must be more than 0'),
-        // body: 
-        // transMode: Yup.string()
-        //   .oneOf(
-        //     ['FLIGHT', 'TRAIN', 'BUS', 'OTHER'],
-        //     'Invalid Transportation Mode'
-        //   )
-        //   .required('Required'),
-        // transOrigin: Yup.string()
-        //   .required('Required'),
-        // transDestination: Yup.string()
-        //   .required('Required'),
-        // transDepartureDate: Yup.date()
-        //   .min(new Date(), "Date cannot be in the past"),
-        // transDepartureHour: Yup.number()
-        //   .positive('Must be a positive integer')
-        //   .min(0, 'Must be more than 0')
-        //   .max(23, 'Must be less than 23'),
-        // transDepartureMin: Yup.number()
-        //   .positive('Must be a positive integer')
-        //   .min(0, 'Must be more than 0')
-        //   .max(59, 'Must be less than 59'),
-        // transArrivalDate: Yup.date()
-        //   .min(Yup.ref('transDepartureDate'), 'Must be after Departure date'),
-        // transArrivalHour: Yup.number()
-        //   .positive('Must be a positive integer')
-        //   .min(0, 'Must be more than 0')
-        //   .max(23, 'Must be less than 23'),
-        // transArrivalMin: Yup.number()
-        //   .positive('Must be a positive integer')
-        //   .min(0, 'Must be more than 0')
-        //   .max(59, 'Must be less than 59'),
-        // transCost: Yup.number()
-        //     .min(0, 'Must be more than 0'),
-        // transBookingID: Yup.string()
-        //     .max(20, 'Must be 20 characters or less'),
-        // transOperator: Yup.string()
-        //     .max(100, 'Must be 100 characters or less')
-      })}
-
-      onSubmit={(values, { setSubmitting }) => {
-        console.log(values);
-
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400)
-        props.onCreateTrans(values);
+        validationSchema={Yup.object({
+            day: Yup.number()
+              .min(0, 'Must be more than 0'),
+            schedules: Yup.array()
+                .of(
+                    Yup.object().shape({
+                        title: Yup.string().max(255, 'Characters must not be more than 255'),
+                        description: Yup.string().max(255, 'Characters must not be more than 255'),
+                        hour: Yup.number().min(0, 'Must be more than 0').max(23, 'Must be less than 23'),
+                        minute: Yup.number().min(0, 'Must be more than 0').max(59, 'Must be less than 59'),
+                        cost: Yup.number().positive('Must be more than 0'),
+                    })
+                )
+            })}
+      onSubmit={async values => {
+        await new Promise(r => setTimeout(r, 500));
+        alert(JSON.stringify(values, null, 2));
+        props.onCreateItin(values);
       }}
     >
-      <Form >
+      {({ values }) => (
+        <Form>
 
-        <ReadOnlyTextInput
-          label="Destination ID"
-          name="destinationId"
-          type="text"
-          placeholder="Enter id here"
-        />
+            <ReadOnlyTextInput
+                label="Destination ID"
+                name="destination_id"
+                type="text"
+                placeholder="Enter id here"
+            />
 
-        <MySelect label="Transport Mode" name="transMode">
-          <option value="">Select a transportation mode</option>
-          <option value="FLIGHT">FLIGHT</option>
-          <option value="TRAIN">TRAIN</option>
-          <option value="BUS">BUS</option>
-          <option value="OTHER">OTHER</option>
-        </MySelect>
+            <MyTextInput
+                label="Itinerary Day"
+                name="day"
+                type="number"
+                placeholder="Enter the day here"
+            />      
 
-        <ItinArrayForm />
+          <FieldArray name="schedules">
+            {({ insert, remove, push }) => (
+              <div>
+                {values.schedules.length > 0 &&
+                  values.schedules.map((schedule, index) => (
+                    <div className="row" key={index} style={styles.inputContainer}>
 
-        <div style={styles.buttonContainer}>
-          <Button color="primary" type="submit" size="lg">Confirm</Button>
+                    {/* -----------x BUTTON---------------- */}
+                      <div className="col" style={{display:"flex", justifyContent: "flex-end"}}>
+                        <button
+                          type="button"
+                          className="secondary"
+                          onClick={() => remove(index)}
+                        >
+                          X
+                        </button>
+                      </div>
+
+                        {/* ------------TITLE--------------- */}
+                      <div className="col" style={styles.inputStyle}>
+                        <label htmlFor={`schedules.${index}.title`}>Title</label>
+                        <Field
+                          name={`schedules.${index}.title`}
+                          placeholder="Enter title here"
+                          type="text"
+                        />
+                        <div className="error" style={styles.errorContainer}>
+                        <ErrorMessage
+                          name={`schedules.${index}.title`}
+                          component="div"
+                          className="field-error"
+                        />
+                        </div>
+                      </div>
+
+                      {/* ------------DESC--------------- */}
+                      <div className="col" style={styles.inputStyle}>
+                        <label htmlFor={`schedules.${index}.description`}>Description</label>
+                        <Field
+                          name={`schedules.${index}.description`}
+                          placeholder="Enter description"
+                          type="text"
+                        />
+                        <div className="error" style={styles.errorContainer}>
+                        <ErrorMessage
+                          name={`schedules.${index}.description`}
+                          component="div"
+                          className="field-error"
+                        />
+                        </div>
+                      </div>
+
+                      {/* ------------HOUR--------------- */}
+                      <div className="col" style={styles.inputStyle}>
+                        <label htmlFor={`schedules.${index}.hour`}>Hour</label>
+                        <Field
+                          name={`schedules.${index}.hour`}
+                          placeholder="Enter hour here"
+                          type="number"
+                        />
+                        <div className="error" style={styles.errorContainer}>
+                        <ErrorMessage
+                          name={`schedules.${index}.hour`}
+                          component="div"
+                          className="field-error"
+                        />
+                        </div>
+                      </div>
+                      {/* ------------MIN--------------- */}
+                      <div className="col" style={styles.inputStyle}>
+                        <label htmlFor={`schedules.${index}.minute`}>Minute</label>
+                        <Field
+                          name={`schedules.${index}.minute`}
+                          placeholder="Enter minute here"
+                          type="number"
+                        />
+                        <div className="error" style={styles.errorContainer}>
+                        <ErrorMessage
+                          name={`schedules.${index}.minute`}
+                          component="div"
+                          className="field-error"
+                        />
+                        </div>
+                      </div>
+                      {/* ------------COST--------------- */}
+                      <div className="col" style={styles.inputStyle}>
+                        <label htmlFor={`schedules.${index}.cost`}>Cost</label>
+                        <Field
+                          name={`schedules.${index}.cost`}
+                          placeholder="Enter cost here"
+                          type="number"
+                        />
+                        <div className="error" style={styles.errorContainer}>
+                        <ErrorMessage
+                          name={`schedules.${index}.cost`}
+                          component="div"
+                          className="field-error"
+                        />
+                        </div>
+                      </div>
+
+                    </div>
+                  ))}
+
+                  {/* -----------ADD FRIEND----------- */}
+                <button
+                  type="button"
+                  className="secondary"
+                  onClick={() => push({ title: "",
+                  description: "",
+                  hour: '',
+                  minute:'',
+                  cost: '', })}
+                >
+                  Add Activity
+                </button>
+              </div>
+            )}
+          </FieldArray>
+
+          <div style={styles.buttonContainer}>
+          <Button color="primary" type="submit" size="lg">Submit</Button>
           {/* <button type="submit">Register</button> */}
-        </div>
-      </Form>
+            </div>
 
+          {/* <button type="submit">Invite</button> */}
+        </Form>
+      )}
     </Formik>
-  );
-};
+  </div>
+);
 
 const styles = {
-  buttonContainer: {
-    // border: "1px solid black",
-    
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    buttonContainer: {
+      // border: "1px solid black",
+      
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+  
+      // margin: 20,
+      // padding: 20,
+    },
+  
+    inputContainer: {
+      border: "1px solid green",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 20,
+    //   width: 600,
+  
+      padding: 20,
+  
+    },
+  
+    inputStyle: {
+      // border: "2px solid blue",
+      width: 400,
+      // height: 50,
+      borderRadius: 10,
+      // overflow: "hidden",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      // padding: 10,
+    },
+  
+    errorContainer: {
+      // border: "1px solid red",
+      color: "red"
+    },
+  }
 
-    // margin: 20,
-    // padding: 20,
-  },
+  const mapStateToProps = (store) => ({
+    // getCreateAccData: Actions.getCreateAccData(store),
+  })
+  
+  const mapDispatchToProps = {
+    onCreateItin: Actions.createItin,
+  }
 
-  inputContainer: {
-    // border: "1px solid green",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 20,
-    width: 600,
-
-    padding: 20,
-
-  },
-
-  inputStyle: {
-    // border: "2px solid blue",
-    width: 400,
-    // height: 50,
-    borderRadius: 10,
-    // overflow: "hidden",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    // padding: 10,
-  },
-
-  errorContainer: {
-    // border: "1px solid red",
-    color: "red"
-  },
-}
-
-const mapStateToProps = (store) => ({
-  // getCreateAccData: Actions.getCreateAccData(store),
-})
-
-const mapDispatchToProps = {
-  onCreateTrans: Actions.createTrans,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateItineraryForm);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateItinForm);
