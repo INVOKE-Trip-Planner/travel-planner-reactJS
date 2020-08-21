@@ -27,6 +27,20 @@ const AddTripForm = props => {
     }
   }, [props.getGetAllData])
 
+  const postProcessValue = (values) => {
+    
+    values['destinations'].forEach(destination => {
+        if (destination['start_date'] === '') {
+            delete destination['start_date'];
+        }
+        if (destination['end_date'] === '') {
+          delete destination['end_date'];
+      }
+    })
+
+    return values;
+  }
+
   return (
     <>
       <Formik
@@ -78,11 +92,10 @@ const AddTripForm = props => {
             .required('Please add a destination'),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            // alert(JSON.stringify(values, null, 2));
-            props.onCreateTrip(values);
-            setSubmitting(false);
-          }, 400);
+          values = postProcessValue(values);
+          // alert(JSON.stringify(values, null, 2));
+          props.onCreateTrip(values);
+          setSubmitting(false);
         }}
       >
         {/* {(formikProps) => ( */}
