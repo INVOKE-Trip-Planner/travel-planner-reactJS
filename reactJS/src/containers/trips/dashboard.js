@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Button, Spinner } from 'reactstrap';
+import { Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Button, Spinner, ButtonGroup } from 'reactstrap';
 // import reducers from "../../reducers";
 
 import { connect } from 'react-redux';
@@ -106,59 +106,42 @@ class Dashboard extends React.Component {
     render() {
         return(
             <> 
-                <Container className="themed-container" fluid="lg" style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems:"center", padding: 0, margin: "0 auto"}}>
+                <Container className="themed-container" fluid="xl" style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems:"center", padding: 0, margin: "0 auto"}}>
 
-                    {/* <Row style={{width: "100%", height: "100%", border: "1px solid green", margin: 0, padding: 0}} xl="12"> */}
-                        {/* <Col md="2" lg="2" xl="2" style={{padding: 0, margin: 0}}> */}
-                            {/* ---------------------------------------------Sidebar--------------------------------------------------------------------------- */}
-                            {/* <Container className="themed-container" style={{border: "5px solid blue", margin: 0, padding: 0, display:"flex",flexDirection:"column",justifyContent: "center"}} fluid={true}>
-                                <h1>Sidebar</h1>
-                                <Row>
-                                    <Col xs="4" sm="4" md="12" lg="12">
-                                        <div style={styles.sidebarBox}>
-                                            <p>Accommodations</p>
-                                        </div>
-                                    </Col>
-                                    <Col xs="4" sm="4" md="12" lg="12">
-                                        <div style={styles.sidebarBox}>
-                                            <p>Transports</p>
-                                        </div>
-                                    </Col>
-                                    <Col xs="4" sm="4" md="12" lg="12">
-                                        <div style={styles.sidebarBox}>
-                                            <p>Itineraries</p>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </Container> */}
-                        {/* </Col> */}
-
-                        {/* <Col md="10" lg="10" xl="10" style={{padding: 0, margin: 0}}> */}
                             {/*-------------------------Dashboard------------------------------------------------------------------------------------------------- */}
-                            <Container className="themed-container" style={{border: "5px solid red", textAlign:"center", margin: 0, padding: 0}} fluid={true}  >
+                            <Container className="themed-container" style={{ textAlign:"center", margin: 0, padding: 0}} fluid={true}  >
 
-                                <h1>Dashboard</h1>
+                                <div style={{margin: 40,}}>
+                                    <h1>Dashboard</h1>
+                                </div>
 
                                 {/* ------------------------DATE FILTER---------------------------- */}
-                                <div style={styles.selectContainer}>
+                                {/* <div style={styles.selectContainer}>
                                     <button style={styles.selectButton}>Upcoming</button>
                                     <button style={styles.selectButton}>Past Trips</button>
+                                </div> */}
+
+                                <div style={{margin: 40,}}>
+                                <ButtonGroup>
+                                    <Button >Upcoming</Button>
+                                    <Button >Past Trips</Button>
+                                </ButtonGroup>
                                 </div>
 
                                 {this.state.loading ? (
                                     
-                                <Row style={{justifyContent: "center", alignItems: "center"}}>
+                                <Row style={{height: "40vh", justifyContent: "center", alignItems: "center"}}>
                                 
                                     <Spinner animation="border" role="status">
                                         <span className="sr-only">Loading...</span>
                                     </Spinner>
                                 </Row>) : (
 
-                                <Row style={{justifyContent: "center", alignItems: "center", flexWrap: "wrap"}}>
+                                <Row style={{justifyContent: "center", alignItems: "center",}}>
 
                                     {
                                         this.state.tripsList.map( list => (
-                                            <Col xs="2" md="6" lg="3" style={styles.columnStyle}>
+                                        <Col xs="2" md="6" lg="5" style={{margin: 10,}}>
 
                                                 <TripsCard
                                                     tripData={list}
@@ -171,12 +154,13 @@ class Dashboard extends React.Component {
                                                     tripTotal={list.total}
                                                     tripUsers={list.users}
                                                     tripBanner={list.trip_banner}
-                                                    onClick={() => this.detailsPressed()}
+                                                    onClick={() => this.detailsPressed(list.id)}
                                                     handleEdit={ () => this.handleShowModal('EDIT', list)}
                                                     handleDelete={ () => this.handleShowModal('DELETE', list)}
+                                                
                                                 />
                                             
-                                                <div style={styles.buttonContainer}>
+                                                {/* <div style={styles.buttonContainer}>
                                                     <Button 
                                                         style={{border: "rgba(0,0,0,0.4)"}} // backgroundImage: "linear-gradient(to bottom right, #E74C3C, #B03A2E)"}}
                                                         type="submit"
@@ -185,10 +169,10 @@ class Dashboard extends React.Component {
                                                         onClick={() => this.detailsPressed(list.id)}
                                                         block
                                                     >Trip Details</Button>
-                                                </div>
-                                            </Col>
-                                        ) )
-                                    }
+                                                </div> */}
+                                                </Col>
+                                                ) )
+                                        }
 
                                 </Row>
                                 )}
@@ -219,7 +203,7 @@ class Dashboard extends React.Component {
 
 const styles = {
     columnStyle: {
-        border: "1px solid rgba(0,0,0,0.6)",
+        // border: "1px solid rgba(0,0,0,0.6)",
         borderRadius: 20,
         minWidth: 400,
         height: 400,
