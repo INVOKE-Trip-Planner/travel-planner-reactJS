@@ -257,7 +257,7 @@ class TripDetails extends React.Component {
                 <Container className="themed-container" fluid={true} style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems:"center", padding: 0, margin: "0 auto"}}>
 
                             {/*-------------------------Dashboard------------------------------------------------------------------------------------------------- */}
-                            <Container className="themed-container" style={{border: "1px solid black", borderRadius: 10, textAlign:"center", margin: 0, padding: 0,}} fluid={true} >
+                            <Container className="themed-container" style={{textAlign:"center", margin: 0, padding: 0,}} fluid={true} >
 
                                 {this.state.tripData.map( list => (
 
@@ -265,49 +265,56 @@ class TripDetails extends React.Component {
 
                                         {/* -----------------------------------------JUMBOTRON----------------------------------------------------------------------------- */}
                                         <Row style={{width: "100%", justifyContent: "center", margin: 0}}>
-                                            <Jumbotron fluid style={{width: "100%", justifyContent: "center",}}>
+                                            <Jumbotron fluid style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
                                                 <Container fluid>
-                                                    <h1 className="display-3">{list.trip_name}</h1>
-                                                    <p>From: {list.origin}</p>
-                                                    <div style={{display: "flex", justifyContent: "space-around"}}>
-                                                        <p>Start Date: {list.start_date}</p>
-                                                        <p>End Date: {list.end_date}</p>
+                                                    <div style={{marginBottom: 40,}}>
+                                                        <h1 className="display-3">{list.trip_name}</h1>
                                                     </div>
-                                                    <p>Trip Cost: RM{list.cost}</p>
+                                                    <h5>From: <strong>{list.origin}</strong></h5>
+                                                    <div style={{display: "flex", justifyContent: "space-around", width: "100%"}}>
+                                                        <h5>Start Date: <strong>{list.start_date}</strong></h5>
+                                                        <h5>End Date: <strong>{list.end_date}</strong></h5>
+                                                    </div>
+                                                    <h5>Trip Cost: <strong>RM{list.cost}</strong></h5>
                                                 </Container>
                                             </Jumbotron>
                                         </Row>
 
                                         {/* -----------------------------------FILTER------------------------------------------------------------------------------------ */}
-                                        <Row style={{display: "flex", justifyContent: "space-between", padding: 20, border: "1px solid black"}}>
-                                            <Col>
-                                            <h6>Destinations:</h6>
-                                            <ButtonGroup>                                               
-                                                { list.destinations.map( destination => (
-                                                    <Button onClick={() => this.filterLocation(destination)}>{destination.location}</Button>
-                                                ))}
-                                                <Button onClick={() => this.handleCreate("destination")}>
-                                                    <ion-icon name="create" style={{fontSize: 24}}></ion-icon>
-                                                </Button>
-                                            </ButtonGroup>
+                                        <Row style={{display: "flex", justifyContent: "space-between", padding: 5, margin: 0,}}>
+
+                                            {/* -------------------------DESTINATION FILTER-------------------------------------- */}
+                                            <Col style={{margin: 10}}>
+                                                <h6>Destinations:</h6>
+                                                <ButtonGroup>                                               
+                                                    { list.destinations.map( destination => (
+                                                        <Button onClick={() => this.filterLocation(destination)}>{destination.location}</Button>
+                                                    ))}
+                                                    <Button onClick={() => this.handleCreate("destination")}>
+                                                        <ion-icon name="create" style={{fontSize: 24}}></ion-icon>
+                                                    </Button>
+                                                </ButtonGroup>
                                             </Col>
-                                            <Col>
-                                            <h6>Category:</h6>
-                                            <ButtonGroup>
-                                                <Button  onClick={() => this.handleCategory()}>All</Button>
-                                                <Button  onClick={() => this.handleCategory("accommodation")}>Accommodations</Button>
-                                                <Button  onClick={() => this.handleCategory("transport")}>Tranports</Button>
-                                                <Button  onClick={() => this.handleCategory("itinerary")}>Itineraries</Button>
-                                            </ButtonGroup>
+
+                                            {/* -------------------------CATEGORY FILTER-------------------------------------- */}
+                                            <Col style={{margin: 10}}>
+                                                <h6>Category:</h6>
+                                                <ButtonGroup>
+                                                    <Button  onClick={() => this.handleCategory()}>All</Button>
+                                                    <Button  onClick={() => this.handleCategory("accommodation")}>Accommodations</Button>
+                                                    <Button  onClick={() => this.handleCategory("transport")}>Tranports</Button>
+                                                    <Button  onClick={() => this.handleCategory("itinerary")}>Itineraries</Button>
+                                                </ButtonGroup>
                                             </Col>
                                         </Row>
                                         
                                         {/* --------------------ACCOMMODATIONS------------------------------------------ */}
                                         { (this.state.categorySelectAll || this.state.categorySelectAcc) &&
 
-                                            <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+                                            <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, marginBottom: 20,}}>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
+        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
                                                     <div style={styles.categoryTitleContainer}>
 
                                                         <h4>Accommodations</h4>
@@ -317,14 +324,14 @@ class TripDetails extends React.Component {
 
                                                 {this.state.loading ? (
 
-                                                <Row style={{justifyContent: "center", alignItems: "center",}}>
+                                                <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
                                         
                                                     <Spinner animation="border" role="status">
                                                         <span className="sr-only">Loading...</span>
                                                     </Spinner>
                                                 </Row>) : (
 
-                                                <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+                                                <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0}}>
 
                                                         { this.state.filterLocation && (
                                                             
@@ -358,9 +365,10 @@ class TripDetails extends React.Component {
 
                                         {(this.state.categorySelectAll || this.state.categorySelectTrans) && 
 
-                                            (<Row style={{width: "100%", justifyContent: "center", margin: 0}}>
+                                            (<Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, marginBottom: 20,}}>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
+        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
                                                     <div style={styles.categoryTitleContainer}>
                                                         <h4>Transports</h4>
                                                         <button style={styles.selectButton} onClick={() => this.handleCreate("transport")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
@@ -369,19 +377,19 @@ class TripDetails extends React.Component {
 
                                                 {this.state.loading ? (
 
-                                                    <Row style={{justifyContent: "center", alignItems: "center"}}>
+                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
                                                         <Spinner animation="border" role="status">
                                                             <span className="sr-only">Loading...</span>
                                                         </Spinner>
                                                     </Row>) : (
 
-                                                    <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+                                                    <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
                                                         { this.state.filterLocation && (
 
                                                             this.state.filterLocationData.transports.map( transport => (
                                                                 <CardDeck style={styles.cardDeckStyle}>
-                                                                    <div style={{height: "100vh"}}>
+                                                                    {/* <div style={{height: "100vh"}}> */}
                                                                     <Transport
                                                                         transId = {transport.id}
                                                                         transMode = {transport.mode}
@@ -397,7 +405,7 @@ class TripDetails extends React.Component {
                                                                         transOperator = {transport.operator}
                                                                         transCost = {transport.cost}
                                                                     />
-                                                                    </div>
+                                                                    {/* </div> */}
                                                                 </CardDeck>
                                                             ))
                                                         )}
@@ -412,9 +420,10 @@ class TripDetails extends React.Component {
 
                                         {(this.state.categorySelectAll || this.state.categorySelectItin) && 
 
-                                            <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+                                            <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, marginBottom: 20,}}>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
+        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
 
                                                     <div style={styles.categoryTitleContainer}>
                                                         <h4>Itineraries</h4>
@@ -424,14 +433,14 @@ class TripDetails extends React.Component {
 
                                                 {this.state.loading ? (
 
-                                                    <Row style={{justifyContent: "center", alignItems: "center"}}>
+                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
 
                                                         <Spinner animation="border" role="status">
                                                             <span className="sr-only">Loading...</span>
                                                         </Spinner>
                                                     </Row>) : (
 
-                                                    <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+                                                    <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
                                                         { this.state.filterLocation && (
 
@@ -458,24 +467,32 @@ class TripDetails extends React.Component {
                                 }
                             </Container>
 
-                                    {/* --------------------------------------MODALS FOR CREATE FORMS----------------------------------- */}
+                {/* --------------------------------------MODALS FOR CREATE FORMS----------------------------------- */}
+
+                {/* -----------------------------------CREATE DESTINATION------------------------------------- */}
                 <CreateDestModal 
                     isOpen={this.state.openModalDest}
                     toggle={() => this.toggle()}
                     tripData={this.state.tripData}
                 />
+
+                {/* -----------------------------------CREATE ACCOMMODATION------------------------------------- */}
                 <CreateAccModal 
                     isOpen={this.state.openModalAcc}
                     toggle={() => this.toggle()}
                     destinationId = {this.state.filterLocationData.id}
                     // tripData = {this.state.filterLocationData.id}
                 />
+
+                {/* -----------------------------------CREATE TRANSPORT------------------------------------- */}
                 <CreateTransModal 
                     isOpen={this.state.openModalTrans}
                     toggle={() => this.toggle()}
                     destinationId = {this.state.filterLocationData.id}
                     // tripData = {this.state.filterLocationData.id}
                 />
+
+                {/* -----------------------------------CREATE ITINERARY------------------------------------- */}
                 <CreateItinModal 
                     isOpen={this.state.openModalItin}
                     toggle={() => this.toggle()}
@@ -533,11 +550,12 @@ const styles = {
         // width: "80%",
         // height: 40,
         backgroundColor: "white",
-        margin: 20,
-        padding: 20,
+        margin: 5,
+        padding: 5,
         // overflow: "hidden",
-        borderRadius: 10,
-        // border: "1px solid rgba(0,0,0,0.4)",
+        // borderRadius: 10,
+        // borderTop: "1px solid rgba(0,0,0,0.4)",
+        // borderBottom: "1px solid rgba(0,0,0,0.4)",
 
         display: "flex",
         flexDirection: "row",

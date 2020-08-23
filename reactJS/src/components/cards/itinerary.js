@@ -5,7 +5,7 @@ import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, 
 import { connect } from "react-redux";
 import Actions from "actions";
 
-import ItinArrayForm from "components/forms/itinerary/itinArray.js";
+import EditItinForm from "components/forms/itinerary/EditItinForm.js";
 
 class Itinerary extends React.Component {
 
@@ -116,6 +116,7 @@ class Itinerary extends React.Component {
                 </CardFooter>
             </Card>
 
+                {/* -------------------------EDIT ITIN MODAL------------------------------------ */}
                 <Modal 
                         isOpen={this.state.isOpen} 
                         centered={true}
@@ -126,7 +127,8 @@ class Itinerary extends React.Component {
                 >
                     <ModalHeader></ModalHeader>
                     <ModalBody>
-                        <ItinArrayForm 
+                        {/* ------------ITINERARY FORM---------------------------------- */}
+                        <EditItinForm 
                             itinId={this.state.itinId}
                             itinDay={this.state.itinDay}
                             itinScheduleData={this.state.scheduleData.filter(schedule => (schedule.itinerary_id === this.props.itinId) && schedule)}

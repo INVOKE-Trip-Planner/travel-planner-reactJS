@@ -112,7 +112,7 @@ class Dashboard extends React.Component {
                             <Container className="themed-container" style={{ textAlign:"center", margin: 0, padding: 0}} fluid={true}  >
 
                                 <div style={{margin: 40,}}>
-                                    <h1>Dashboard</h1>
+                                    <h1>Your Trips</h1>
                                 </div>
 
                                 {/* ------------------------DATE FILTER---------------------------- */}
