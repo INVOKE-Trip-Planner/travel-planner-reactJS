@@ -67,25 +67,31 @@ const ReadOnlyTextInput = ({ label, ...props }) => {
 
 const ItinArrayForm = (props) => (
   <div style={{display: "flex", flexDirection: "column",}}>
-    <h6>Create schedule</h6>
+    {/* <h6>Edit schedule {console.log("itin data", props.itinScheduleData.map(itin => itin.title))}</h6> */}
     <Formik
       initialValues={
+      // initialValues={props.itinScheduleData.map
         {
-            destinationId: props.destinationId,
-            day: '',
+            itinId: props.itinId,
+            day: props.itinDay,
             schedules: [
-                {
-                title: "",
-                description: "",
-                hour: '',
-                minute:'',
-                cost: '',
-                }
+              props.itinScheduleData.map(itin => (
+              {
+                title: itin.title,
+                description: itin.description,
+                hour: itin.hour,
+                minute: itin.minute,
+                cost: itin.cost,
+              }
+              ))
             ]
-        }}
+        }
+      }
+
+      enableReinitialize={true}
 
         validationSchema={Yup.object({
-            destinationId: Yup.number()
+            itinId: Yup.number()
               .max(255, 'Must be 255 characters or less'),
             //   .required('Required'),
             day: Yup.number()
@@ -106,12 +112,12 @@ const ItinArrayForm = (props) => (
         alert(JSON.stringify(values, null, 2));
       }}
     >
-      {({ values }) => (
+      {({ values }) => ( 
         <Form>
 
             <ReadOnlyTextInput
-                label="Destination ID"
-                name="destinationId"
+                label="Itinerary ID"
+                name="itinId"
                 type="text"
                 placeholder="Enter id here"
             />
@@ -143,9 +149,10 @@ const ItinArrayForm = (props) => (
 
                         {/* ------------TITLE--------------- */}
                       <div className="col" style={styles.inputStyle}>
-                        <label htmlFor={`schedules.${index}.title`}>Title</label>
+                        <label htmlFor={`schedule[${index}].title`}>Title</label>
                         <Field
-                          name={`schedules.${index}.title`}
+                          name={`schedule[${index}].title`}
+                          // name={console.log(schedule[index].title)}
                           placeholder="Enter title here"
                           type="text"
                         />
@@ -160,9 +167,9 @@ const ItinArrayForm = (props) => (
 
                       {/* ------------DESC--------------- */}
                       <div className="col" style={styles.inputStyle}>
-                        <label htmlFor={`schedules.${index}.desc`}>Description</label>
+                        <label htmlFor={`schedules[${index}].desc`}>Description</label>
                         <Field
-                          name={`schedules.${index}.desc`}
+                          name={`schedule.description[${index}]`}
                           placeholder="Enter description"
                           type="text"
                         />
@@ -193,7 +200,8 @@ const ItinArrayForm = (props) => (
                       </div>
                       {/* ------------MIN--------------- */}
                       <div className="col" style={styles.inputStyle}>
-                        <label htmlFor={`schedules.${index}.minute`}>Minute</label>
+                      {/* <label htmlFor={`schedules.${index}.minute`}>Minute{console.log("values", values.schedules[0].map(schedule => schedule))}</label> */}
+                        <label htmlFor={`schedules.${index}.minute`}>Minute{console.log("values", schedule)}</label>
                         <Field
                           name={`schedules.${index}.minute`}
                           placeholder="Enter minute here"
@@ -227,11 +235,11 @@ const ItinArrayForm = (props) => (
                     </div>
                   ))}
 
-                  {/* -----------ADD FRIEND----------- */}
+                  {/* -----------ADD ACTIVITY----------- */}
                 <button
                   type="button"
                   className="secondary"
-                  onClick={() => push({ name: "", email: "" })}
+                  onClick={() => push({ title: "", description: "", hour: "", minute: "", cost: ""})}
                 >
                   Add Activity
                 </button>

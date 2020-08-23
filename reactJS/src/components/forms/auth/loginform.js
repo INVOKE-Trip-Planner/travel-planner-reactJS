@@ -22,7 +22,7 @@ const MyTextInput = ({ label, ...props }) => {
           style={{
             outline: "none",
             width: "100%",
-            height: 50,
+            height: 40,
             borderRadius: 5,
             padding: 10,
           }}
@@ -99,19 +99,20 @@ const styles = {
   inputContainer: {
     // border: "1px solid green",
     display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "space-center",
     marginBottom: 20,
-    width: 600,
+    width: "100%",
 
-    padding: 20,
+    padding: 10,
 
   },
 
   inputStyle: {
     // border: "2px solid blue",
-    width: 400,
+    minWidth: 300,
+    maxWidth: 375,
     // height: 50,
     borderRadius: 10,
     // overflow: "hidden",

@@ -139,6 +139,7 @@ class Dashboard extends React.Component {
 
                                 <h1>Dashboard</h1>
 
+                                {/* ------------------------DATE FILTER---------------------------- */}
                                 <div style={styles.selectContainer}>
                                     <button style={styles.selectButton}>Upcoming</button>
                                     <button style={styles.selectButton}>Past Trips</button>
@@ -171,8 +172,8 @@ class Dashboard extends React.Component {
                                                     tripUsers={list.users}
                                                     tripBanner={list.trip_banner}
                                                     onClick={() => this.detailsPressed()}
-                                                    handleEdit={ () => this.handleShowModal('EDIT', list) }
-                                                    handleDelete={ () => this.handleShowModal('DELETE', list) }
+                                                    handleEdit={ () => this.handleShowModal('EDIT', list)}
+                                                    handleDelete={ () => this.handleShowModal('DELETE', list)}
                                                 />
                                             
                                                 <div style={styles.buttonContainer}>

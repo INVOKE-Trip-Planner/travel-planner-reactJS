@@ -29,7 +29,7 @@ class TripsCard extends React.Component {
         return (
             <>
                 {/* TRIP BOX */}
-                <div style={{width: "100%", height: "100%", borderRadius: 2, borderColor: "red"}}>
+                <div style={{width: "100%", height: "100%", borderRadius: 20, border: "1px solid red"}}>
 
                     {/* IMAGE BOX */}
                     <div style={styles.imageContainer}>

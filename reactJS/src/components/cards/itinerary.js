@@ -16,24 +16,28 @@ class Itinerary extends React.Component {
             scheduleData: this.props.itinScheduleData,
             isOpen: false,
             itinId: this.props.itinId,
+            itinDay: this.props.itinDay,
             dropDownOpen: false,
         }
     }
 
+    // sort hour min
     componentDidMount() {
+            // console.log("schedule data", this.state.scheduleData)
+            // console.log("schedule data", this.state.scheduleData.filter(schedule => (schedule.itinerary_id === this.props.itinId) && schedule))
 
-        var list = this.state.scheduleData.map( data => data.hour);
+    //     var list = this.state.scheduleData.map( data => data.hour);
 
-        console.log("sort Schedule data", list)
+    //     console.log("sort Schedule data", list)
 
-        let keys = Object.keys(list)
+    //     let keys = Object.keys(list)
 
-        console.log("sorted", keys.sort((a,b) => { return list[a] - list[b] })
-        .reduce( (prev,curr,i) => {
-            prev[i] = list[curr]
-            return prev
-        }, {} )
-        );
+    //     console.log("sorted", keys.sort((a,b) => { return list[a] - list[b] })
+    //     .reduce( (prev,curr,i) => {
+    //         prev[i] = list[curr]
+    //         return prev
+    //     }, {} )
+    //     );
     }
 
     handleEdit() {
@@ -124,6 +128,8 @@ class Itinerary extends React.Component {
                     <ModalBody>
                         <ItinArrayForm 
                             itinId={this.state.itinId}
+                            itinDay={this.state.itinDay}
+                            itinScheduleData={this.state.scheduleData.filter(schedule => (schedule.itinerary_id === this.props.itinId) && schedule)}
                         />
                     </ModalBody>
                     <ModalFooter>
@@ -138,6 +144,7 @@ const styles = {
     removeStrap: {
         margin: 0,
         padding: 0,
+        minWidth: 450,
         maxWidth: 500,
         borderRadius: 20,
         maxHeight: 450,
