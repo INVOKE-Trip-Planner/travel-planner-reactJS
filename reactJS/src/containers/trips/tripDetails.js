@@ -10,6 +10,7 @@ import Accommodation from "../../components/cards/accommodation";
 import Transport from "../../components/cards/transport";
 import Itinerary from "../../components/cards/itinerary";
 
+import CreateDestModal from "components/modals/create/createDest.js";
 import CreateAccModal from "components/modals/create/createAcc.js";
 import CreateTransModal from "components/modals/create/createTrans.js";
 import CreateItinModal from "components/modals/create/createItin.js";
@@ -22,9 +23,12 @@ class TripDetails extends React.Component {
             tripData: this.props.history.location.state.data,
             tripId: this.props.history.location.state.data[0].id,
             destinationId: this.props.history.location.state.data[0].destinations[0].id,
+
+            openModalDest: false,
             openModalAcc: false,
             openModalTrans: false,
             openModalItin: false,
+
             isOpen: false,
             filterGetAllData: [],
             loading: true,
@@ -63,7 +67,7 @@ class TripDetails extends React.Component {
                 this.setState({
                     // filterGetAllData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
                     tripData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
-                    // filterLocationData: this.state.tripData[0].destinations[0],
+                    // filterLocationData: getGetAllData.data.filter( list => (list.id === this.state.tripId) && list ),
                     filterLocationId: this.state.destinationId,
                     loading: false,
                     filterLocation: true,
@@ -192,6 +196,12 @@ class TripDetails extends React.Component {
     handleCreate(category = "") {
 
         switch(category) {
+            case "destination":
+
+              this.setState({
+                  openModalDest: true,
+              })
+              break;
             case "accommodation":
 
               this.setState({
@@ -223,6 +233,7 @@ class TripDetails extends React.Component {
     toggle() {
 
         this.setState({
+            openModalDest: false,
             openModalAcc: false,
             openModalTrans: false,
             openModalItin: false,
@@ -245,303 +256,243 @@ class TripDetails extends React.Component {
             <>
                 <Container className="themed-container" fluid={true} style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems:"center", padding: 0, margin: "0 auto"}}>
 
-                    {/* <Row style={{width: "100%", height: "100%", margin: 0, padding: 0}} xl="12"> */}
-                        {/* <Col md="2" lg="2" xl="2" style={{padding: 0, margin: 0}}> */}
-                            {/* ---------------------------------------------Sidebar--------------------------------------------------------------------------- */}
-                            {/* <Container className="themed-container" style={{border: "5px solid blue", margin: 0, padding: 0, display:"flex",flexDirection:"column",justifyContent: "center"}} fluid={true}>
-                                <h1>Sidebar</h1>
-                                <Row>
-                                    <Col xs="4" sm="4" md="12" lg="12">
-                                        <div style={styles.sidebarBox}>
-                                            <p>Accommodations</p>
-                                        </div>
-                                    </Col>
-                                    <Col xs="4" sm="4" md="12" lg="12">
-                                        <div style={styles.sidebarBox}>
-                                            <p>Transports</p>
-                                        </div>
-                                    </Col>
-                                    <Col xs="4" sm="4" md="12" lg="12">
-                                        <div style={styles.sidebarBox}>
-                                            <p>Itineraries</p>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </Col> */}
-
-                        {/* <Col md="10" lg="10" xl="10" style={{padding: 0, margin: 0}}> */}
                             {/*-------------------------Dashboard------------------------------------------------------------------------------------------------- */}
-                            <Container className="themed-container" style={{border: "1px solid black", borderRadius: 10, textAlign:"center", margin: 0, padding: 0,}} fluid={true} >
+                            <Container className="themed-container" style={{textAlign:"center", margin: 0, padding: 0,}} fluid={true} >
 
-                                <h3>Trip Details</h3>
                                 {this.state.tripData.map( list => (
+
                                     <div style={{width: "100%", justifyContent: "center"}}>
 
                                         {/* -----------------------------------------JUMBOTRON----------------------------------------------------------------------------- */}
                                         <Row style={{width: "100%", justifyContent: "center", margin: 0}}>
-                                            <Jumbotron fluid style={{width: "100%", justifyContent: "center",}}>
+                                            <Jumbotron fluid style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
                                                 <Container fluid>
-                                                    <h1 className="display-3">{list.trip_name}</h1>
-                                                    <p>From: {list.origin}</p>
-                                                    <div style={{display: "flex", justifyContent: "space-around"}}>
-                                                        <p>Start Date: {list.start_date}</p>
-                                                        <p>End Date: {list.end_date}</p>
+                                                    <div style={{marginBottom: 40,}}>
+                                                        <h1 className="display-3">{list.trip_name}</h1>
                                                     </div>
-                                                    <p>Trip Cost: RM{list.cost}</p>
+                                                    <h5>From: <strong>{list.origin}</strong></h5>
+                                                    <div style={{display: "flex", justifyContent: "space-around", width: "100%"}}>
+                                                        <h5>Start Date: <strong>{list.start_date}</strong></h5>
+                                                        <h5>End Date: <strong>{list.end_date}</strong></h5>
+                                                    </div>
+                                                    <h5>Trip Cost: <strong>RM{list.cost}</strong></h5>
                                                 </Container>
                                             </Jumbotron>
                                         </Row>
 
                                         {/* -----------------------------------FILTER------------------------------------------------------------------------------------ */}
-                                        <Row style={{display: "flex", justifyContent: "space-between", padding: 20, border: "1px solid black"}}>
-                                            <Col>
-                                            <h6>Destinations:</h6>
-                                            <ButtonGroup>                                               
-                                                { list.destinations.map( destination => (
-                                                    <Button onClick={() => this.filterLocation(destination)}>{destination.location}</Button>
-                                                ))}
-                                            </ButtonGroup>
+                                        <Row style={{display: "flex", justifyContent: "space-between", padding: 5, margin: 0,}}>
+
+                                            {/* -------------------------DESTINATION FILTER-------------------------------------- */}
+                                            <Col style={{margin: 10}}>
+                                                <h6>Destinations:</h6>
+                                                <ButtonGroup>                                               
+                                                    { list.destinations.map( destination => (
+                                                        <Button onClick={() => this.filterLocation(destination)}>{destination.location}</Button>
+                                                    ))}
+                                                    <Button onClick={() => this.handleCreate("destination")}>
+                                                        <ion-icon name="create" style={{fontSize: 24}}></ion-icon>
+                                                    </Button>
+                                                </ButtonGroup>
                                             </Col>
-                                            <Col>
-                                            <h6>Category:</h6>
-                                            <ButtonGroup>
-                                                <Button  onClick={() => this.handleCategory()}>All</Button>
-                                                <Button  onClick={() => this.handleCategory("accommodation")}>Accommodations</Button>
-                                                <Button  onClick={() => this.handleCategory("transport")}>Tranports</Button>
-                                                <Button  onClick={() => this.handleCategory("itinerary")}>Itineraries</Button>
-                                            </ButtonGroup>
+
+                                            {/* -------------------------CATEGORY FILTER-------------------------------------- */}
+                                            <Col style={{margin: 10}}>
+                                                <h6>Category:</h6>
+                                                <ButtonGroup>
+                                                    <Button  onClick={() => this.handleCategory()}>All</Button>
+                                                    <Button  onClick={() => this.handleCategory("accommodation")}>Accommodations</Button>
+                                                    <Button  onClick={() => this.handleCategory("transport")}>Tranports</Button>
+                                                    <Button  onClick={() => this.handleCategory("itinerary")}>Itineraries</Button>
+                                                </ButtonGroup>
                                             </Col>
                                         </Row>
                                         
                                         {/* --------------------ACCOMMODATIONS------------------------------------------ */}
                                         { (this.state.categorySelectAll || this.state.categorySelectAcc) &&
 
-                                        <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+                                            <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                        <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, marginBottom: 20,}}>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
+        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
+                                                    <div style={styles.categoryTitleContainer}>
 
-                                            <div style={styles.categoryTitleContainer}>
-                                                <h4>Accommodations</h4>
-                                                <button style={styles.selectButton} onClick={() => this.handleCreate("accommodation")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
-                                            </div>
-                                        </div>
+                                                        <h4>Accommodations</h4>
+                                                        <button style={styles.selectButton} onClick={() => this.handleCreate("accommodation")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                    </div>
+                                                </div>
 
-                                        {this.state.loading ? (
+                                                {this.state.loading ? (
 
-                                        <Row style={{justifyContent: "center", alignItems: "center"}}>
-                                
-                                            <Spinner animation="border" role="status">
-                                                <span className="sr-only">Loading...</span>
-                                            </Spinner>
-                                        </Row>) : (
+                                                <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
+                                        
+                                                    <Spinner animation="border" role="status">
+                                                        <span className="sr-only">Loading...</span>
+                                                    </Spinner>
+                                                </Row>) : (
 
-                                        <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+                                                <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0}}>
 
-                                                { this.state.filterLocation && (
+                                                        { this.state.filterLocation && (
+                                                            
+                                                            this.state.filterLocationData.accommodations.map( accommodation => (
+                                                                // <div style={{height: "100vh", border: "1px solid black"}}>
+                                                                <CardDeck style={styles.cardDeckStyle}>
+                                                                <Accommodation
+                                                                        accId = {accommodation.id}
+                                                                        accName = {accommodation.accommodation_name}
+                                                                        accBookingId = {accommodation.booking_id}
+                                                                        accCheckInDate = {accommodation.checkin_date}
+                                                                        accCheckInHour = {accommodation.checkin_hour}
+                                                                        accCheckInMin = {accommodation.checkin_minute}
+                                                                        accCheckOutDate = {accommodation.checkout_date}
+                                                                        accCheckOutHour = {accommodation.checkout_hour}
+                                                                        accCheckOutMin = {accommodation.checkout_minute}
+                                                                        accCost = {accommodation.cost}
+                                                                    />
+                                                                </CardDeck>
+                                                                // </div>
+                                                            ))
+                                                        )}
+                                                    
+                                                </Row>
 
-                                                    this.state.filterLocationData.accommodations.map( accommodation => (
-                                                        <CardDeck style={styles.cardDeckStyle}>
-                                                        <Accommodation
-                                                                accId = {accommodation.id}
-                                                                accName = {accommodation.accommodation_name}
-                                                                accBookingId = {accommodation.booking_id}
-                                                                accCheckInDate = {accommodation.checkin_date}
-                                                                accCheckInHour = {accommodation.checkin_hour}
-                                                                accCheckInMin = {accommodation.checkin_minute}
-                                                                accCheckOutDate = {accommodation.checkout_date}
-                                                                accCheckOutHour = {accommodation.checkout_hour}
-                                                                accCheckOutMin = {accommodation.checkout_minute}
-                                                                accCost = {accommodation.cost}
-                                                            />
-                                                        </CardDeck>
-                                                    ))
-                                                )}
-                                            
-
-                                                {/* {list.destinations.map( destination => 
-
-                                                    destination.accommodations.map( accommodation => (
-                                                        <CardDeck style={styles.cardDeckStyle}>
-                                                            <Accommodation
-                                                                destinationId = {destination.id}
-                                                                accId = {accommodation.id}
-                                                                accName = {accommodation.accommodation_name}
-                                                                accBookingId = {accommodation.booking_id}
-                                                                accCheckInDate = {accommodation.checkin_date}
-                                                                accCheckInHour = {accommodation.checkin_hour}
-                                                                accCheckInMin = {accommodation.checkin_minute}
-                                                                accCheckOutDate = {accommodation.checkout_date}
-                                                                accCheckOutHour = {accommodation.checkout_hour}
-                                                                accCheckOutMin = {accommodation.checkout_minute}
-                                                                accCost = {accommodation.cost}
-                                                            />
-                                                        </CardDeck>
-                                                    ) )
-                                                )} */}
-                                        </Row>
-
-                                        )}
-</Row>
-                                }
+                                            )}
+                                            </Row>
+                                        }
 
                                         {/* ----------------------------TRANSPORT------------------------------------------- */}
 
                                         {(this.state.categorySelectAll || this.state.categorySelectTrans) && 
 
-                                        (<Row style={{width: "100%", justifyContent: "center", margin: 0}}>
+                                            (<Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                            <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, marginBottom: 20,}}>
-
-                                                <div style={styles.categoryTitleContainer}>
-                                                    <h4>Transports</h4>
-                                                    <button style={styles.selectButton} onClick={() => this.handleCreate("transport")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
+        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
+                                                    <div style={styles.categoryTitleContainer}>
+                                                        <h4>Transports</h4>
+                                                        <button style={styles.selectButton} onClick={() => this.handleCreate("transport")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                        {this.state.loading ? (
+                                                {this.state.loading ? (
 
-                                            <Row style={{justifyContent: "center", alignItems: "center"}}>
+                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
+                                                        <Spinner animation="border" role="status">
+                                                            <span className="sr-only">Loading...</span>
+                                                        </Spinner>
+                                                    </Row>) : (
 
-                                                <Spinner animation="border" role="status">
-                                                    <span className="sr-only">Loading...</span>
-                                                </Spinner>
-                                            </Row>) : (
+                                                    <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                            <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+                                                        { this.state.filterLocation && (
 
-                                            { this.state.filterLocation && (
+                                                            this.state.filterLocationData.transports.map( transport => (
+                                                                <CardDeck style={styles.cardDeckStyle}>
+                                                                    {/* <div style={{height: "100vh"}}> */}
+                                                                    <Transport
+                                                                        transId = {transport.id}
+                                                                        transMode = {transport.mode}
+                                                                        transBookingId = {transport.booking_id}
+                                                                        transDepartureDate = {transport.departure_date}
+                                                                        transDepartureHour = {transport.departure_hour}
+                                                                        transDepartureMin = {transport.departure_minute}
+                                                                        transArrivalDate = {transport.arrival_date}
+                                                                        transArrivalHour = {transport.arrival_hour}
+                                                                        transArrivalMin = {transport.arrival_minute}
+                                                                        transOrigin = {transport.origin}
+                                                                        transDestination = {transport.destination}
+                                                                        transOperator = {transport.operator}
+                                                                        transCost = {transport.cost}
+                                                                    />
+                                                                    {/* </div> */}
+                                                                </CardDeck>
+                                                            ))
+                                                        )}
 
-                                                this.state.filterLocationData.transports.map( transport => (
-                                                    <CardDeck style={styles.cardDeckStyle}>
-                                                        <Transport
-                                                            transId = {transport.id}
-                                                            transMode = {transport.mode}
-                                                            transBookingId = {transport.booking_id}
-                                                            transDepartureDate = {transport.departure_date}
-                                                            transDepartureHour = {transport.departure_hour}
-                                                            transDepartureMin = {transport.departure_minute}
-                                                            transArrivalDate = {transport.arrival_date}
-                                                            transArrivalHour = {transport.arrival_hour}
-                                                            transArrivalMin = {transport.arrival_minute}
-                                                            transOrigin = {transport.origin}
-                                                            transDestination = {transport.destination}
-                                                            transOperator = {transport.operator}
-                                                            transCost = {transport.cost}
-                                                        />
-                                                    </CardDeck>
-                                                ))
-                                            )}
+                                                    </Row>
+                                                )}
 
-                                                    {/* {list.destinations.map( destination => (
-
-                                                        destination.transports.map( transport => (
-                                                            <CardDeck>
-                                                                <Transport
-                                                                    destinationId = {destination.id}
-                                                                    transId = {transport.id}
-                                                                    transMode = {transport.mode}
-                                                                    transBookingId = {transport.booking_id}
-                                                                    transDepartureDate = {transport.departure_date}
-                                                                    transDepartureHour = {transport.departure_hour}
-                                                                    transDepartureMin = {transport.departure_minute}
-                                                                    transArrivalDate = {transport.arrival_date}
-                                                                    transArrivalHour = {transport.arrival_hour}
-                                                                    transArrivalMin = {transport.arrival_minute}
-                                                                    transOrigin = {transport.origin}
-                                                                    transDestination = {transport.destination}
-                                                                    transOperator = {transport.operator}
-                                                                    transCost = {transport.cost}
-                                                                />
-                                                            </CardDeck>
-                                                        ))
-                                                    ))} */}
-                                            </Row>
-                                        )}
-
-                                        </Row>)
+                                            </Row>)
                                         }
 
                                         {/* -------------------------------ITINERARIES------------------------------------------------ */}
 
                                         {(this.state.categorySelectAll || this.state.categorySelectItin) && 
 
-                                        <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+                                            <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                            <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, marginBottom: 20,}}>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
+        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
 
-                                                <div style={styles.categoryTitleContainer}>
-                                                    <h4>Itineraries</h4>
-                                                    <button style={styles.selectButton} onClick={() => this.handleCreate("itinerary")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                    <div style={styles.categoryTitleContainer}>
+                                                        <h4>Itineraries</h4>
+                                                        <button style={styles.selectButton} onClick={() => this.handleCreate("itinerary")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                        {this.state.loading ? (
+                                                {this.state.loading ? (
 
-                                            <Row style={{justifyContent: "center", alignItems: "center"}}>
+                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
 
-                                                <Spinner animation="border" role="status">
-                                                    <span className="sr-only">Loading...</span>
-                                                </Spinner>
-                                            </Row>) : (
+                                                        <Spinner animation="border" role="status">
+                                                            <span className="sr-only">Loading...</span>
+                                                        </Spinner>
+                                                    </Row>) : (
 
-                                        <Row style={{width: "100%", justifyContent: "center", margin: 0,}}>
+                                                    <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                            { this.state.filterLocation && (
+                                                        { this.state.filterLocation && (
 
-                                                this.state.filterLocationData.itineraries.map( itinerary => (
-                                                    <CardDeck style={styles.cardDeckStyle}>
-                                                        <Itinerary 
-                                                            itinId={itinerary.id}
-                                                            itinDay={itinerary.day}
-                                                            itinScheduleData={itinerary.schedules}
-                                                            // itiCost={itinerary.cost}
-                                                        />
-                                                    </CardDeck>
-                                                ))
-                                            )}
-{/* 
-                                            {list.destinations.map( destination => (
+                                                            this.state.filterLocationData.itineraries.map( itinerary => (
+                                                                <CardDeck style={styles.cardDeckStyle}>
+                                                                    <Itinerary 
+                                                                        itinId={itinerary.id}
+                                                                        itinDay={itinerary.day}
+                                                                        itinScheduleData={itinerary.schedules}
+                                                                        // itiCost={itinerary.cost}
+                                                                    />
+                                                                </CardDeck>
+                                                            ))
+                                                        )}
+                                                    </Row>
 
-                                                destination.itineraries.map( itinerary => (
-                                                    <CardDeck>
-                                                        <Itinerary 
-                                                            itinId={itinerary.id}
-                                                            itinDay={itinerary.day}
-                                                            itinScheduleData={itinerary.schedules}
-                                                            // itiCost={itinerary.cost}
-                                                        />
-                                                    </CardDeck>
-                                                ))
-                                            ))} */}
-                                        </Row>
+                                                )}
 
-                                        )}
-
-                                        </Row>
+                                            </Row>
                                         }
 
                                     </div>
                                 ) )
                                 }
                             </Container>
-                        {/* </Col> */}
 
-                    {/* </Row> */}
+                {/* --------------------------------------MODALS FOR CREATE FORMS----------------------------------- */}
 
-                                    {/* --------------------------------------MODALS FOR CREATE FORMS----------------------------------- */}
+                {/* -----------------------------------CREATE DESTINATION------------------------------------- */}
+                <CreateDestModal 
+                    isOpen={this.state.openModalDest}
+                    toggle={() => this.toggle()}
+                    tripData={this.state.tripData}
+                />
+
+                {/* -----------------------------------CREATE ACCOMMODATION------------------------------------- */}
                 <CreateAccModal 
                     isOpen={this.state.openModalAcc}
                     toggle={() => this.toggle()}
                     destinationId = {this.state.filterLocationData.id}
                     // tripData = {this.state.filterLocationData.id}
                 />
+
+                {/* -----------------------------------CREATE TRANSPORT------------------------------------- */}
                 <CreateTransModal 
                     isOpen={this.state.openModalTrans}
                     toggle={() => this.toggle()}
                     destinationId = {this.state.filterLocationData.id}
                     // tripData = {this.state.filterLocationData.id}
                 />
+
+                {/* -----------------------------------CREATE ITINERARY------------------------------------- */}
                 <CreateItinModal 
                     isOpen={this.state.openModalItin}
                     toggle={() => this.toggle()}
@@ -599,11 +550,12 @@ const styles = {
         // width: "80%",
         // height: 40,
         backgroundColor: "white",
-        margin: 20,
-        padding: 20,
+        margin: 5,
+        padding: 5,
         // overflow: "hidden",
-        borderRadius: 10,
-        // border: "1px solid rgba(0,0,0,0.4)",
+        // borderRadius: 10,
+        // borderTop: "1px solid rgba(0,0,0,0.4)",
+        // borderBottom: "1px solid rgba(0,0,0,0.4)",
 
         display: "flex",
         flexDirection: "row",
@@ -649,6 +601,9 @@ const styles = {
     },
     cardDeckStyle: {
         margin: 10,
+        // border: "1px solid blue",
+        // overflow: "scroll"
+        // height: "100vh"
     }
 }
 

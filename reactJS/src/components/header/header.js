@@ -14,6 +14,8 @@ class Header extends React.Component {
         this.state = {
             isOpen: false,
             isLogin: false,
+            setUsername: false,
+            displayUsername: '',
         }
     }
 
@@ -28,7 +30,7 @@ class Header extends React.Component {
         const { getLoginData } = this.props;
         const { getUserSession } = this.props;
         
-        console.log("HEADER LOGIN DATA", getUserSession);
+        // console.log("HEADER LOGIN DATA", getLoginData.data.user.name);
 
         if (prevProps.getLoginData.isLoading && !getLoginData.isLoading) {
 
@@ -40,6 +42,8 @@ class Header extends React.Component {
                 // login data exist
                 this.setState({
                     isLogin: true, // => NAV CHANGES
+                    setUsername: true, // => NAV CHANGES
+                    displayUsername: getLoginData.data.user.name,
                 })
 
             } else {
@@ -93,24 +97,25 @@ class Header extends React.Component {
                                     </Nav>
                                 )}
 
-                                {/* <UncontrolledDropdown nav inNavbar>
-                                    <DropdownToggle nav caret>
-                                        Options
-                                    </DropdownToggle>
-                                    <DropdownMenu right>
-                                        <DropdownItem>
-                                            Option 1
-                                        </DropdownItem>
-                                        <DropdownItem>
-                                            Option 2
-                                        </DropdownItem>
+                                {this.state.setUsername && (
+                                    <UncontrolledDropdown nav inNavbar style={{listStyleType: "none"}}>
+                                        <DropdownToggle nav caret>
+                                            <NavbarText>
+                                                Hi {this.state.displayUsername}
+                                            </NavbarText>
+                                        </DropdownToggle>
+                                        <DropdownMenu right>
+                                            <DropdownItem>
+                                                <Link to="/profile">Profile</Link>
+                                            </DropdownItem>
                                         <DropdownItem divider />
-                                        <DropdownItem>
-                                            Reset
-                                        </DropdownItem>
-                                    </DropdownMenu>
-                                </UncontrolledDropdown> */}
-                            <NavbarText>Hi Username</NavbarText>
+                                            <DropdownItem>
+                                                <Link onClick={() => this.logoutPressed()} to="">Logout</Link>
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                    </UncontrolledDropdown>
+                                    )
+                                }
                         </Collapse>
                     </Navbar>
                 </Container>    

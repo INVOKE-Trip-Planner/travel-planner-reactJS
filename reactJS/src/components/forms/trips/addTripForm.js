@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Actions from "actions";
 import { Button } from 'reactstrap';
 
+// component did update to get prevprops
 function usePrevious(value) {
   const ref = React.useRef();
   useEffect(() => {
@@ -27,6 +28,7 @@ const AddTripForm = props => {
     }
   }, [props.getGetAllData])
 
+  // to delete empty start and end date
   const postProcessValue = (values) => {
     
     values['destinations'].forEach(destination => {
@@ -54,9 +56,9 @@ const AddTripForm = props => {
           // users: [],
           destinations: [
             {
-              location: '',
-              start_date: '',
-              end_date: '',
+              location: props.destLocation,
+              start_date: props.destStartDate,
+              end_date: props.destEndDate,
             }
           ], 
         }}
@@ -105,7 +107,7 @@ const AddTripForm = props => {
               position: 'relative',
             }}
           >
-            <h1>Create Trip</h1>
+            {/* <h1>Create Trip</h1> */}
             <Form
               style={{
                 display: 'flex',

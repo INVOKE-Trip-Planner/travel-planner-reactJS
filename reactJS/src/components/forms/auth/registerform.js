@@ -15,22 +15,23 @@ const MyTextInput = ({ label, ...props }) => {
   return (
     <>
       <div style={styles.inputContainer}>
-      <label htmlFor={props.id || props.name}>{label}:</label>
+        <label htmlFor={props.id || props.name}>{label}:</label>
 
-      <div style={styles.inputStyle}>
-        <input className="text-input" {...field} {...props} 
-          style={{
-            outline: "none",
-            width: "100%",
-            height: 50,
-            borderRadius: 5,
-            padding: 10,
-          }}
-        />
-        {meta.touched && meta.error ? (
-          <div className="error" style={styles.errorContainer}>{meta.error}</div>
-        ) : null}
-      </div>
+        <div style={styles.inputStyle}>
+          <input className="text-input" {...field} {...props} 
+            style={{
+              outline: "none",
+              width: "100%",
+              height: 40,
+              borderRadius: 5,
+              padding: 10,
+              // border: "1px solid black"
+            }}
+          />
+          {meta.touched && meta.error ? (
+            <div className="error" style={styles.errorContainer}>{meta.error}</div>
+          ) : null}
+        </div>
       </div>
     </>
   );
@@ -133,19 +134,20 @@ const styles = {
   inputContainer: {
     // border: "1px solid green",
     display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: "column",
+    alignItems: "flex-start",
     justifyContent: "space-between",
     marginBottom: 20,
-    width: 600,
+    width: "100%",
 
-    padding: 20,
+    padding: 10,
 
   },
 
   inputStyle: {
     // border: "2px solid blue",
-    width: 400,
+    minWidth: 300,
+    maxWidth: 375,
     // height: 50,
     borderRadius: 10,
     // overflow: "hidden",
@@ -156,7 +158,6 @@ const styles = {
   },
 
   errorContainer: {
-    // border: "1px solid red",
     color: "red"
   },
 }

@@ -78,10 +78,10 @@ class Transport extends React.Component {
                                     </DropdownToggle>
                                     <DropdownMenu style={styles.dropdownStyle}>
                                         <div style={styles.dropdownItemContainer} onClick={() => this.handleEdit()}>
-                                            <ion-icon name="create-outline" style={{fontSize: 24}} onClick={() => this.handleEdit()}></ion-icon>
+                                            <ion-icon name="create-outline" style={{fontSize: 24, cursor: 'pointer',}} onClick={() => this.handleEdit()}></ion-icon>
                                         </div>
                                         <div style={styles.dropdownItemContainer} >
-                                            <ion-icon name="trash-outline" style={{fontSize: 24}} onClick={() => this.handleDelete(this.state.transId)}></ion-icon>
+                                            <ion-icon name="trash-outline" style={{fontSize: 24, cursor: 'pointer',}} onClick={() => this.handleDelete(this.state.transId)}></ion-icon>
                                         </div>
                                     </DropdownMenu>
                                 </Dropdown>
