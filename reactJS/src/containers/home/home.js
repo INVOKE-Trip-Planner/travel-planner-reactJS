@@ -2,6 +2,8 @@ import React from "react";
 
 import {Container, Row, Col, Button} from "reactstrap";
 
+import {PRIMARY_COLOR, PRIMARY_COLOR_FONT} from "common/styles/index.js";
+
 import FrontPageBanner from "../../assets/images/frontpage.jpg";
 import TravelPlan1 from "../../assets/images/travel_plan1.png";
 import TravelPlan2 from "../../assets/images/travel_plan2.png";
@@ -56,7 +58,7 @@ class Home extends React.Component {
                         <div style={styles.contentContainer}>
                             <div style={styles.contentTopContainer}>
                                 <div style={styles.titleContainer}>
-                                    <h1>Plan your trip with TripBantu</h1>
+                                    <h1>Plan your trip with Trip<span style={PRIMARY_COLOR_FONT}>Bantu</span></h1>
                                     <h6>Making trip planning easier for all travellers anywhere, anytime!</h6>
                                 </div>
 
@@ -73,10 +75,7 @@ class Home extends React.Component {
                                         <div>
                                         {/* <h4>Create a new trip</h4> */}
                                         <Button 
-                                            style={{
-                                                border: "none", 
-                                                backgroundImage: "linear-gradient(to bottom right, #E74C3C, #B03A2E)"
-                                            }}
+                                            style={PRIMARY_COLOR}
                                             size="lg"
                                             // block
                                             onClick={()=>this.handleAddTrip()}
@@ -221,7 +220,8 @@ const styles = {
     },
     selectContainer: {
         // width: "80%",
-        // height: 40,
+        height: 45,
+        // border: "1px solid rgba(0,0,0,0.8)",
         backgroundColor: "white",
         margin: 20,
         overflow: "hidden",
@@ -241,8 +241,10 @@ const styles = {
         padding: 20,
     },
     selectButton: {
+        minHeight: "inherit",
         backgroundColor: "transparent",
         outline: "none",
+        boxShadow: "none",
         border: "1px solid rgba(0,0,0,0.4)",
         padding: 10,
         color: "black",

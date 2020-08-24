@@ -11,6 +11,8 @@ import TripDetailsModal from "components/modals/tripDetails";
 import EditTripModal from "../../components/modals/editTrip";
 import DeleteTripModal from "../../components/modals/deleteTrip";
 
+import { PRIMARY_COLOR } from "common/styles/index.js";
+
 class Dashboard extends React.Component {
 
     constructor(props) {
@@ -29,6 +31,15 @@ class Dashboard extends React.Component {
 
     componentDidMount() {
         // console.log("DASHBOARD MOUNTED");
+
+        const { getUserSession } = this.props;
+
+        // console.log("HOME USER SESSION", getUserSession.data.length);
+
+        if (getUserSession.data.length === undefined || getUserSession.data.length === null || getUserSession.data.length === 0) {
+            alert('No user detected. Please login or sign up.')
+            this.props.history.push("/login");
+        }
 
         this.props.onGetAll();
     }
@@ -106,7 +117,7 @@ class Dashboard extends React.Component {
     render() {
         return(
             <> 
-                <Container className="themed-container" fluid="xl" style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems:"center", padding: 0, margin: "0 auto"}}>
+                <Container className="themed-container" fluid="xl" style={styles.dashboardContainer}>
 
                             {/*-------------------------Dashboard------------------------------------------------------------------------------------------------- */}
                             <Container className="themed-container" style={{ textAlign:"center", margin: 0, padding: 0}} fluid={true}  >
@@ -123,8 +134,8 @@ class Dashboard extends React.Component {
 
                                 <div style={{margin: 40,}}>
                                 <ButtonGroup>
-                                    <Button >Upcoming</Button>
-                                    <Button >Past Trips</Button>
+                                    <Button style={PRIMARY_COLOR}>Upcoming</Button>
+                                    <Button style={PRIMARY_COLOR}>Past Trips</Button>
                                 </ButtonGroup>
                                 </div>
 
@@ -206,6 +217,17 @@ class Dashboard extends React.Component {
 }
 
 const styles = {
+    dashboardContainer: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center", 
+        alignItems:"center", 
+        padding: 0, 
+        margin: "0 auto",
+
+        border: "0.2px solid rgba(0,0,0,0.3)",
+        borderRadius: 20,
+    },
     columnStyle: {
         // border: "1px solid rgba(0,0,0,0.6)",
         borderRadius: 20,
@@ -276,7 +298,7 @@ const styles = {
 // get data from api
 const mapStateToProps = store => ({
     getGetAllData: Actions.getGetAllData(store),
-    // getUserSession: Actions.getUserSession(store),
+    getUserSession: Actions.getUserSession(store),
     // getDeleteTaskData: Actions.getDeleteTaskData(store)
 });
 

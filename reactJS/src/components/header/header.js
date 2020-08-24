@@ -95,7 +95,7 @@ class Header extends React.Component {
             <>
                 <Container className="themed-container" fluid={true}>
                     <Navbar color="light" light expand="md">
-                        <NavbarBrand><Link to="/">TripBantu</Link></NavbarBrand>
+                        <NavbarBrand><Link to="/" style={styles.linkstyle}>TripBantu</Link></NavbarBrand>
                         <NavbarToggler onClick={() => this.toggle()} />
                         <Collapse isOpen={this.state.isOpen} navbar>
 
@@ -103,22 +103,22 @@ class Header extends React.Component {
                                 {this.state.isLogin ? (
                                     <Nav className="mr-auto" navbar>
                                         <NavItem>
-                                            <NavLink><Link to="/dashboard">Trips</Link></NavLink>
+                                            <NavLink><Link to="/dashboard" style={styles.linkstyle}>Trips</Link></NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink><Link onClick={() => this.logoutPressed()} to="">Logout</Link></NavLink>
+                                            <NavLink><Link onClick={() => this.logoutPressed()} to="" style={styles.linkstyle}>Logout</Link></NavLink>
                                         </NavItem>
                                     </Nav>
                                 ) : (
                                     <Nav className="mr-auto" navbar>
                                         <NavItem>
-                                            <NavLink><Link to="/dashboard">Trips</Link></NavLink>
+                                            <NavLink><Link to="/dashboard" style={styles.linkstyle}>Trips</Link></NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink><Link to="/login">Login</Link></NavLink>
+                                            <NavLink><Link to="/login" style={styles.linkstyle}>Login</Link></NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink><Link to="/register">Register</Link></NavLink>
+                                            <NavLink><Link to="/register" style={styles.linkstyle}>Register</Link></NavLink>
                                         </NavItem>
                                     </Nav>
                                 )}
@@ -132,11 +132,11 @@ class Header extends React.Component {
                                         </DropdownToggle>
                                         <DropdownMenu right>
                                             <DropdownItem>
-                                                <Link to="/profile">Profile</Link>
+                                                <Link to="/profile" style={styles.linkstyle}>Profile</Link>
                                             </DropdownItem>
                                         <DropdownItem divider />
                                             <DropdownItem>
-                                                <Link onClick={() => this.logoutPressed()} to="">Logout</Link>
+                                                <Link onClick={() => this.logoutPressed()} to="" style={styles.linkstyle}>Logout</Link>
                                             </DropdownItem>
                                         </DropdownMenu>
                                     </UncontrolledDropdown>
@@ -148,6 +148,14 @@ class Header extends React.Component {
             </>
         )
     }
+}
+
+const styles = {
+
+    linkstyle: {
+        textDecoration: "none",
+        color: "black",
+    },
 }
 
 const mapStateToProps = (store) => ({

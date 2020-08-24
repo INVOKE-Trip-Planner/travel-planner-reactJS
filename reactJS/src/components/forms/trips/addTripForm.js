@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import Actions from "actions";
 import { Button } from 'reactstrap';
 
+import {PRIMARY_COLOR} from "common/styles/index.js";
+
 // component did update to get prevprops
 function usePrevious(value) {
   const ref = React.useRef();
@@ -203,6 +205,7 @@ const AddTripForm = props => {
                       <ErrorMessage name="destinations" />
                     </div>)}
                     <Button
+                      style={PRIMARY_COLOR}
                       type="button"
                       color="primary"
                       onClick={() => push({ location: "", start_date: "", end_date: "" })}

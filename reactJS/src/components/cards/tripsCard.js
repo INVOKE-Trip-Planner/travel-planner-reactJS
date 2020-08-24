@@ -9,6 +9,8 @@ import placeholder from "assets/images/placeholder.png";
 import { connect } from "react-redux";
 import Actions from "actions";
 
+import { PRIMARY_COLOR } from "common/styles/index.js";
+
 class TripsCard extends React.Component {
 
     constructor(props) {
@@ -30,101 +32,40 @@ class TripsCard extends React.Component {
     render() {
         return (
             <>
-                {/* TRIP BOX */}
-                {/* <div style={{width: "100%", height: "100%", borderRadius: 20, border: "1px solid red"}}> */}
-
-                    {/* IMAGE BOX */}
-                    {/* <div style={styles.imageContainer}>
-                        <div style={styles.titleContainer}>
-                            <h3>{this.props.tripTitle}</h3>
-                        </div>
-                        <div style={styles.usersContainer}>
-                            {
-                                this.state.usersList.map( list => (
-                                    
-                                    <div style={styles.avatarContainer}>
-                                        <p>{list.id} </p>
-                                        <img id="user-avatar" src={placeholder} alt="placeholder" style={styles.imageSize} />
-                                    </div>
-                                ) )
-                            }
-                        </div>
-                    </div> */}
-
-                    {/* CONTENT BOX */}
-                    {/* <div style={styles.tripContent}>
-                        <div style={styles.tripInfoContainer}>
-                            <h6>Date: {this.props.tripStartDate} - {this.props.tripEndDate}</h6>
-                            <h6>Origin: {this.props.tripOrigin}</h6>
-                            <h6>Created by: user {this.props.tripCreatedBy}</h6>
-                            <h6>Trip Total: RM {this.props.tripTotal}</h6>
-                        </div>
-                        
-                        <div style={styles.dropdownContainer}>
-                        <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} style={styles.dropdownStyle} color="none" size="sm">
-                            <DropdownToggle>
-                                <ion-icon name="chevron-down-outline"></ion-icon>
-                            </DropdownToggle>
-                            <DropdownMenu right style={{width: 20,}}>
-                                <div style={styles.dropdownItemContainer}>
-                                    <ion-icon 
-                                        name="create-outline"
-                                        onClick={ this.props.handleEdit }
-                                        size="large"
-                                        style={{
-                                            cursor: 'pointer',
-                                        }}
-                                    >
-                                    </ion-icon>
-                                </div>
-                                <div style={styles.dropdownItemContainer}>
-                                    <ion-icon 
-                                        name="trash-outline"
-                                        onClick={ this.props.handleDelete }
-                                        size="large"
-                                        style={{
-                                            cursor: 'pointer',
-                                        }}
-                                    >
-                                    </ion-icon>
-                                </div>
-                            </DropdownMenu>
-                        </Dropdown>
-                        </div>
-                    </div>
-
-                                        
-
-                </div> */}
-
                 <Card body outline color="danger" style={styles.removeStrap}>
                     <CardHeader style={{
                         margin: 0, 
                         padding: 0, 
-                        backgroundImage: "none", 
-                        // position: "relative"
+                        backgroundImage: "none",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        // zIndex: -2
+                        position: "relative",
+                        minHeight: 200,
                         }}>
-                        <div style={styles.imageContainer}>
-                            <div style={styles.tripImageBox}>
+                        {/* <div className="image-container" style={styles.imageContainer}> */}
+                            <div className="image-sizing" style={styles.tripImageBox}>
                                 <img id="banner1" src={banner1} alt="banner1" style={styles.imageSize}/>
                             </div>
-                            <div style={styles.cardTripTitle}>
+                            <div className="trip-title-container" style={styles.cardTripTitle}>
                                 <h4>{this.props.tripTitle}</h4>
                             </div>
-                            <div style={styles.usersContainer}>
+                            <div className="user-container" style={styles.usersContainer}>
                                 {
                                     this.state.usersList.map( list => (
                                         
-                                        <div style={styles.avatarContainer}>
-                                            <p>{list.id} </p>
+                                        <div className="avatar-sizing" style={styles.avatarContainer}>
+                                            {console.log(list.avatar)}
                                             <img id="user-avatar" src={placeholder} alt="placeholder" style={styles.avatarSize} />
                                         </div>
                                     ) )
                                 }
                             </div>
-                        </div>
+                        {/* </div> */}
                     </CardHeader>
-                    <CardImg />
+                    {/* <CardImg /> */}
                     <CardBody>
                         <div style={styles.cardContentContainer}>
                             <div style={styles.cardContent}>
@@ -135,9 +76,9 @@ class TripsCard extends React.Component {
                             </div>
 
                             <div style={styles.cardContent}>
-                                <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} style={styles.dropdownStyle} color="none" size="sm">
-                                    <DropdownToggle>
-                                        <ion-icon name="chevron-down-outline"></ion-icon>
+                                <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} style={styles.dropdownStyle} size="sm" color="secondary">
+                                    <DropdownToggle style={PRIMARY_COLOR} color="secondary">
+                                        <ion-icon className="chevronDownOutline" name="caret-down" style={{fontSize: 16, color: "black"}}></ion-icon>
                                     </DropdownToggle>
                                     <DropdownMenu style={styles.dropdownStyle}>
                                         <div style={styles.dropdownItemContainer} >
@@ -171,7 +112,7 @@ class TripsCard extends React.Component {
                     </CardBody>
                     <CardFooter style={{width: "100%"}}>
                         <Button 
-                            style={{border: "rgba(0,0,0,0.4)"}} // backgroundImage: "linear-gradient(to bottom right, #E74C3C, #B03A2E)"}}
+                            style={styles.linkstyle} // backgroundImage: "linear-gradient(to bottom right, #E74C3C, #B03A2E)"}}
                             type="submit"
                             color="link"
                             // size="sm"
@@ -196,6 +137,8 @@ const styles = {
         borderRadius: 20,
         overflow: "hidden",
         backgroundImage: "none",
+        shadowColor: "#000",
+        boxShadow: "0.2px 0.2px 5px 0.7px rgba(0,0,0,0.4)"
     },
     imageContainer: {
         width: "100%",
@@ -209,14 +152,15 @@ const styles = {
         justifyContent: "space-between",
         // padding: 20,
         // borderBottom: "1px solid rgba(0,0,0,0.4)",
-        position: "relative",
+        // position: "relative",
+        // zIndex: 1,
     },
     tripImageBox: {
         width: "100%",
         height: "100%",
         padding: 0,
         position: "absolute",
-        zIndex: 1,
+        zIndex: 0,
     },
     cardTripTitle: {
         background: "none",
@@ -239,6 +183,7 @@ const styles = {
         display: "flex",
         flexDirection: "row",
         justifyContent: "flex-end",
+        alignItems: "flex-end",
         // position: "absolute",
         padding: 20,
         zIndex: 2,
@@ -246,17 +191,27 @@ const styles = {
     imageSize: {
         width: "100%",
         height: "100%",
+        zIndex: 1,
     },
     avatarSize: {
         width: 20,
-        height: 20
+        height: 20,
+        zIndex: 2,
     },
     avatarContainer: {
-        // width: "100%",
-        background: "white",
+        // background: "none",
+        width: 25,
+        height: 25,
         display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-end",
+        justifyContent: "center",
+        alignItems: "center",
+        border: "0.5px solid black",
+        background: "white",
+        borderRadius: 20,
+        margin: 2,
+
+        overflow: "hidden",
+        // zIndex: 2,
     },
     tripContent: {
         minWidth: 200,
@@ -268,6 +223,7 @@ const styles = {
     },
     dropdownStyle: {
         backgroundColor: "none",
+        baackground: "none",
         width: 20,
     },
     dropdownItemContainer: {
@@ -310,6 +266,13 @@ const styles = {
         // backgroundColor: "yellow",
         marginBottom: 20
 
+    },
+    chevronDownOutline: {
+        color: "white",
+    },
+    linkstyle: {
+        textDecoration: "none",
+        color: "black",
     },
 }
 

@@ -5,6 +5,8 @@ import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, 
 import { connect } from "react-redux";
 import Actions from "actions";
 
+import { PRIMARY_COLOR } from "common/styles/index.js";
+
 import AccEditForm from "components/forms/accommodation/accEditForm.js";
 
 import DeleteTripModal from "../../components/modals/deleteTrip";
@@ -82,8 +84,8 @@ class Accommodation extends React.Component {
 
                         <div style={styles.cardContent}>
                             <Dropdown isOpen={this.state.dropDownOpen} toggle={() => this.toggleDropDown()} style={styles.dropdownStyle} color="none" size="sm">
-                                <DropdownToggle>
-                                    <ion-icon name="chevron-down-outline"></ion-icon>
+                                <DropdownToggle style={PRIMARY_COLOR} color="secondary">
+                                    <ion-icon name="caret-down" style={{fontSize: 16, color: "black"}}></ion-icon>
                                 </DropdownToggle>
                                 <DropdownMenu style={styles.dropdownStyle}>
                                     <div style={styles.dropdownItemContainer} onClick={() => this.handleEdit()}>
@@ -150,8 +152,15 @@ const styles = {
     removeStrap: {
         margin: 0,
         padding: 0,
-        minWidth: 500,
+        minWidth: 400,
+        maxWidth: 400,
+        minHeight: 400,
+        maxHeight: 400,
         borderRadius: 20,
+        overflow: "hidden",
+        backgroundImage: "none",
+        shadowColor: "#000",
+        boxShadow: "0.2px 0.2px 5px 0.7px rgba(0,0,0,0.4)"
     },
     cardContent: {
         padding: 10,

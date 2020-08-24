@@ -5,6 +5,8 @@ import Actions from "actions";
 
 import { Container, Row, Col, CardDeck, Jumbotron, Spinner, ButtonGroup, Button } from 'reactstrap';
 
+import banner1 from "assets/images/banner1.jpg"
+
 import placeholder from "assets/images/placeholder.png";
 import Accommodation from "../../components/cards/accommodation";
 import Transport from "../../components/cards/transport";
@@ -14,6 +16,8 @@ import CreateDestModal from "components/modals/create/createDest.js";
 import CreateAccModal from "components/modals/create/createAcc.js";
 import CreateTransModal from "components/modals/create/createTrans.js";
 import CreateItinModal from "components/modals/create/createItin.js";
+
+import { PRIMARY_COLOR } from "common/styles/index.js";
 
 class TripDetails extends React.Component {
 
@@ -45,6 +49,17 @@ class TripDetails extends React.Component {
     }
 
     componentDidMount() {
+
+        // console.log("DASHBOARD MOUNTED");
+
+        const { getUserSession } = this.props;
+
+        // console.log("HOME USER SESSION", getUserSession.data.length);
+
+        if (getUserSession.data.length === undefined || getUserSession.data.length === null || getUserSession.data.length === 0) {
+            alert('No user detected. Please login or sign up.')
+            this.props.history.push("/login");
+        }
 
         this.setState({
             filterLocationData: this.state.tripData[0].destinations[0],
@@ -308,8 +323,8 @@ class TripDetails extends React.Component {
                                     <div style={{width: "100%", justifyContent: "center"}}>
 
                                         {/* -----------------------------------------JUMBOTRON----------------------------------------------------------------------------- */}
-                                        <Row style={{width: "100%", justifyContent: "center", margin: 0}}>
-                                            <Jumbotron fluid style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
+                                        <Row style={{width: "100%", justifyContent: "center", margin: 0, color: "white",}}>
+                                            <Jumbotron fluid style={styles.jumbotronStyle}>
                                                 <Container fluid>
                                                     <div style={{marginBottom: 40,}}>
                                                         <h1 className="display-3">{list.trip_name}</h1>
@@ -325,29 +340,29 @@ class TripDetails extends React.Component {
                                         </Row>
 
                                         {/* -----------------------------------FILTER------------------------------------------------------------------------------------ */}
-                                        <Row style={{display: "flex", justifyContent: "space-between", padding: 5, margin: 0,}}>
+                                        <Row style={{display: "flex", justifyContent: "space-between", padding: 0, margin: "0 auto",}}>
 
                                             {/* -------------------------DESTINATION FILTER-------------------------------------- */}
-                                            <Col style={{margin: 10}}>
+                                            <Col xs="12" sm="12" md="5" lg="5" xl="5" style={{margin: "0 auto", padding: 5,}}>
                                                 <h6>Destinations:</h6>
                                                 <ButtonGroup>                                               
                                                     { list.destinations.map( destination => (
-                                                        <Button onClick={() => this.filterLocation(destination)}>{destination.location}</Button>
+                                                        <Button style={PRIMARY_COLOR} onClick={() => this.filterLocation(destination)}>{destination.location}</Button>
                                                     ))}
-                                                    <Button onClick={() => this.handleCreate("destination")}>
+                                                    <Button onClick={() => this.handleCreate("destination")} style={PRIMARY_COLOR}>
                                                         <ion-icon name="create" style={{fontSize: 24}}></ion-icon>
                                                     </Button>
                                                 </ButtonGroup>
                                             </Col>
 
                                             {/* -------------------------CATEGORY FILTER-------------------------------------- */}
-                                            <Col style={{margin: 10}}>
+                                            <Col xs="12" sm="12" md="5" lg="5" xl="5" style={{margin: "0 auto", padding: 5,}}>
                                                 <h6>Category:</h6>
                                                 <ButtonGroup>
-                                                    <Button  onClick={() => this.handleCategory()}>All</Button>
-                                                    <Button  onClick={() => this.handleCategory("accommodation")}>Accommodation</Button>
-                                                    <Button  onClick={() => this.handleCategory("transport")}>Transport</Button>
-                                                    <Button  onClick={() => this.handleCategory("itinerary")}>Itinerary</Button>
+                                                    <Button style={PRIMARY_COLOR} onClick={() => this.handleCategory()}>All</Button>
+                                                    <Button style={PRIMARY_COLOR} onClick={() => this.handleCategory("accommodation")}>Accommodation</Button>
+                                                    <Button style={PRIMARY_COLOR} onClick={() => this.handleCategory("transport")}>Transport</Button>
+                                                    <Button style={PRIMARY_COLOR} onClick={() => this.handleCategory("itinerary")}>Itinerary</Button>
                                                 </ButtonGroup>
                                             </Col>
                                         </Row>
@@ -357,8 +372,7 @@ class TripDetails extends React.Component {
 
                                             <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
-        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
                                                     <div style={styles.categoryTitleContainer}>
 
                                                         <h4>Accommodations</h4>
@@ -411,8 +425,7 @@ class TripDetails extends React.Component {
 
                                             (<Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
-        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)"}}>
                                                     <div style={styles.categoryTitleContainer}>
                                                         <h4>Transports</h4>
                                                         <button style={styles.selectButton} onClick={() => this.handleCreate("transport")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
@@ -466,8 +479,7 @@ class TripDetails extends React.Component {
 
                                             <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
-        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)"}}>
 
                                                     <div style={styles.categoryTitleContainer}>
                                                         <h4>Itineraries</h4>
@@ -565,17 +577,19 @@ const styles = {
         margin: 10,
         overflow: "hidden",
     },
-    sidebarBox: {
-        border: "2px solid black",
-        width: "100%",
-        height: 40,
-        backgroundColor: "white",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        // margin: 10,
-        padding: 10,
-    },
+    jumbotronStyle:
+        {
+            width: "100%", 
+            height: "100%", 
+            justifyContent: "center", 
+            alignItems: "center", 
+            backgroundImage: `url(${banner1})`, 
+            backgroundPosition: "center", 
+            backgroundSize: "cover", 
+            opacity: 0.9, 
+            textShadow: "0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black"
+        }
+    ,
     selectContainer: {
         // width: "80%",
         // height: 40,
@@ -653,6 +667,7 @@ const styles = {
 
 // get data from api
 const mapStateToProps = (store) => ({
+    getUserSession: Actions.getUserSession(store),
     getGetAllData: Actions.getGetAllData(store),
 
     getCreateAccData: Actions.getCreateAccData(store),
