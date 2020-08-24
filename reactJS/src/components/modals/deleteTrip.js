@@ -15,7 +15,7 @@ class DeleteTripModal extends React.Component {
     }
 
     componentDidMount() {
-        console.log('ACC MODAL MOUNT')
+        // console.log('ACC MODAL MOUNT')
 
         // const x = this.state.tripData.map( list => list.destinations.map( destination => destination.id) )
 

@@ -28,13 +28,13 @@ class Dashboard extends React.Component {
     }
 
     componentDidMount() {
-        console.log("DASHBOARD MOUNTED");
+        // console.log("DASHBOARD MOUNTED");
 
         this.props.onGetAll();
     }
 
     componentDidUpdate(prevProps) {
-        console.log("DASHBOARD UPDATE");
+        // console.log("DASHBOARD UPDATE");
         const { getGetAllData } = this.props;
 
         console.log("TRIP DATA", getGetAllData.data);

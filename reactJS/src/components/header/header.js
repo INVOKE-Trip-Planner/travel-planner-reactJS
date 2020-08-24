@@ -6,6 +6,7 @@ import {Container, Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink
 // Redux
 import { connect } from "react-redux";
 import Actions from "../../actions";
+import { getUserSession } from "../../actions/profile/userSession";
 
 class Header extends React.Component {
 
@@ -26,40 +27,65 @@ class Header extends React.Component {
         })
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidMount(prevProps) {
         const { getLoginData } = this.props;
         const { getUserSession } = this.props;
-        
-        // console.log("HEADER LOGIN DATA", getLoginData.data.user.name);
 
-        if (prevProps.getLoginData.isLoading && !getLoginData.isLoading) {
+        // console.log("header login user", getLoginData.data.user)
 
-            console.log("LOGIN DATA", Object.keys(getUserSession.data).length);
+        if ( getUserSession.data.length !== undefined ) {
+            // console.log("user detected");
 
-            // Check length of getLoginData to see if data exist
-            if ( (Object.keys(getLoginData.data).length !== 0) ) {
-                
-                // login data exist
-                this.setState({
-                    isLogin: true, // => NAV CHANGES
-                    setUsername: true, // => NAV CHANGES
-                    displayUsername: getLoginData.data.user.name,
-                })
-
-            } else {
-                // no login data
-                console.log("no user");
-            }
+            this.setState({
+                isLogin: true,
+                setUsername: true,
+                // displayUsername: (prevProps.getLoginData.data.user === undefined) ? '' : getLoginData.data.user.name,
+            })
         }
 
-        if (Object.keys(getUserSession.data).length == 0) {
-            alert('Session expired. Please login again.');
-            this.props.history.push("/login");
+        if (this.state.isLogin) {
+            this.setState({
+                displayUsername: getLoginData.data.user.name,   
+            })
         }
     }
 
+    componentDidUpdate(prevProps) {
+        const { getLoginData } = this.props;
+        const { getUserSession } = this.props;
+        const { getUpdateUserData } = this.props;
+
+        // console.log("prev User session", prevProps.getUserSession.data.length);
+        // console.log("new User session", getUserSession.data.length);
+
+        if ( prevProps.getUserSession.data.length !== getUserSession.data.length ) {
+
+            if ( getUserSession.data.length !== undefined) {
+                
+                this.setState({
+                    isLogin: true,
+                    setUsername: true,
+                    displayUsername: getLoginData.data.user.name,
+                })
+            } else {
+                console.log("no user detected")
+            }
+        }
+    }
+        
+
+        // if (Object.keys(getUserSession.data).length < Object.keys(prevProps.getUserSession.date).length) {
+        //     alert('Session expired. Please login again.');
+        //     this.props.history.push("/login");
+        // }
+
     logoutPressed() {
         this.props.resetUserSession();
+
+        this.setState({
+            isLogin: false,
+            setUsername: false,
+        })
         alert("Successfully logout")
         window.location.reload(); // reloads the page after logging out
     }
@@ -126,7 +152,8 @@ class Header extends React.Component {
 
 const mapStateToProps = (store) => ({
     getLoginData: Actions.getLoginData(store),
-    getUserSession: Actions.getUserSession(store)
+    getUserSession: Actions.getUserSession(store),
+    getUpdateUserData: Actions.getUpdateUserData(store)
   })
   
 const mapDispatchToProps = {
