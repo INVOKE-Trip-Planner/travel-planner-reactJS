@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* editItin( {data} ) {
-    console.log("EDIT ITIN SAGA");
+    console.log("EDIT ITIN SAGA", data);
 
     let token = store.getState().PROFILE.userSession.data;
 
@@ -14,7 +14,7 @@ function* editItin( {data} ) {
     const headers = { Authorization: `Bearer ${token}` };
 
     const formData = new FormData();
-    const fields = ['day','destination_id', 'schedules'];
+    const fields = ['id', 'day', 'schedules'];
 
     fields.forEach(field => {
         if (data[field]) {

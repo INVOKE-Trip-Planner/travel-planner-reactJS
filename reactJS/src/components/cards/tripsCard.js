@@ -116,7 +116,7 @@ class TripsCard extends React.Component {
                                     this.state.usersList.map( list => (
                                         
                                         <div style={styles.avatarContainer}>
-                                            <p>{list.name} </p>
+                                            <p>{list.id} </p>
                                             <img id="user-avatar" src={placeholder} alt="placeholder" style={styles.avatarSize} />
                                         </div>
                                     ) )

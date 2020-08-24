@@ -7,6 +7,8 @@ import Actions from "actions";
 
 import EditItinForm from "components/forms/itinerary/editItinForm.js";
 
+import DeleteTripModal from "../../components/modals/deleteTrip";
+
 class Itinerary extends React.Component {
 
     constructor(props) {
@@ -14,17 +16,23 @@ class Itinerary extends React.Component {
 
         this.state = {
             scheduleData: this.props.itinScheduleData,
+
             isOpen: false,
+
             itinId: this.props.itinId,
             itinDay: this.props.itinDay,
+
             dropDownOpen: false,
+
+            openModalDelete: false,
+            // openModalEdit: false,
         }
     }
 
     // sort hour min
     componentDidMount() {
             // console.log("schedule data", this.state.scheduleData)
-            // console.log("schedule data", this.state.scheduleData.filter(schedule => (schedule.itinerary_id === this.props.itinId) && schedule))
+            console.log("schedule data", this.state.scheduleData.filter(schedule => (schedule.itinerary_id === this.props.itinId) && schedule))
 
     //     var list = this.state.scheduleData.map( data => data.hour);
 
@@ -48,7 +56,11 @@ class Itinerary extends React.Component {
     }
 
     handleDelete(itinId) {
-        this.props.onDeleteItin(itinId);
+
+        this.setState({
+            openModalDelete: true,
+        })
+        // this.props.onDeleteItin(itinId);
     }
 
     toggle() {
@@ -56,6 +68,13 @@ class Itinerary extends React.Component {
         this.setState({
             isOpen: !this.state.isOpen,
         });
+    }
+
+    closeModal() {
+        this.setState({
+            // openModalEdit: false,
+            openModalDelete: false,
+        })
     }
 
     toggleDropDown() {
@@ -125,18 +144,29 @@ class Itinerary extends React.Component {
                         toggle={() => this.toggle()}
                         size="lg"
                 >
-                    <ModalHeader></ModalHeader>
+                    <ModalHeader>Edit Itinerary Details</ModalHeader>
                     <ModalBody>
+                        <div style={styles.bodyContainer}>
                         {/* ------------ITINERARY FORM---------------------------------- */}
                         <EditItinForm 
                             itinId={this.state.itinId}
                             itinDay={this.state.itinDay}
                             itinScheduleData={this.state.scheduleData.filter(schedule => (schedule.itinerary_id === this.props.itinId) && schedule)}
                         />
+                       </div>
                     </ModalBody>
-                    <ModalFooter>
-                    </ModalFooter>
-                </Modal>         
+                </Modal>
+
+                {/* --------------------------DELETE ACCOMMODATION-------------------------------- */}
+                <DeleteTripModal
+                    isOpen={this.state.openModalDelete}
+                    toggle={() => this.closeModal()}
+                    // destinationId = {this.state.tripId}
+
+                    deleteType = "itinerary"
+                    tripData = {this.state.tripData}
+                    handleDelete = { () => this.props.onDeleteItin( this.state.itinId) }
+                />         
             </>
         )
     }

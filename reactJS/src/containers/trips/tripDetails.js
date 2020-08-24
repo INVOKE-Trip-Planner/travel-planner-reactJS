@@ -55,7 +55,7 @@ class TripDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { getGetAllData, getCreateAccData, getEditAccData, getEditTransData, getDeleteAccData, getDeleteTransData, getDeleteItinData } = this.props;
+        const { getGetAllData, getCreateAccData, getCreateTransData, getCreateItinData, getEditAccData, getEditTransData, getEditItinData, getDeleteAccData, getDeleteTransData, getDeleteItinData } = this.props;
 
         // console.log("FIRST Trip Data", this.state.filterLocationData);
 
@@ -80,7 +80,7 @@ class TripDetails extends React.Component {
             if ( (Object.keys(getCreateAccData.data).length !== 0) ) {
                 this.setState({
                     loading: true,
-                    isOpen: false,
+                    openModalAcc: false,
                 })
                 // alert(getEditAccData.data.message);
                 alert("Create accommodation successful!");
@@ -88,9 +88,28 @@ class TripDetails extends React.Component {
         }
 
         // Create Trans
-
+        if (prevProps.getCreateTransData.isLoading && !getCreateTransData.isLoading) {
+            if ( (Object.keys(getCreateTransData.data).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                    openModalTrans: false,
+                })
+                // alert(getEditAccData.data.message);
+                alert("Create transport successful!");
+            } else {alert("Create transport failed.")}
+        }
 
         // Create Itinerary
+        if (prevProps.getCreateItinData.isLoading && !getCreateItinData.isLoading) {
+            if ( (Object.keys(getCreateItinData.data).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                    openModalItin: false,
+                })
+                // alert(getEditAccData.data.message);
+                alert("Create itinerary successful!");
+            } else {alert("Create itinerary failed.")}
+        }
 
         // Edit Accommodation
         if (prevProps.getEditAccData.isLoading && !getEditAccData.isLoading) {
@@ -117,6 +136,17 @@ class TripDetails extends React.Component {
         }
 
         // Edit itinerary 
+        if (prevProps.getEditItinData.isLoading && !getEditItinData.isLoading) {
+            if ( (Object.keys(getEditItinData.data).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                    isOpen: false,
+                })
+                // alert(getEditAccData.data.message);
+                alert(getEditItinData.data.message);
+            } else {alert("Edit itinerary failed.")}
+        }
+
 
         // delete accommodation
         if (prevProps.getDeleteAccData.isLoading && !getDeleteAccData.isLoading) {
@@ -510,7 +540,7 @@ class TripDetails extends React.Component {
                 <CreateItinModal 
                     isOpen={this.state.openModalItin}
                     toggle={() => this.toggle()}
-                    data = {this.state.filterLocationData.id}
+                    destinationId = {this.state.filterLocationData.id}
                     // tripData = {this.state.filterLocationData.id}
                 />
                 </Container>
@@ -624,11 +654,17 @@ const styles = {
 // get data from api
 const mapStateToProps = (store) => ({
     getGetAllData: Actions.getGetAllData(store),
+
     getCreateAccData: Actions.getCreateAccData(store),
     getEditAccData: Actions.getEditAccData(store),
     getDeleteAccData: Actions.getDeleteAccData(store),
+
+    getCreateTransData: Actions.getCreateTransData(store),
     getEditTransData: Actions.getEditTransData(store),
     getDeleteTransData: Actions.getDeleteTransData(store),
+
+    getCreateItinData: Actions.getCreateItinData(store),
+    getEditItinData: Actions.getEditItinData(store),
     getDeleteItinData: Actions.getDeleteItinData(store),
 });
 
