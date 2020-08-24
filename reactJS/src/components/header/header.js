@@ -31,7 +31,7 @@ class Header extends React.Component {
         const { getLoginData } = this.props;
         const { getUserSession } = this.props;
 
-        console.log("header login user", getLoginData.data.user)
+        // console.log("header login user", getLoginData.data.user)
 
         if ( getUserSession.data.length !== undefined ) {
             // console.log("user detected");
