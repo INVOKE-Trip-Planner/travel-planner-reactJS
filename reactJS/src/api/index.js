@@ -1,4 +1,5 @@
 import fetchApi from "./helper";
+import {store} from "store/index";
 
 // ------------LOGIN------------
 export const login = data => {
@@ -18,6 +19,11 @@ export const logout = token => {
 //-----------USER------------------------
 export const updateUser = (data, token) => {
   return fetchApi('post', 'api/user', data, token);
+}
+
+export const searchUser = (query) => {
+  return fetchApi('get', `api/user/search/${query}`, null, 
+  { Authorization: `Bearer ${store.getState().PROFILE.userSession.data}` });
 }
 
 //--------------TRIPS------------------------
