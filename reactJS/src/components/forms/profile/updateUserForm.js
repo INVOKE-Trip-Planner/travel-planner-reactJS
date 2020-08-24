@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, Field, useField, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import QRCode from "react-qr-code";
 
 import { Button } from "reactstrap";
 
@@ -12,7 +13,7 @@ const UpdateUserForm = (props) => {
 
   console.log(props);
 
-  const { name, username, email, phone, gender, birth_date, avatar } = props.getUpdateUserData.data
+  const { id, name, username, email, phone, gender, birth_date, avatar } = props.getUpdateUserData.data
 
   const postProcessValue = (values) => {
     const fields = ['username', 'email', 'phone', 'avatar']
@@ -75,6 +76,8 @@ const UpdateUserForm = (props) => {
             alignItems: 'center',
           }}
         >
+          <QRCode value={`${id}`} />
+
           <MyPhotoInput 
             name="avatar"
             {...formikProps}

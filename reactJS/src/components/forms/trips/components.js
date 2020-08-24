@@ -189,6 +189,44 @@ export const MyPhotoInput = ({ label, containerStyle, ...props }) => {
     );
 };
 
+export const SearchUserInput = (props) => {
+
+    const handleSubmit = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        alert('submitted');
+    }
+    
+    return (
+        <form
+            style={{
+                width: 200,
+                // height: 150,
+                borderRadius: '1em',
+                background: 'white',
+                border: '1px solid black',
+                position: 'absolute',
+                padding: '0.5em',
+                top: 50,
+                // left: (props.itemCount + 1) * 50,
+            }}
+            onSubmit={handleSubmit}
+        >
+            <input 
+                name="query"
+                placeholder="Enter username/email."
+                style={{
+                    // borderRadius: '1em',
+                    border: 'none',
+                    width: '100%',
+                    outline: 'none',
+                    // margin: '0.5em'
+                }}    
+            />
+        </form>
+    )
+}
+
 export const DestinationInput = ({ index, handleRemove, ...props }) => {
     // const [field, meta] = useField(props);
     console.log(props);
@@ -247,5 +285,84 @@ export const DestinationInput = ({ index, handleRemove, ...props }) => {
                 />
             </div>
         </div>
+    )
+}
+
+const FieldWrapper = ({ containerStyle, hideLabel, children, label, formikProps, formikKey, ...props }) => (
+    <div 
+        className={ `form-group` }
+        style={{
+            display: "flex", 
+            flexDirection: "column",
+            ...containerStyle,
+        }}
+    >
+    {!hideLabel && <label 
+        htmlFor={ props.id || formikKey } 
+        style={{ 
+            textTransform: 'capitalize', 
+        }}
+    > 
+        { label || formikKey } 
+    </label> }
+
+    { children }
+
+    { formikProps.touched[formikKey] &&
+        (
+            <div 
+                style={{
+                    color: 'red',
+                }}
+            >
+                { formikProps.errors[formikKey] } 
+            </div>
+        )
+    }
+  </div>
+)
+
+export const CustomTextInput = ({ containerStyle, hideLabel, label, formikProps, formikKey, placeholder, secureTextEntry, ...rest}) => {
+    const inputStyles = {
+        borderRadius: 5,
+        borderColor: 'navy',
+        borderWidth: 1,
+        height: 50,
+        paddingHorizontal: 15,
+        // paddingVertical: 5,
+        marginVertical: 10,
+    }
+
+    if (formikProps.touched[formikKey] && formikProps.errors[formikKey]) {
+        inputStyles.borderColor = 'red';
+    }
+
+    // const [hidePassword, setHidePassword] = React.useState( secureTextEntry )
+    // if (secureTextEntry) {
+    //     setHidePassword(true);
+    // }
+
+    return (
+        <FieldWrapper 
+            containerStyle={ containerStyle }
+            hideLabel={ hideLabel || false } 
+            label={ label } 
+            formikKey={ formikKey } 
+            formikProps={ formikProps }
+        >
+            {/* {console.log({...rest})} */}
+            <input 
+                style={ inputStyles }
+                value={ {...rest}.value || formikProps.values[formikKey] }
+                placeholder={ placeholder || `Enter your ${ label || formikKey } here.` }
+                onChangeText={ formikProps.handleChange(formikKey) }
+                onBlur={ formikProps.handleBlur(formikKey) }
+                // secureTextEntry={ secureTextEntry }
+                // secureTextEntry={ hidePassword }
+                className="text-input" 
+                { ...rest }
+            />
+
+        </FieldWrapper>
     )
 }

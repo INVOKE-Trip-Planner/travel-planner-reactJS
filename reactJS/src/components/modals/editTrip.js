@@ -2,7 +2,7 @@ import React from "react";
 
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import EditTripForm from "../forms/trips/editTripForm";
-
+import EditTripFormV2 from "../forms/trips/editTripFormV2";
 
 class EditTripModal extends React.Component {
     
@@ -35,14 +35,18 @@ class EditTripModal extends React.Component {
         return (
             <>
                 <Modal 
-                        isOpen={this.props.isOpen} 
-                        centered={true}
-                        scrollable={true}
-                        backdrop={true}
-                        toggle={this.props.toggle}
+                    isOpen={this.props.isOpen} 
+                    centered={true}
+                    scrollable={true}
+                    backdrop={true}
+                    toggle={this.props.toggle}
                 >
                     <ModalHeader>Edit Trip</ModalHeader>
                     <ModalBody>
+                        {/* <EditTripFormV2 
+                            tripData={this.props.tripData}
+                            onUpdateTrip={this.props.handleEdit}
+                        /> */}
                         <EditTripForm
                             // destinationId = {this.state.destinationId}
                             tripData={this.props.tripData}
