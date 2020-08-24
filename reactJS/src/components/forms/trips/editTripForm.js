@@ -69,7 +69,7 @@ const EditTripForm = props => {
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
               values = postProcessValue(values);
-              alert(JSON.stringify(values, null, 2));
+              // alert(JSON.stringify(values, null, 2));
               props.onUpdateTrip(values);
               setSubmitting(false);
             }, 400);
@@ -99,7 +99,8 @@ const EditTripForm = props => {
                         push(selectedUser)
                       }
 
-                      alert(JSON.stringify(values.users));
+                      setShowSearchUser(false);
+                      // alert(JSON.stringify(values.users));
                     }
 
                     return (
