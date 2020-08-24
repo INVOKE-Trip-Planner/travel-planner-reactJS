@@ -24,6 +24,8 @@ const EditTripForm = props => {
             }
         })
 
+        values.users = values.users.map(user => user.id)
+
         return values;
     }
 
@@ -85,75 +87,90 @@ const EditTripForm = props => {
                 />
 
                 <FieldArray name="users">
-                  {({ insert, remove, push }) => (
-                    <div
-                      // style={{
-                      //   display: 'flex',
-                      //   flexDirection: 'column',
-                      //   alignItems: 'center',
-                      // }}
-                    >
-                      <label 
-                          htmlFor="users" 
-                          style={{ 
-                              textTransform: 'capitalize', 
-                          }}
-                      > 
-                          users 
-                      </label>
+                  {({ insert, remove, push }) => {
+
+                    const handleClick = (selectedUser) => {
+                      const alreadyIn = values.users.some((user) => user.id === selectedUser.id)
+
+                      if (alreadyIn) {
+                        // alert(values.users.findIndex(user => user.id === selectedUser.id))
+                        remove(values.users.findIndex(user => user.id === selectedUser.id))
+                      } else {
+                        push(selectedUser)
+                      }
+
+                      alert(JSON.stringify(values.users));
+                    }
+
+                    return (
                       <div
-                        style={{
-                          width: '100%',
-                          position: 'relative',
-                        }}
+                        // style={{
+                        //   display: 'flex',
+                        //   flexDirection: 'column',
+                        //   alignItems: 'center',
+                        // }}
                       >
-                        { values.users.length > 0 &&
-                        values.users.map((user, index) => ( 
-                          <img
-                            src={`${AVATAR_PREFIX}${user.avatar}`}
-                            style={{
-                              width: 40,
-                              height: 40,
-                              borderRadius: 40,
-                              background: 'lightgrey',
-                              display: 'inline-block',
-                              verticalAlign: 'inherit',
+                        <label 
+                            htmlFor="users" 
+                            style={{ 
+                                textTransform: 'capitalize', 
                             }}
-                          >
-                          </img>
-                        )) }
-                        {typeof formikProps.errors.users === 'string' && (<div
+                        > 
+                            users 
+                        </label>
+                        <div
                           style={{
-                            color: 'red',
+                            width: '100%',
+                            position: 'relative',
                           }}
                         >
-                          <ErrorMessage name="users" />
-                        </div>)}
-                        <ion-icon 
-                            name="add-outline"
-                            onClick={() => setShowSearchUser(!showSearchUser)}
-                            // size="large"
-                            style={{
-                                // position: 'absolute',
-                                // right: '0.5em',
-                                // top: '0.4em',
-                                background: 'lightgrey',
+                          { values.users.length > 0 &&
+                          values.users.map((user, index) => ( 
+                            <img
+                              src={`${AVATAR_PREFIX}${user.avatar}`}
+                              style={{
                                 width: 40,
                                 height: 40,
                                 borderRadius: 40,
-                                cursor: 'pointer',
+                                background: 'lightgrey',
                                 display: 'inline-block',
+                                verticalAlign: 'inherit',
+                              }}
+                            >
+                            </img>
+                          )) }
+                          {typeof formikProps.errors.users === 'string' && (<div
+                            style={{
+                              color: 'red',
                             }}
-                        ></ion-icon>
-                        { showSearchUser && 
-                          <SearchUserInput 
-                            itemCount={values.users.length}
-                            push
-                          />
-                        }
+                          >
+                            <ErrorMessage name="users" />
+                          </div>)}
+                          <ion-icon 
+                              name="add-outline"
+                              onClick={() => setShowSearchUser(!showSearchUser)}
+                              // size="large"
+                              style={{
+                                  // position: 'absolute',
+                                  // right: '0.5em',
+                                  // top: '0.4em',
+                                  background: 'lightgrey',
+                                  width: 40,
+                                  height: 40,
+                                  borderRadius: 40,
+                                  cursor: 'pointer',
+                                  display: 'inline-block',
+                              }}
+                          ></ion-icon>
+                          { showSearchUser && 
+                            <SearchUserInput 
+                              itemCount={values.users.length}
+                              handleClick={handleClick}
+                            />
+                          }
+                        </div>
                       </div>
-                    </div>
-                  )}
+                  )}}
                 </FieldArray>
 
                 <MyTextInput

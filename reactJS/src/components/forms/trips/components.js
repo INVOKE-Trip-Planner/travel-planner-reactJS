@@ -1,6 +1,9 @@
 import React from 'react';
 // import styled from '@emotion/styled';
 import { useField } from 'formik';
+import * as api from "../../../api";
+
+const AVATAR_PREFIX = "http://localhost:8000/storage/avatars/"
 
 export const MyTextInput = ({ label, placeholder, containerStyle, ...props }) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -191,10 +194,19 @@ export const MyPhotoInput = ({ label, containerStyle, ...props }) => {
 
 export const SearchUserInput = (props) => {
 
-    const handleSubmit = (e) => {
+    const [query, setQuery] = React.useState('');
+    const [users, setUsers] = React.useState(null);
+
+    const handleSubmit = async (e) => {
         e.stopPropagation();
         e.preventDefault();
-        alert('submitted');
+        const {response, error} = await api.searchUser(query);
+        if (error) {
+            alert(error);
+            setUsers(null);
+        } else {
+            setUsers(response.data);
+        }
     }
     
     return (
@@ -214,6 +226,8 @@ export const SearchUserInput = (props) => {
         >
             <input 
                 name="query"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
                 placeholder="Enter username/email."
                 style={{
                     // borderRadius: '1em',
@@ -223,6 +237,45 @@ export const SearchUserInput = (props) => {
                     // margin: '0.5em'
                 }}    
             />
+
+            {
+                (users && users.length > 0) && (
+                    <div
+                        style={{
+                            maxHeight: 138,
+                            overflow: 'scroll',
+                        }}
+                    >
+                        { users.map((user) => {
+                            return (
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                    }}
+                                    onClick={() => props.handleClick(user)}
+                                > 
+                                    <img
+                                        src={`${AVATAR_PREFIX}${user.avatar}`}
+                                        style={{
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: 40,
+                                        background: 'lightgrey',
+                                        display: 'inline-block',
+                                        verticalAlign: 'inherit',
+                                        }}
+                                    >
+                                    </img>
+                                    <div>
+                                        {user.name}
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                )
+            }
         </form>
     )
 }
