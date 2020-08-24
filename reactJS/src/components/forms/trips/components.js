@@ -229,6 +229,7 @@ export const SearchUserInput = (props) => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Enter username/email."
+                autoComplete="off"
                 style={{
                     // borderRadius: '1em',
                     border: 'none',
@@ -252,6 +253,7 @@ export const SearchUserInput = (props) => {
                                     style={{
                                         display: 'flex',
                                         alignItems: 'center',
+                                        cursor: 'pointer',
                                     }}
                                     onClick={() => props.handleClick(user)}
                                 > 
