@@ -20,16 +20,27 @@ const AddTripForm = props => {
 
   const prevGetGetAllData = usePrevious(props.getGetAllData);
 
+  const isEdit = props.tripData ? true : false;
+  // console.log('isEdit', isEdit);
+  // console.log("data", props.tripData[0].destinations)
+
   useEffect(() => {
     if (prevGetGetAllData 
       && prevGetGetAllData.isLoading 
       && !props.getGetAllData.isLoading) {
-        window.location.replace('/dashboard');
+
+        if (isEdit) { 
+          window.location.reload()
+        } else {
+          window.location.replace('/dashboard');
+        }
     }
   }, [props.getGetAllData])
 
   // to delete empty start and end date
   const postProcessValue = (values) => {
+
+    isEdit && (values['id'] = props.tripData[0].id);
     
     values['destinations'].forEach(destination => {
         if (destination['start_date'] === '') {
@@ -54,13 +65,15 @@ const AddTripForm = props => {
           // group_type: '',
           // trip_type: '',
           // users: [],
-          destinations: [
-            {
-              location: props.destLocation,
-              start_date: props.destStartDate,
-              end_date: props.destEndDate,
-            }
-          ], 
+
+          destinations: isEdit ? props.tripData[0].destinations : []
+          // [
+          //   {
+          //     location: props.destLocation,
+          //     start_date: props.destStartDate,
+          //     end_date: props.destEndDate,
+          //   }
+          // ], 
         }}
         validationSchema={Yup.object({
           // trip_name: Yup.string()
@@ -96,7 +109,8 @@ const AddTripForm = props => {
         onSubmit={(values, { setSubmitting }) => {
           values = postProcessValue(values);
           // alert(JSON.stringify(values, null, 2));
-          props.onCreateTrip(values);
+          console.log('values', isEdit);
+          (isEdit) ? props.onUpdateTrip(values) : props.onCreateTrip(values)
           setSubmitting(false);
         }}
       >
@@ -255,6 +269,7 @@ const mapStateToProps = (store) => ({
 
 const mapDispatchToProps = {
   onCreateTrip: Actions.createTrip,
+  onUpdateTrip: Actions.updateTrip,
 }
 
 export default connect(

@@ -17,7 +17,7 @@ class CreateDestModal extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             tripData: this.props.tripData,
-        }, console.log("check Data", this.state.tripData[0].destinations.map(destination => destination)))
+        })
     }
 
     render() {
@@ -33,16 +33,17 @@ class CreateDestModal extends React.Component {
                 >
                     <ModalHeader>Create New/Edit Destination</ModalHeader>
                     <ModalBody>
-                        { this.state.tripData[0].destinations.map(
-                                destination => (
+                        {/* { this.state.tripData[0].destinations.map( */}
+                                {/* destination => ( */}
                                     <AddTripForm
-                                        destLocation = {destination.location}
-                                        destStartDate = {destination.start_date}
-                                        destEndDate = {destination.end_date}
+                                        // destLocation = {destination.location}
+                                        // destStartDate = {destination.start_date}
+                                        // destEndDate = {destination.end_date}
+                                        tripData = {this.state.tripData}
                                     />
-                                )
-                            )
-                        }
+                                {/* ) */}
+                            {/* ) */}
+                        {/* } */}
                     </ModalBody>
                     <ModalFooter>
                     </ModalFooter>

@@ -116,7 +116,7 @@ class TripsCard extends React.Component {
                                     this.state.usersList.map( list => (
                                         
                                         <div style={styles.avatarContainer}>
-                                            <p>{list.id} </p>
+                                            <p>{list.name} </p>
                                             <img id="user-avatar" src={placeholder} alt="placeholder" style={styles.avatarSize} />
                                         </div>
                                     ) )
@@ -189,7 +189,10 @@ const styles = {
     removeStrap: {
         margin: 0,
         padding: 0,
-        maxWidth: 500,
+        minWidth: 400,
+        maxWidth: 400,
+        minHeight: 500,
+        maxHeight: 500,
         borderRadius: 20,
         overflow: "hidden",
         backgroundImage: "none",

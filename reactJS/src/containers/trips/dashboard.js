@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Button, Spinner, ButtonGroup } from 'reactstrap';
+import { Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Button, Spinner, ButtonGroup, CardDeck } from 'reactstrap';
 // import reducers from "../../reducers";
 
 import { connect } from 'react-redux';
@@ -141,7 +141,8 @@ class Dashboard extends React.Component {
 
                                     {
                                         this.state.tripsList.map( list => (
-                                        <Col xs="2" md="6" lg="5" style={{margin: 10,}}>
+                                        // <Col xs="2" md="6" lg="5" style={{margin: 10,}}>
+                                            <CardDeck style={{margin: 10,}}>
 
                                                 <TripsCard
                                                     tripData={list}
@@ -170,8 +171,9 @@ class Dashboard extends React.Component {
                                                         block
                                                     >Trip Details</Button>
                                                 </div> */}
-                                                </Col>
-                                                ) )
+                                                {/* </Col> */}
+                                            </CardDeck>
+                                            ) )
                                         }
 
                                 </Row>
