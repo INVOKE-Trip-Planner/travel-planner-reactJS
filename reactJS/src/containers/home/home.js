@@ -9,6 +9,10 @@ import TravelPlan3 from "../../assets/images/travel_plan3.png";
 
 import SearchForm from "../../components/forms/search/searchform.js";
 
+// Redux
+import { connect } from "react-redux";
+import Actions from "../../actions";
+
 class Home extends React.Component {
 
     constructor() {
@@ -16,6 +20,12 @@ class Home extends React.Component {
         this.state = {
             showExplore: true,
         }
+    }
+
+    componentDidMount() {
+        const { getUserSession } = this.props;
+
+        console.log("HOME USER SESSION", getUserSession.data.length);
     }
 
     handlePlan() {
@@ -318,4 +328,14 @@ const styles = {
 }
   
 
-export default Home;
+const mapStateToProps = (store) => ({
+    // getLoginData: Actions.getLoginData(store),
+    getUserSession: Actions.getUserSession(store),
+    // getUpdateUserData: Actions.getUpdateUserData(store)
+  })
+  
+const mapDispatchToProps = {
+    // resetUserSession: Actions.resetUserSession
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
