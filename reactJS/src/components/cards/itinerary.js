@@ -5,7 +5,7 @@ import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, 
 import { connect } from "react-redux";
 import Actions from "actions";
 
-import EditItinForm from "components/forms/itinerary/EditItinForm.js";
+import EditItinForm from "components/forms/itinerary/editItinForm.js";
 
 class Itinerary extends React.Component {
 
