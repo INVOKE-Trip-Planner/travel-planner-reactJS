@@ -33,8 +33,8 @@ class TripDetails extends React.Component {
             filterGetAllData: [],
             loading: true,
 
-            filterLocation: false,
-            filterLocationData: 'ok',
+            filterLocation: true,
+            filterLocationData: this.props.history.location.state.data[0],
             filterLocationId: '',
 
             categorySelectAll: true,
@@ -49,7 +49,7 @@ class TripDetails extends React.Component {
         this.setState({
             filterLocationData: this.state.tripData[0].destinations[0],
             filterLocationId: this.state.destinationId,
-        }, () => {console.log("filter id", this.state.filterLocationId)})
+        }, () => {console.log("data", this.state.filterLocationData)})
 
         this.props.onGetAll();
     }
@@ -75,6 +75,7 @@ class TripDetails extends React.Component {
             }
         }
 
+        // Create Acc
         if (prevProps.getCreateAccData.isLoading && !getCreateAccData.isLoading) {
             if ( (Object.keys(getCreateAccData.data).length !== 0) ) {
                 this.setState({
@@ -86,6 +87,12 @@ class TripDetails extends React.Component {
             } else {alert("Create accommodation failed.")}
         }
 
+        // Create Trans
+
+
+        // Create Itinerary
+
+        // Edit Accommodation
         if (prevProps.getEditAccData.isLoading && !getEditAccData.isLoading) {
             if ( (Object.keys(getEditAccData.data.message).length !== 0) ) {
                 this.setState({
@@ -97,8 +104,9 @@ class TripDetails extends React.Component {
             } else {alert("Edit accommodation failed.")}
         }
 
+        // Edit transport
         if (prevProps.getEditTransData.isLoading && !getEditTransData.isLoading) {
-            if ( (Object.keys(getEditTransData.data.message).length !== 0) ) {
+            if ( (Object.keys(getEditTransData.data).length !== 0) ) {
                 this.setState({
                     loading: true,
                     isOpen: false,
@@ -108,6 +116,9 @@ class TripDetails extends React.Component {
             } else {alert("Edit transport failed.")}
         }
 
+        // Edit itinerary 
+
+        // delete accommodation
         if (prevProps.getDeleteAccData.isLoading && !getDeleteAccData.isLoading) {
             if ( (Object.keys(getDeleteAccData.data.message).length !== 0) ) {
                 this.setState({
@@ -117,6 +128,7 @@ class TripDetails extends React.Component {
             } else {alert("Delete accommodation failed.") }
         }
 
+        // delete transport
         if (prevProps.getDeleteTransData.isLoading && !getDeleteTransData.isLoading) {
 
             if ( (Object.keys(getDeleteTransData.data.message).length !== 0) ) {
@@ -131,6 +143,8 @@ class TripDetails extends React.Component {
                 alert("Delete transport failed.")
             }
         }
+
+        // delete itinerary
         if (prevProps.getDeleteItinData.isLoading && !getDeleteItinData.isLoading) {
 
             if ( (Object.keys(getDeleteItinData.data.message).length !== 0) ) {
@@ -301,9 +315,9 @@ class TripDetails extends React.Component {
                                                 <h6>Category:</h6>
                                                 <ButtonGroup>
                                                     <Button  onClick={() => this.handleCategory()}>All</Button>
-                                                    <Button  onClick={() => this.handleCategory("accommodation")}>Accommodations</Button>
-                                                    <Button  onClick={() => this.handleCategory("transport")}>Tranports</Button>
-                                                    <Button  onClick={() => this.handleCategory("itinerary")}>Itineraries</Button>
+                                                    <Button  onClick={() => this.handleCategory("accommodation")}>Accommodation</Button>
+                                                    <Button  onClick={() => this.handleCategory("transport")}>Transport</Button>
+                                                    <Button  onClick={() => this.handleCategory("itinerary")}>Itinerary</Button>
                                                 </ButtonGroup>
                                             </Col>
                                         </Row>

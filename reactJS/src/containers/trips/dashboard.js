@@ -195,6 +195,8 @@ class Dashboard extends React.Component {
                     isOpen={this.state.openModalDelete}
                     toggle={() => this.closeModal()}
                     // destinationId = {this.state.tripId}
+
+                    deleteType = "trip"
                     tripData = {this.state.tripData}
                     handleDelete = { () => this.props.onDeleteTrip( {id: this.state.tripData.id} ) }
                 />

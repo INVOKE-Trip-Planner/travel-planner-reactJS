@@ -7,6 +7,8 @@ import Actions from "actions";
 
 import TransEditForm from "components/forms/transport/editTransForm.js";
 
+import DeleteTripModal from "../../components/modals/deleteTrip";
+
 class Transport extends React.Component {
 
     constructor(props) {
@@ -17,6 +19,9 @@ class Transport extends React.Component {
             transId: this.props.transId,
             tripData: this.props.tripData,
             dropDownOpen: false,
+
+            openModalDelete: false,
+            // openModalEdit: false,
         }
     }
 
@@ -30,16 +35,28 @@ class Transport extends React.Component {
     }
 
     handleDelete(transId) {
-        console.log('delete');
-        this.props.onDeleteTrans(transId);
+
+        this.setState({
+            openModalDelete: true,
+        })
+
+        // console.log('delete');
+        // this.props.onDeleteTrans(transId);
     }
 
     toggle() {
 
         this.setState({
             isOpen: !this.state.isOpen,
-            dropDownOpen: !this.state.dropDownOpen,
+            // dropDownOpen: !this.state.dropDownOpen,
         });
+    }
+
+    closeModal() {
+        this.setState({
+            // openModalEdit: false,
+            openModalDelete: false,
+        })
     }
 
     toggleDropDown() {
@@ -125,7 +142,18 @@ class Transport extends React.Component {
                     </ModalBody>
                     <ModalFooter>
                     </ModalFooter>
-                </Modal>      
+                </Modal>
+
+                {/* --------------------------DELETE TRANSPORT-------------------------------- */}
+                <DeleteTripModal
+                    isOpen={this.state.openModalDelete}
+                    toggle={() => this.closeModal()}
+                    // destinationId = {this.state.tripId}
+
+                    deleteType = "transport"
+                    tripData = {this.state.tripData}
+                    handleDelete = { () => this.props.onDeleteTrans( this.state.transId) }
+                />    
             </>
         )
     }

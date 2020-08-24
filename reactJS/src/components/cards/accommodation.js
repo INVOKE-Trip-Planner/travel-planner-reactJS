@@ -7,6 +7,8 @@ import Actions from "actions";
 
 import AccEditForm from "components/forms/accommodation/accEditForm.js";
 
+import DeleteTripModal from "../../components/modals/deleteTrip";
+
 class Accommodation extends React.Component {
 
     constructor(props) {
@@ -17,6 +19,9 @@ class Accommodation extends React.Component {
             accId: this.props.accId,
             tripData: this.props.tripData,
             dropDownOpen: false,
+
+            openModalDelete: false,
+            // openModalEdit: false,
         }
     }
 
@@ -27,8 +32,12 @@ class Accommodation extends React.Component {
     }
 
     handleDelete(accId) {
+
+        this.setState({
+            openModalDelete: true,
+        })
         console.log("ACC ID:", accId);
-        this.props.onDeleteAcc(accId);
+        // this.props.onDeleteAcc(accId);
     }
 
     toggle() {
@@ -36,6 +45,13 @@ class Accommodation extends React.Component {
         this.setState({
             isOpen: !this.state.isOpen,
         });
+    }
+
+    closeModal() {
+        this.setState({
+            // openModalEdit: false,
+            openModalDelete: false,
+        })
     }
 
     toggleDropDown() {
@@ -113,7 +129,18 @@ class Accommodation extends React.Component {
                             />
                         </div>
                     </ModalBody>
-                </Modal>              
+                </Modal>
+
+                {/* --------------------------DELETE ACCOMMODATION-------------------------------- */}
+                <DeleteTripModal
+                    isOpen={this.state.openModalDelete}
+                    toggle={() => this.closeModal()}
+                    // destinationId = {this.state.tripId}
+
+                    deleteType = "accommodation"
+                    tripData = {this.state.tripData}
+                    handleDelete = { () => this.props.onDeleteAcc( this.state.accId) }
+                />          
             </>
         )
     }
