@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import Actions from "actions";
 
 import { PRIMARY_COLOR } from "common/styles/index.js";
+import { SECONDARY_COLOR } from "../../common/styles";
 
 class TripsCard extends React.Component {
 
@@ -20,14 +21,22 @@ class TripsCard extends React.Component {
             listId: this.props.tripId,
             dropdownOpen: false,
 
+            selected: false,
         }
     }
 
     toggle() {
         this.setState({
             dropdownOpen: !this.state.dropdownOpen,
+            selected: !this.state.selected,
         })
     }
+
+    // buttonPressed() {
+    //     this.setState({
+    //         selected: !this.state.selected,
+    //     })
+    // }
 
     render() {
         return (
@@ -47,7 +56,8 @@ class TripsCard extends React.Component {
                         }}>
                         {/* <div className="image-container" style={styles.imageContainer}> */}
                             <div className="image-sizing" style={styles.tripImageBox}>
-                                <img id="banner1" src={banner1} alt="banner1" style={styles.imageSize}/>
+                                {/* {console.log(this.props.tripBanner)} */}
+                                <img id="banner1" src={`http://localhost:8000/storage/trip_banners/${this.props.tripBanner}`} alt="banner1" style={styles.imageSize}/>
                             </div>
                             <div className="trip-title-container" style={styles.cardTripTitle}>
                                 <h4>{this.props.tripTitle}</h4>
@@ -57,8 +67,8 @@ class TripsCard extends React.Component {
                                     this.state.usersList.map( list => (
                                         
                                         <div className="avatar-sizing" style={styles.avatarContainer}>
-                                            {console.log(list.avatar)}
-                                            <img id="user-avatar" src={placeholder} alt="placeholder" style={styles.avatarSize} />
+                                            {/* {console.log(list.avatar)} */}
+                                            <img id="user-avatar" src={`http://localhost:8000/storage/avatars/${list.avatar}`} alt="placeholder" style={styles.avatarSize} />
                                         </div>
                                     ) )
                                 }
@@ -77,7 +87,7 @@ class TripsCard extends React.Component {
 
                             <div style={styles.cardContent}>
                                 <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} style={styles.dropdownStyle} size="sm" color="secondary">
-                                    <DropdownToggle style={PRIMARY_COLOR} color="secondary">
+                                    <DropdownToggle style={this.state.selected ? SECONDARY_COLOR : PRIMARY_COLOR} color="secondary">
                                         <ion-icon className="chevronDownOutline" name="caret-down" style={{fontSize: 16, color: "black"}}></ion-icon>
                                     </DropdownToggle>
                                     <DropdownMenu style={styles.dropdownStyle}>
@@ -191,11 +201,15 @@ const styles = {
     imageSize: {
         width: "100%",
         height: "100%",
+        objectFit: "cover",
+        objectPosition: "center",
         zIndex: 1,
     },
     avatarSize: {
-        width: 20,
-        height: 20,
+        width: 30,
+        height: 30,
+        objectFit: "cover",
+        objectPosition: "center",
         zIndex: 2,
     },
     avatarContainer: {

@@ -195,7 +195,7 @@ const MyPhotoInput = ({ label, containerStyle, ...props }) => {
   const [photo, setPhoto] = React.useState(meta.initialValue ? BANNER_PREFIX + meta.initialValue : null);
   const [photoName, setPhotoName] = React.useState('');
 
-  console.log(photo);
+  // console.log(photo);
 
   const placeholder = 'http://localhost:8000/storage/avatars/placeholder.png';
 

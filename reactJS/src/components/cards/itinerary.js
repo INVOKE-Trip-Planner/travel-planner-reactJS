@@ -10,6 +10,7 @@ import EditItinForm from "components/forms/itinerary/editItinForm.js";
 import DeleteTripModal from "../../components/modals/deleteTrip";
 
 import { PRIMARY_COLOR } from "common/styles/index.js";
+import { SECONDARY_COLOR } from "../../common/styles";
 
 class Itinerary extends React.Component {
 
@@ -51,6 +52,7 @@ class Itinerary extends React.Component {
         // this.props.onDeleteItin(itinId);
     }
 
+    // toggle MODAL
     toggle() {
 
         this.setState({
@@ -65,10 +67,12 @@ class Itinerary extends React.Component {
         })
     }
 
+    // toggle DROPDOWN
     toggleDropDown() {
 
         this.setState({
             dropDownOpen: !this.state.dropDownOpen,
+            selected: !this.state.selected,
         });
     }
 
@@ -103,7 +107,7 @@ class Itinerary extends React.Component {
 
                             <div style={styles.dropdownContainer}>
                                 <Dropdown isOpen={this.state.dropDownOpen} toggle={() => this.toggleDropDown()} style={styles.dropdownStyle} color="secondary" size="sm">
-                                    <DropdownToggle style={PRIMARY_COLOR} color="secondary">
+                                    <DropdownToggle style={this.state.selected ? SECONDARY_COLOR : PRIMARY_COLOR} color="secondary">
                                         <ion-icon name="caret-down" style={{fontSize: 16, color: "black"}}></ion-icon>
                                     </DropdownToggle>
                                     <DropdownMenu style={styles.dropdownStyle}>

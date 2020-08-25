@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-import { Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Button, Spinner, ButtonGroup, CardDeck } from 'reactstrap';
+import { Container, Row, Col, Button, Spinner, ButtonGroup, CardDeck } from 'reactstrap';
 // import reducers from "../../reducers";
 
 import { connect } from 'react-redux';
@@ -11,7 +11,7 @@ import TripDetailsModal from "components/modals/tripDetails";
 import EditTripModal from "../../components/modals/editTrip";
 import DeleteTripModal from "../../components/modals/deleteTrip";
 
-import { PRIMARY_COLOR } from "common/styles/index.js";
+import { PRIMARY_COLOR, SECONDARY_COLOR } from "common/styles/index.js";
 
 class Dashboard extends React.Component {
 
@@ -26,6 +26,8 @@ class Dashboard extends React.Component {
             openModalDelete: false,
             openModalEdit: false,
             tripData: null,
+
+            selected: false,
         };
     }
 
@@ -114,6 +116,12 @@ class Dashboard extends React.Component {
           }
     }
 
+    buttonPressed() {
+        this.setState({
+            selected: !this.state.selected,
+        })
+    }
+
     render() {
         return(
             <> 
@@ -134,7 +142,7 @@ class Dashboard extends React.Component {
 
                                 <div style={{margin: 40,}}>
                                 <ButtonGroup>
-                                    <Button style={PRIMARY_COLOR}>Upcoming</Button>
+                                    <Button style={this.state.selected ? PRIMARY_COLOR : SECONDARY_COLOR} onClick={() => this.buttonPressed()}>Upcoming</Button>
                                     <Button style={PRIMARY_COLOR}>Past Trips</Button>
                                 </ButtonGroup>
                                 </div>

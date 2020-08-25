@@ -14,6 +14,11 @@ export const PRIMARY_COLOR = {
     border: "none",
 }
 
+export const SECONDARY_COLOR = {
+    backgroundColor: "#B03A2E",
+    border: 'none',
+}
+
 export const PRIMARY_COLOR_FONT = {
     // backgroundImage: "linear-gradient(to bottom right, #E74C3C, ##F7DC6F)",
     color: "linear-gradient(to bottom right, #CB4335, #E74C3C)",

@@ -59,7 +59,7 @@ class Home extends React.Component {
                             <div style={styles.contentTopContainer}>
                                 <div style={styles.titleContainer}>
                                     <h1>Plan your trip with Trip<span style={PRIMARY_COLOR_FONT}>Bantu</span></h1>
-                                    <h6>Making trip planning easier for all travellers anywhere, anytime!</h6>
+                                    <h5>Making trip planning easier for all travellers anywhere, anytime!</h5>
                                 </div>
 
 

@@ -10,6 +10,7 @@ import TransEditForm from "components/forms/transport/editTransForm.js";
 import DeleteTripModal from "../../components/modals/deleteTrip";
 
 import { PRIMARY_COLOR } from "common/styles/index.js";
+import { SECONDARY_COLOR } from "../../common/styles";
 
 class Transport extends React.Component {
 
@@ -65,6 +66,7 @@ class Transport extends React.Component {
 
         this.setState({
             dropDownOpen: !this.state.dropDownOpen,
+            selected: !this.state.selected,
         });
     }
 
@@ -94,7 +96,7 @@ class Transport extends React.Component {
 
                             <div style={styles.cardContent}>
                                 <Dropdown isOpen={this.state.dropDownOpen} toggle={() => this.toggleDropDown()} style={styles.dropdownStyle} color="none" size="sm">
-                                    <DropdownToggle style={PRIMARY_COLOR} color="secondary">
+                                    <DropdownToggle style={this.state.selected ? SECONDARY_COLOR : PRIMARY_COLOR} color="secondary">
                                         <ion-icon name="caret-down" style={{fontSize: 16, color: "black"}}></ion-icon>
                                     </DropdownToggle>
                                     <DropdownMenu style={styles.dropdownStyle}>

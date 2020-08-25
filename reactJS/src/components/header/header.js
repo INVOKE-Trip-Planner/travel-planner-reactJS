@@ -30,8 +30,9 @@ class Header extends React.Component {
     componentDidMount(prevProps) {
         const { getLoginData } = this.props;
         const { getUserSession } = this.props;
+        const { getUpdateUserData } = this.props;
 
-        // console.log("header login user", getLoginData.data.user)
+        console.log("CHECK", getUpdateUserData.data.username)
 
         if ( getUserSession.data.length !== undefined ) {
             // console.log("user detected");
@@ -39,15 +40,15 @@ class Header extends React.Component {
             this.setState({
                 isLogin: true,
                 setUsername: true,
-                // displayUsername: (prevProps.getLoginData.data.user === undefined) ? '' : getLoginData.data.user.name,
+                displayUsername: getUpdateUserData.data.username
             })
         }
 
-        if (this.state.isLogin) {
-            this.setState({
-                displayUsername: getLoginData.data.user.name,   
-            })
-        }
+        // if (this.state.isLogin) {
+        //     this.setState({
+        //         displayUsername: getLoginData.data.user.name,   
+        //     })
+        // }
     }
 
     componentDidUpdate(prevProps) {
@@ -103,16 +104,16 @@ class Header extends React.Component {
                                 {this.state.isLogin ? (
                                     <Nav className="mr-auto" navbar>
                                         <NavItem>
-                                            <NavLink><Link to="/dashboard" style={styles.linkstyle}>Trips</Link></NavLink>
+                                            <NavLink><Link to="/dashboard" style={styles.linkstyle}>Dashboard</Link></NavLink>
                                         </NavItem>
-                                        <NavItem>
+                                        {/* <NavItem>
                                             <NavLink><Link onClick={() => this.logoutPressed()} to="" style={styles.linkstyle}>Logout</Link></NavLink>
-                                        </NavItem>
+                                        </NavItem> */}
                                     </Nav>
                                 ) : (
                                     <Nav className="mr-auto" navbar>
                                         <NavItem>
-                                            <NavLink><Link to="/dashboard" style={styles.linkstyle}>Trips</Link></NavLink>
+                                            <NavLink><Link to="/dashboard" style={styles.linkstyle}>Dashboard</Link></NavLink>
                                         </NavItem>
                                         <NavItem>
                                             <NavLink><Link to="/login" style={styles.linkstyle}>Login</Link></NavLink>

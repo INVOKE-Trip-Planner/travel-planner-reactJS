@@ -6,10 +6,12 @@ import { connect } from "react-redux";
 import Actions from "actions";
 
 import { PRIMARY_COLOR } from "common/styles/index.js";
+import { SECONDARY_COLOR } from "../../common/styles";
 
 import AccEditForm from "components/forms/accommodation/accEditForm.js";
 
 import DeleteTripModal from "../../components/modals/deleteTrip";
+
 
 class Accommodation extends React.Component {
 
@@ -24,6 +26,7 @@ class Accommodation extends React.Component {
 
             openModalDelete: false,
             // openModalEdit: false,
+            selected: false,
         }
     }
 
@@ -42,6 +45,7 @@ class Accommodation extends React.Component {
         // this.props.onDeleteAcc(accId);
     }
 
+    // toggle MODAL
     toggle() {
 
         this.setState({
@@ -56,10 +60,12 @@ class Accommodation extends React.Component {
         })
     }
 
+    // toggle DROPDOWN
     toggleDropDown() {
 
         this.setState({
             dropDownOpen: !this.state.dropDownOpen,
+            selected: !this.state.selected,
         });
     }
 
@@ -67,7 +73,7 @@ class Accommodation extends React.Component {
         return (
             <>
             <Card body outline color="danger" style={styles.removeStrap}>
-                <CardHeader>
+                <CardHeader style={{minHeight: 80,}}>
                     <div style={styles.cardContentCenter}>
                         <h5>{this.props.accName}</h5>
                     </div>
@@ -84,7 +90,7 @@ class Accommodation extends React.Component {
 
                         <div style={styles.cardContent}>
                             <Dropdown isOpen={this.state.dropDownOpen} toggle={() => this.toggleDropDown()} style={styles.dropdownStyle} color="none" size="sm">
-                                <DropdownToggle style={PRIMARY_COLOR} color="secondary">
+                                <DropdownToggle style={this.state.selected ? SECONDARY_COLOR : PRIMARY_COLOR} color="secondary">
                                     <ion-icon name="caret-down" style={{fontSize: 16, color: "black"}}></ion-icon>
                                 </DropdownToggle>
                                 <DropdownMenu style={styles.dropdownStyle}>

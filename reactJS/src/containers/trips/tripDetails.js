@@ -45,12 +45,20 @@ class TripDetails extends React.Component {
             categorySelectAcc: false,
             categorySelectTrans: false,
             categorySelectItin: false,
+
+            // selectedDestination: false,
+            selectedAll: true,
+            selectedAcc: false,
+            selectedTrans: false,
+            selectedItin: false,
         }
     }
 
     componentDidMount() {
 
-        // console.log("DASHBOARD MOUNTED");
+        console.log("DASHBOARD MOUNTED");
+
+        console.log("details data", this.state.tripData[0])
 
         const { getUserSession } = this.props;
 
@@ -216,6 +224,8 @@ class TripDetails extends React.Component {
                   categorySelectAll: false,
                   categorySelectTrans: false,
                   categorySelectItin: false,
+
+                  selectedAcc: true,
               })
               break;
 
@@ -324,7 +334,8 @@ class TripDetails extends React.Component {
 
                                         {/* -----------------------------------------JUMBOTRON----------------------------------------------------------------------------- */}
                                         <Row style={{width: "100%", justifyContent: "center", margin: 0, color: "white",}}>
-                                            <Jumbotron fluid style={styles.jumbotronStyle}>
+
+                                            <Jumbotron fluid style={{backgroundImage: `url(http://localhost:8000/storage/trip_banners/${this.state.tripData[0].trip_banner})`, opacity: 0.8, ...styles.jumbotronStyle}}>
                                                 <Container fluid>
                                                     <div style={{marginBottom: 40,}}>
                                                         <h1 className="display-3">{list.trip_name}</h1>
@@ -583,11 +594,12 @@ const styles = {
             height: "100%", 
             justifyContent: "center", 
             alignItems: "center", 
-            backgroundImage: `url(${banner1})`, 
+            // backgroundImage: `url(http://localhost:8000/storage/trip_banners/${this.state.tripData[0].trip_banner})`,
             backgroundPosition: "center", 
             backgroundSize: "cover", 
             opacity: 0.9, 
-            textShadow: "0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black"
+            textShadow: "0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black",
+            fontWeight: "bold",
         }
     ,
     selectContainer: {
