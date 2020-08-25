@@ -76,7 +76,14 @@ const UpdateUserForm = (props) => {
             alignItems: 'center',
           }}
         >
-          <QRCode value={`${id}`} />
+          <QRCode value={
+              `{
+                "id": ${id},
+                "name": "${name}",
+                "avatar": "${avatar}"
+              }`
+            } 
+          />
 
           <MyPhotoInput 
             name="avatar"
