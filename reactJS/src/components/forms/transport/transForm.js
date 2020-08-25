@@ -161,7 +161,7 @@ const TransForm = (props) => {
           .required('Required'),
         transMode: Yup.string()
           .oneOf(
-            ['FLIGHT', 'TRAIN', 'BUS', 'OTHER'],
+            ['FLIGHT', 'TRAIN', 'BUS', 'FERRY', 'OTHER'],
             'Invalid Transportation Mode'
           )
           .required('Required'),
@@ -223,6 +223,7 @@ const TransForm = (props) => {
           <option value="FLIGHT">FLIGHT</option>
           <option value="TRAIN">TRAIN</option>
           <option value="BUS">BUS</option>
+          <option value="FERRY">FERRY</option>
           <option value="OTHER">OTHER</option>
         </MySelect>
 

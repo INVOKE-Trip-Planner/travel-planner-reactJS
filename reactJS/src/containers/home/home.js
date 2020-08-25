@@ -145,7 +145,7 @@ class Home extends React.Component {
                         </Col>
                         <Col xs="12" sm="12" md="6" lg="6" xl="6" style={styles.learnColTwo}>
                             <div style={styles.textBox}>
-                                <p className="learn-text" >We make orgazining trips with your friends or family easy for everyone.</p>
+                                <p className="learn-text" >We make orgazining trips with your friends and family, effortless.</p>
                             </div>
                         </Col>
                     </Row>
