@@ -159,7 +159,7 @@ class Dashboard extends React.Component {
                                     
                                     <Row style={{height: "40vh", justifyContent: "center", alignItems: "center"}}>
                                     
-                                        <Spinner animation="border" role="status">
+                                        <Spinner type="grow" color="danger">
                                             <span className="sr-only">Loading...{console.log("IF STATE", this.state.tripsList.length)}</span>
                                         </Spinner>
                                     </Row>) : (

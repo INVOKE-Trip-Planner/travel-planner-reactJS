@@ -360,7 +360,7 @@ class TripDetails extends React.Component {
                                         {/* -----------------------------------------JUMBOTRON----------------------------------------------------------------------------- */}
                                         <Row style={{width: "100%", justifyContent: "center", margin: 0, color: "white",}}>
 
-                                            <Jumbotron fluid style={{backgroundImage: `url(http://localhost:8000/storage/trip_banners/${this.state.tripData[0].trip_banner})`, opacity: 0.8, ...styles.jumbotronStyle}}>
+                                            <Jumbotron fluid style={{backgroundImage: `url(http://localhost:8000/storage/trip_banners/${this.state.tripData[0].trip_banner})`, opacity: 0.7, ...styles.jumbotronStyle}}>
                                                 <Container fluid>
                                                     <div style={{marginBottom: 40,}}>
                                                         <h1 className="display-3">{list.trip_name}</h1>
@@ -418,9 +418,9 @@ class TripDetails extends React.Component {
 
                                                 {this.state.loading ? (
 
-                                                <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
+                                                <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
                                         
-                                                    <Spinner animation="border" role="status">
+                                                    <Spinner type="grow" color="danger">
                                                         <span className="sr-only">Loading...</span>
                                                     </Spinner>
                                                 </Row>) : (
@@ -470,8 +470,8 @@ class TripDetails extends React.Component {
 
                                                 {this.state.loading ? (
 
-                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
-                                                        <Spinner animation="border" role="status">
+                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
+                                                        <Spinner type="grow" color="danger">
                                                             <span className="sr-only">Loading...</span>
                                                         </Spinner>
                                                     </Row>) : (
@@ -525,9 +525,9 @@ class TripDetails extends React.Component {
 
                                                 {this.state.loading ? (
 
-                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
+                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
 
-                                                        <Spinner animation="border" role="status">
+                                                        <Spinner type="grow" color="danger">
                                                             <span className="sr-only">Loading...</span>
                                                         </Spinner>
                                                     </Row>) : (
