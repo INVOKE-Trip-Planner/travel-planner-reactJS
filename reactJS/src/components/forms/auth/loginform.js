@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 
 import { Button } from "reactstrap";
 
+import {PRIMARY_COLOR} from "common/styles/index.js";
+
 // Redux
 import { connect } from "react-redux";
 import Actions from "../../../actions";
@@ -75,7 +77,7 @@ const LoginForm = (props) => {
         />
 
         <div style={styles.buttonContainer}>
-          <Button style={{border: "none", backgroundImage: "linear-gradient(to bottom right, #E74C3C, #B03A2E)"}} type="submit" size="lg">Login</Button>
+          <Button style={PRIMARY_COLOR} type="submit" size="lg">Login</Button>
           {/* <button type="submit">Register</button> */}
         </div>
       </Form>
