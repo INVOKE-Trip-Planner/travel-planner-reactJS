@@ -68,7 +68,13 @@ const AddTripForm = props => {
           // trip_type: '',
           // users: [],
 
-          destinations: isEdit ? props.tripData[0].destinations : []
+          destinations: isEdit ? props.tripData[0].destinations : [
+            {
+                  location: '',
+                  start_date: '',
+                  end_date: '',
+                }
+          ]
           // [
           //   {
           //     location: props.destLocation,

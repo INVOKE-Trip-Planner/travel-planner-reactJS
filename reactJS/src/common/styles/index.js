@@ -21,10 +21,10 @@ export const SECONDARY_COLOR = {
 
 export const PRIMARY_COLOR_FONT = {
     // backgroundImage: "linear-gradient(to bottom right, #E74C3C, ##F7DC6F)",
-    color: "linear-gradient(to bottom right, #CB4335, #E74C3C)",
+    color: "#E74C3C",
 
-    border: "none",
-    outline: "black",
+    // border: "none",
+    // outline: "black",
 }
 
 export const DROPDOWN_ICON = {

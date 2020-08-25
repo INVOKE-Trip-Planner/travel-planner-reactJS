@@ -18,6 +18,7 @@ import CreateTransModal from "components/modals/create/createTrans.js";
 import CreateItinModal from "components/modals/create/createItin.js";
 
 import { PRIMARY_COLOR } from "common/styles/index.js";
+import { SECONDARY_COLOR } from "../../common/styles";
 
 class TripDetails extends React.Component {
 
@@ -46,11 +47,13 @@ class TripDetails extends React.Component {
             categorySelectTrans: false,
             categorySelectItin: false,
 
-            // selectedDestination: false,
             selectedAll: true,
             selectedAcc: false,
             selectedTrans: false,
             selectedItin: false,
+
+            selectedDest: false,
+            selectedAddDest: false,
         }
     }
 
@@ -225,7 +228,10 @@ class TripDetails extends React.Component {
                   categorySelectTrans: false,
                   categorySelectItin: false,
 
+                  selectedAll: false,
                   selectedAcc: true,
+                  selectedTrans: false,
+                  selectedItin: false,
               })
               break;
 
@@ -236,6 +242,11 @@ class TripDetails extends React.Component {
                   categorySelectAll: false,
                   categorySelectAcc: false,
                   categorySelectItin: false,
+
+                  selectedAll: false,
+                  selectedAcc: false,
+                  selectedTrans: true,
+                  selectedItin: false,
               })
               break;            
               
@@ -246,6 +257,11 @@ class TripDetails extends React.Component {
                   categorySelectAll: false,
                   categorySelectTrans: false,
                   categorySelectAcc: false,
+
+                  selectedAll: false,
+                  selectedAcc: false,
+                  selectedTrans: false,
+                  selectedItin: true,
               })
               break;
 
@@ -257,6 +273,11 @@ class TripDetails extends React.Component {
                   categorySelectAcc: false,
                   categorySelectTrans: false,
                   categorySelectItin: false,
+
+                  selectedAll: true,
+                  selectedAcc: false,
+                  selectedTrans: false,
+                  selectedItin: false,
               })
               break;
           }
@@ -269,6 +290,8 @@ class TripDetails extends React.Component {
 
               this.setState({
                   openModalDest: true,
+
+                  selectedAddDest: !this.state.selectedAddDest,
               })
               break;
             case "accommodation":
@@ -317,6 +340,8 @@ class TripDetails extends React.Component {
             filterLocation: true,
             filterLocationData: this.state.tripData.map( list => list.destinations.filter( destination => (destination.id === data.id) && destination )[0])[0],
             filterLocationId: data.id,
+
+            selectedDest: true,
         })
     }
 
@@ -345,7 +370,7 @@ class TripDetails extends React.Component {
                                                         <h5>Start Date: <strong>{list.start_date}</strong></h5>
                                                         <h5>End Date: <strong>{list.end_date}</strong></h5>
                                                     </div>
-                                                    <h5>Trip Cost: <strong>RM{list.cost}</strong></h5>
+                                                    <h5>Trip Cost: <strong>RM{list.total}</strong></h5>
                                                 </Container>
                                             </Jumbotron>
                                         </Row>
@@ -358,9 +383,9 @@ class TripDetails extends React.Component {
                                                 <h6>Destinations:</h6>
                                                 <ButtonGroup>                                               
                                                     { list.destinations.map( destination => (
-                                                        <Button style={PRIMARY_COLOR} onClick={() => this.filterLocation(destination)}>{destination.location}</Button>
+                                                        <Button style={this.state.selectedDest ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.filterLocation(destination)}>{destination.location}</Button>
                                                     ))}
-                                                    <Button onClick={() => this.handleCreate("destination")} style={PRIMARY_COLOR}>
+                                                    <Button onClick={() => this.handleCreate("destination")} style={this.state.selectedAddDest ? SECONDARY_COLOR : PRIMARY_COLOR}>
                                                         <ion-icon name="create" style={{fontSize: 24}}></ion-icon>
                                                     </Button>
                                                 </ButtonGroup>
@@ -370,10 +395,10 @@ class TripDetails extends React.Component {
                                             <Col xs="12" sm="12" md="5" lg="5" xl="5" style={{margin: "0 auto", padding: 5,}}>
                                                 <h6>Category:</h6>
                                                 <ButtonGroup>
-                                                    <Button style={PRIMARY_COLOR} onClick={() => this.handleCategory()}>All</Button>
-                                                    <Button style={PRIMARY_COLOR} onClick={() => this.handleCategory("accommodation")}>Accommodation</Button>
-                                                    <Button style={PRIMARY_COLOR} onClick={() => this.handleCategory("transport")}>Transport</Button>
-                                                    <Button style={PRIMARY_COLOR} onClick={() => this.handleCategory("itinerary")}>Itinerary</Button>
+                                                    <Button style={this.state.selectedAll ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory()}>All</Button>
+                                                    <Button style={this.state.selectedAcc ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("accommodation")}>Accommodation</Button>
+                                                    <Button style={this.state.selectedTrans ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("transport")}>Transport</Button>
+                                                    <Button style={this.state.selectedItin ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("itinerary")}>Itinerary</Button>
                                                 </ButtonGroup>
                                             </Col>
                                         </Row>

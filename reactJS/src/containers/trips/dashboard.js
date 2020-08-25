@@ -50,7 +50,7 @@ class Dashboard extends React.Component {
         // console.log("DASHBOARD UPDATE");
         const { getGetAllData } = this.props;
 
-        console.log("TRIP DATA", getGetAllData.data);
+        console.log("TRIP DATA", getGetAllData.data.length);
 
 
         if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
@@ -64,6 +64,10 @@ class Dashboard extends React.Component {
                         openModalEdit: false,
                     }
                 )
+            } else {
+                this.setState({
+                    loading: false,
+                })
             }
         }
     }
@@ -122,6 +126,10 @@ class Dashboard extends React.Component {
         })
     }
 
+    handleAddTrip() {
+        this.props.history.push("/addtrip");
+    }
+
     render() {
         return(
             <> 
@@ -149,53 +157,59 @@ class Dashboard extends React.Component {
 
                                 {this.state.loading ? (
                                     
-                                <Row style={{height: "40vh", justifyContent: "center", alignItems: "center"}}>
-                                
-                                    <Spinner animation="border" role="status">
-                                        <span className="sr-only">Loading...</span>
-                                    </Spinner>
-                                </Row>) : (
+                                    <Row style={{height: "40vh", justifyContent: "center", alignItems: "center"}}>
+                                    
+                                        <Spinner animation="border" role="status">
+                                            <span className="sr-only">Loading...{console.log("IF STATE", this.state.tripsList.length)}</span>
+                                        </Spinner>
+                                    </Row>) : (
 
-                                <Row style={{justifyContent: "center", alignItems: "center",}}>
+                                    <Row style={{justifyContent: "center", alignItems: "center",}}>
 
-                                    {
-                                        this.state.tripsList.map( list => (
-                                        // <Col xs="2" md="6" lg="5" style={{margin: 10,}}>
-                                            <CardDeck style={{margin: 10,}}>
+                                        {   ( (this.state.tripsList.length === 0) || (this.state.tripsList.length === undefined) ) ? 
+                                        
+                                            (
+                                                // <CardDeck>
+                                                    <div style={{height: 200, width: 200, display: "flex", flexDirection: "column", justifyContent: "space-around"}}>
+                                                        <h4>No trips found.</h4>
 
-                                                <TripsCard
-                                                    tripData={list}
-                                                    tripId={list.id}
-                                                    tripTitle={list.trip_name}
-                                                    tripOrigin={list.origin}
-                                                    tripCreatedBy={list.created_by}
-                                                    tripStartDate={list.start_date}
-                                                    tripEndDate={list.end_date}
-                                                    tripTotal={list.total}
-                                                    tripUsers={list.users}
-                                                    tripBanner={list.trip_banner}
-                                                    onClick={() => this.detailsPressed(list.id)}
-                                                    handleEdit={ () => this.handleShowModal('EDIT', list)}
-                                                    handleDelete={ () => this.handleShowModal('DELETE', list)}
-                                                
-                                                />
+                                                        <Button 
+                                                            style={PRIMARY_COLOR}
+                                                            size="lg"
+                                                            // block
+                                                            onClick={()=>this.handleAddTrip()}
+                                                            >Create a New Trip
+                                                        </Button>
+                                                    </div>
+                                                // </CardDeck>
+
+                                            ) : (
+
+                                                this.state.tripsList.map( list => (
+                                                    <CardDeck style={{margin: 10,}}>
+
+                                                        <TripsCard
+                                                            tripData={list}
+                                                            tripId={list.id}
+                                                            tripTitle={list.trip_name}
+                                                            tripOrigin={list.origin}
+                                                            tripCreatedBy={list.created_by}
+                                                            tripStartDate={list.start_date}
+                                                            tripEndDate={list.end_date}
+                                                            tripTotal={list.total}
+                                                            tripUsers={list.users}
+                                                            tripBanner={list.trip_banner}
+                                                            onClick={() => this.detailsPressed(list.id)}
+                                                            handleEdit={ () => this.handleShowModal('EDIT', list)}
+                                                            handleDelete={ () => this.handleShowModal('DELETE', list)}
+                                                        />
                                             
-                                                {/* <div style={styles.buttonContainer}>
-                                                    <Button 
-                                                        style={{border: "rgba(0,0,0,0.4)"}} // backgroundImage: "linear-gradient(to bottom right, #E74C3C, #B03A2E)"}}
-                                                        type="submit"
-                                                        color="link"
-                                                        // size="sm"
-                                                        onClick={() => this.detailsPressed(list.id)}
-                                                        block
-                                                    >Trip Details</Button>
-                                                </div> */}
-                                                {/* </Col> */}
-                                            </CardDeck>
-                                            ) )
+                                                    </CardDeck>
+                                                    ) )
+                                                ) 
                                         }
 
-                                </Row>
+                                    </Row>
                                 )}
                             </Container>
                         {/* </Col> */}

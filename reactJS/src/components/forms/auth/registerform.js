@@ -45,6 +45,7 @@ const SignupForm = (props) => {
   return (
     <Formik
       initialValues={{ username: '', name:'', email: '', password: '', password_confirmation: ''}}
+      // initialValues={{ name: 'test', username:'aizat', email: 'test@gmail.com', password: '1234abcd', password_confirmation: '1234abcd'}}
 
       validationSchema={Yup.object({
         name: Yup.string()
@@ -67,7 +68,7 @@ const SignupForm = (props) => {
       onSubmit={(values, { setSubmitting }) => {
         console.log(values);
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          // alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400)
         props.onRegister(values);

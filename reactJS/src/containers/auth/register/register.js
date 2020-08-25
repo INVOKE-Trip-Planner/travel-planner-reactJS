@@ -1,11 +1,53 @@
 import React from "react";
 import { Container,Row,Col } from "reactstrap";
 
+// Redux
+import { connect } from "react-redux";
+import Actions from "../../../actions";
+
 import SignupForm from "../../../components/forms/auth/registerform.js";
 
 import registerImg from "assets/images/registerpage.png";
 
+
 class Register extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+    
+        }
+    }
+    
+    componentDidUpdate(prevProps) {
+        const { getRegisterData } = this.props;
+
+            // console.log("REGISTER DATA", getRegisterData.error.errors.username[0]);
+
+    
+        if (prevProps.getRegisterData.isLoading && !getRegisterData.isLoading) {
+    
+            // console.log("REGISTER DATA", Object.keys(getRegisterData));
+
+            // console.log("REGISTER DATA", getRegisterData.error.errors.username[0]);
+    
+            // Check length of getLoginData to see if data exist
+            if ( (Object.keys(getRegisterData.data).length !== 0) ) {
+                
+                // if login data exist
+                alert("Registration success! Please login to your account.");
+                this.props.history.push("/login");
+            }  else {
+
+                if (Object.keys(getRegisterData.error.errors.username[0] !== 0)) {
+                    alert(getRegisterData.error.errors.username[0])
+                } else {
+                // alert(getRegisterData.error.response.data.errors.username[0])
+                    alert("Registration failed.")
+                }
+            }
+        }    
+    }
 
     render() {
         return (
@@ -118,4 +160,12 @@ const styles = {
   }
   
 
-export default Register;
+  const mapStateToProps = (store) => ({
+    getRegisterData: Actions.getRegisterData(store),
+  })
+  
+const mapDispatchToProps = {
+    // onRegister: Actions.register,
+  }
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

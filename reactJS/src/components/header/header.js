@@ -8,6 +8,8 @@ import { connect } from "react-redux";
 import Actions from "../../actions";
 import { getUserSession } from "../../actions/profile/userSession";
 
+import { PRIMARY_COLOR_FONT } from "common/styles/index.js";
+
 class Header extends React.Component {
 
     constructor(props) {
@@ -88,7 +90,7 @@ class Header extends React.Component {
             setUsername: false,
         })
         alert("Successfully logout")
-        window.location.reload(); // reloads the page after logging out
+        // window.location.reload(); // reloads the page after logging out
     }
 
     render() {
@@ -96,7 +98,7 @@ class Header extends React.Component {
             <>
                 <Container className="themed-container" fluid={true}>
                     <Navbar color="light" light expand="md">
-                        <NavbarBrand><Link to="/" style={styles.linkstyle}>TripBantu</Link></NavbarBrand>
+                        <NavbarBrand><Link to="/" style={styles.linkstyle}>Trip<span style={PRIMARY_COLOR_FONT}>Bantu</span></Link></NavbarBrand>
                         <NavbarToggler onClick={() => this.toggle()} />
                         <Collapse isOpen={this.state.isOpen} navbar>
 
@@ -127,7 +129,7 @@ class Header extends React.Component {
                                 {this.state.setUsername && (
                                     <UncontrolledDropdown nav inNavbar style={{listStyleType: "none"}}>
                                         <DropdownToggle nav caret>
-                                            <NavbarText>
+                                            <NavbarText style={styles.linkstyle}>
                                                 Hi {this.state.displayUsername}
                                             </NavbarText>
                                         </DropdownToggle>
