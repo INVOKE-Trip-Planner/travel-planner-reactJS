@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* deleteAcc( {data} ) {
-    // console.log("DELETE ACC SAGA");
+    console.log("DELETE ACC SAGA", data);
 
     // let store = getStore().getState();
 

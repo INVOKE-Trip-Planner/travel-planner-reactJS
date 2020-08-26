@@ -5,7 +5,13 @@ import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, 
 import { connect } from "react-redux";
 import Actions from "actions";
 
+import { PRIMARY_COLOR } from "common/styles/index.js";
+import { SECONDARY_COLOR } from "../../common/styles";
+
 import AccEditForm from "components/forms/accommodation/accEditForm.js";
+
+import DeleteTripModal from "../../components/modals/deleteTrip";
+
 
 class Accommodation extends React.Component {
 
@@ -17,6 +23,10 @@ class Accommodation extends React.Component {
             accId: this.props.accId,
             tripData: this.props.tripData,
             dropDownOpen: false,
+
+            openModalDelete: false,
+            // openModalEdit: false,
+            selected: false,
         }
     }
 
@@ -27,10 +37,15 @@ class Accommodation extends React.Component {
     }
 
     handleDelete(accId) {
+
+        this.setState({
+            openModalDelete: true,
+        })
         console.log("ACC ID:", accId);
-        this.props.onDeleteAcc(accId);
+        // this.props.onDeleteAcc(accId);
     }
 
+    // toggle MODAL
     toggle() {
 
         this.setState({
@@ -38,10 +53,19 @@ class Accommodation extends React.Component {
         });
     }
 
+    closeModal() {
+        this.setState({
+            // openModalEdit: false,
+            openModalDelete: false,
+        })
+    }
+
+    // toggle DROPDOWN
     toggleDropDown() {
 
         this.setState({
             dropDownOpen: !this.state.dropDownOpen,
+            selected: !this.state.selected,
         });
     }
 
@@ -49,7 +73,7 @@ class Accommodation extends React.Component {
         return (
             <>
             <Card body outline color="danger" style={styles.removeStrap}>
-                <CardHeader>
+                <CardHeader style={{minHeight: 80,}}>
                     <div style={styles.cardContentCenter}>
                         <h5>{this.props.accName}</h5>
                     </div>
@@ -66,8 +90,8 @@ class Accommodation extends React.Component {
 
                         <div style={styles.cardContent}>
                             <Dropdown isOpen={this.state.dropDownOpen} toggle={() => this.toggleDropDown()} style={styles.dropdownStyle} color="none" size="sm">
-                                <DropdownToggle>
-                                    <ion-icon name="chevron-down-outline"></ion-icon>
+                                <DropdownToggle style={this.state.selected ? SECONDARY_COLOR : PRIMARY_COLOR} color="secondary">
+                                    <ion-icon name="caret-down" style={{fontSize: 16, color: "black"}}></ion-icon>
                                 </DropdownToggle>
                                 <DropdownMenu style={styles.dropdownStyle}>
                                     <div style={styles.dropdownItemContainer} onClick={() => this.handleEdit()}>
@@ -113,7 +137,18 @@ class Accommodation extends React.Component {
                             />
                         </div>
                     </ModalBody>
-                </Modal>              
+                </Modal>
+
+                {/* --------------------------DELETE ACCOMMODATION-------------------------------- */}
+                <DeleteTripModal
+                    isOpen={this.state.openModalDelete}
+                    toggle={() => this.closeModal()}
+                    // destinationId = {this.state.tripId}
+
+                    deleteType = "accommodation"
+                    tripData = {this.state.tripData}
+                    handleDelete = { () => this.props.onDeleteAcc( this.state.accId) }
+                />          
             </>
         )
     }
@@ -123,8 +158,15 @@ const styles = {
     removeStrap: {
         margin: 0,
         padding: 0,
-        minWidth: 500,
+        minWidth: 400,
+        maxWidth: 400,
+        minHeight: 400,
+        maxHeight: 400,
         borderRadius: 20,
+        overflow: "hidden",
+        backgroundImage: "none",
+        shadowColor: "#000",
+        boxShadow: "0.2px 0.2px 5px 0.7px rgba(0,0,0,0.4)"
     },
     cardContent: {
         padding: 10,

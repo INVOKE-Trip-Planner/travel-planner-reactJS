@@ -8,6 +8,8 @@ import { connect } from "react-redux";
 import Actions from "../../actions";
 import { getUserSession } from "../../actions/profile/userSession";
 
+import { PRIMARY_COLOR_FONT } from "common/styles/index.js";
+
 class Header extends React.Component {
 
     constructor(props) {
@@ -30,8 +32,9 @@ class Header extends React.Component {
     componentDidMount(prevProps) {
         const { getLoginData } = this.props;
         const { getUserSession } = this.props;
+        const { getUpdateUserData } = this.props;
 
-        // console.log("header login user", getLoginData.data.user)
+        console.log("CHECK", getUpdateUserData.data.username)
 
         if ( getUserSession.data.length !== undefined ) {
             // console.log("user detected");
@@ -39,15 +42,15 @@ class Header extends React.Component {
             this.setState({
                 isLogin: true,
                 setUsername: true,
-                // displayUsername: (prevProps.getLoginData.data.user === undefined) ? '' : getLoginData.data.user.name,
+                displayUsername: getUpdateUserData.data.username
             })
         }
 
-        if (this.state.isLogin) {
-            this.setState({
-                displayUsername: getLoginData.data.user.name,   
-            })
-        }
+        // if (this.state.isLogin) {
+        //     this.setState({
+        //         displayUsername: getLoginData.data.user.name,   
+        //     })
+        // }
     }
 
     componentDidUpdate(prevProps) {
@@ -87,7 +90,7 @@ class Header extends React.Component {
             setUsername: false,
         })
         alert("Successfully logout")
-        window.location.reload(); // reloads the page after logging out
+        // window.location.reload(); // reloads the page after logging out
     }
 
     render() {
@@ -95,7 +98,7 @@ class Header extends React.Component {
             <>
                 <Container className="themed-container" fluid={true}>
                     <Navbar color="light" light expand="md">
-                        <NavbarBrand><Link to="/">TripBantu</Link></NavbarBrand>
+                        <NavbarBrand><Link to="/" style={styles.linkstyle}>Trip<span style={PRIMARY_COLOR_FONT}>Bantu</span></Link></NavbarBrand>
                         <NavbarToggler onClick={() => this.toggle()} />
                         <Collapse isOpen={this.state.isOpen} navbar>
 
@@ -103,22 +106,22 @@ class Header extends React.Component {
                                 {this.state.isLogin ? (
                                     <Nav className="mr-auto" navbar>
                                         <NavItem>
-                                            <NavLink><Link to="/dashboard">Trips</Link></NavLink>
+                                            <NavLink><Link to="/dashboard" style={styles.linkstyle}>Dashboard</Link></NavLink>
                                         </NavItem>
-                                        <NavItem>
-                                            <NavLink><Link onClick={() => this.logoutPressed()} to="">Logout</Link></NavLink>
-                                        </NavItem>
+                                        {/* <NavItem>
+                                            <NavLink><Link onClick={() => this.logoutPressed()} to="" style={styles.linkstyle}>Logout</Link></NavLink>
+                                        </NavItem> */}
                                     </Nav>
                                 ) : (
                                     <Nav className="mr-auto" navbar>
                                         <NavItem>
-                                            <NavLink><Link to="/dashboard">Trips</Link></NavLink>
+                                            <NavLink><Link to="/dashboard" style={styles.linkstyle}>Dashboard</Link></NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink><Link to="/login">Login</Link></NavLink>
+                                            <NavLink><Link to="/login" style={styles.linkstyle}>Login</Link></NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink><Link to="/register">Register</Link></NavLink>
+                                            <NavLink><Link to="/register" style={styles.linkstyle}>Register</Link></NavLink>
                                         </NavItem>
                                     </Nav>
                                 )}
@@ -126,17 +129,17 @@ class Header extends React.Component {
                                 {this.state.setUsername && (
                                     <UncontrolledDropdown nav inNavbar style={{listStyleType: "none"}}>
                                         <DropdownToggle nav caret>
-                                            <NavbarText>
+                                            <NavbarText style={styles.linkstyle}>
                                                 Hi {this.state.displayUsername}
                                             </NavbarText>
                                         </DropdownToggle>
                                         <DropdownMenu right>
                                             <DropdownItem>
-                                                <Link to="/profile">Profile</Link>
+                                                <Link to="/profile" style={styles.linkstyle}>Profile</Link>
                                             </DropdownItem>
                                         <DropdownItem divider />
                                             <DropdownItem>
-                                                <Link onClick={() => this.logoutPressed()} to="">Logout</Link>
+                                                <Link onClick={() => this.logoutPressed()} to="" style={styles.linkstyle}>Logout</Link>
                                             </DropdownItem>
                                         </DropdownMenu>
                                     </UncontrolledDropdown>
@@ -148,6 +151,14 @@ class Header extends React.Component {
             </>
         )
     }
+}
+
+const styles = {
+
+    linkstyle: {
+        textDecoration: "none",
+        color: "black",
+    },
 }
 
 const mapStateToProps = (store) => ({

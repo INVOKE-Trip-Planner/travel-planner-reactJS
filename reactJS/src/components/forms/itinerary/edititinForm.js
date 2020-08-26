@@ -6,6 +6,9 @@ import { Button } from "reactstrap";
 
 import * as Yup from 'yup';
 
+// Redux
+import { connect } from "react-redux";
+import Actions from "actions";
 
 const ReadOnlyTextInput = ({ label, ...props }) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -65,33 +68,23 @@ const ReadOnlyTextInput = ({ label, ...props }) => {
   };
   
 
-const ItinArrayForm = (props) => (
+const EditItinForm = (props) => (
   <div style={{display: "flex", flexDirection: "column",}}>
     {/* <h6>Edit schedule {console.log("itin data", props.itinScheduleData.map(itin => itin.title))}</h6> */}
     <Formik
       initialValues={
       // initialValues={props.itinScheduleData.map
         {
-            itinId: props.itinId,
-            day: props.itinDay,
-            schedules: [
-              props.itinScheduleData.map(itin => (
-              {
-                title: itin.title,
-                description: itin.description,
-                hour: itin.hour,
-                minute: itin.minute,
-                cost: itin.cost,
-              }
-              ))
-            ]
+          id: props.itinId,
+          day: props.itinDay,
+          schedules: props.itinScheduleData
         }
       }
 
       enableReinitialize={true}
 
         validationSchema={Yup.object({
-            itinId: Yup.number()
+            id: Yup.number()
               .max(255, 'Must be 255 characters or less'),
             //   .required('Required'),
             day: Yup.number()
@@ -100,7 +93,7 @@ const ItinArrayForm = (props) => (
                 .of(
                     Yup.object().shape({
                         title: Yup.string().max(255, 'Characters must not be more than 255'),
-                        description: Yup.string().max(255, 'Characters must not be more than 255'),
+                        description: Yup.string().max(255, 'Characters must not be more than 255').nullable(),
                         hour: Yup.number().min(0, 'Must be more than 0').max(23, 'Must be less than 23'),
                         minute: Yup.number().min(0, 'Must be more than 0').max(59, 'Must be less than 59'),
                         cost: Yup.number().positive('Must be more than 0'),
@@ -110,6 +103,7 @@ const ItinArrayForm = (props) => (
       onSubmit={async values => {
         await new Promise(r => setTimeout(r, 500));
         alert(JSON.stringify(values, null, 2));
+        props.onEditItin(values);
       }}
     >
       {({ values }) => ( 
@@ -117,7 +111,7 @@ const ItinArrayForm = (props) => (
 
             <ReadOnlyTextInput
                 label="Itinerary ID"
-                name="itinId"
+                name="id"
                 type="text"
                 placeholder="Enter id here"
             />
@@ -149,9 +143,9 @@ const ItinArrayForm = (props) => (
 
                         {/* ------------TITLE--------------- */}
                       <div className="col" style={styles.inputStyle}>
-                        <label htmlFor={`schedule[${index}].title`}>Title</label>
+                        <label htmlFor={`schedules.${index}.title`}>Title</label>
                         <Field
-                          name={`schedule[${index}].title`}
+                          name={`schedules.${index}.title`}
                           // name={console.log(schedule[index].title)}
                           placeholder="Enter title here"
                           type="text"
@@ -167,15 +161,15 @@ const ItinArrayForm = (props) => (
 
                       {/* ------------DESC--------------- */}
                       <div className="col" style={styles.inputStyle}>
-                        <label htmlFor={`schedules[${index}].desc`}>Description</label>
+                        <label htmlFor={`schedules.${index}.description`}>Description</label>
                         <Field
-                          name={`schedule.description[${index}]`}
+                          name={`schedules.${index}.description`}
                           placeholder="Enter description"
                           type="text"
                         />
                         <div className="error" style={styles.errorContainer}>
                         <ErrorMessage
-                          name={`schedules.${index}.desc`}
+                          name={`schedules.${index}.description`}
                           component="div"
                           className="field-error"
                         />
@@ -201,7 +195,7 @@ const ItinArrayForm = (props) => (
                       {/* ------------MIN--------------- */}
                       <div className="col" style={styles.inputStyle}>
                       {/* <label htmlFor={`schedules.${index}.minute`}>Minute{console.log("values", values.schedules[0].map(schedule => schedule))}</label> */}
-                        <label htmlFor={`schedules.${index}.minute`}>Minute{console.log("values", schedule)}</label>
+                        <label htmlFor={`schedules.${index}.minute`}>Minute</label>
                         <Field
                           name={`schedules.${index}.minute`}
                           placeholder="Enter minute here"
@@ -303,4 +297,14 @@ const styles = {
     },
   }
 
-export default ItinArrayForm;
+// export default ItinArrayForm;
+
+const mapStateToProps = (store) => ({
+  // getCreateEditData: Actions.getCreateEditData(store),
+})
+
+const mapDispatchToProps = {
+  onEditItin: Actions.editItin,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditItinForm);

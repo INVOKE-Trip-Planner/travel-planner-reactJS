@@ -53,7 +53,7 @@ class DeleteTripModal extends React.Component {
                     </ModalHeader>
                     <ModalBody>
                         <p>
-                            Do you really want to delete this trip? This process cannot be undone.
+                        Do you really want to delete this {this.props.deleteType}? This process cannot be undone.
                         </p>
                         <div
                             style={{

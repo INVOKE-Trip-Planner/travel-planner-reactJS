@@ -10,22 +10,27 @@ function* register({data}) {
     // formData
     const formData = new FormData();
     formData.append('name', data.name);
+    // formData.append('name', "test");
     formData.append('username', data.username);
+    // formData.append('username', "aizat");
     formData.append('email', data.email);
+    // formData.append('email', "test@gmail.com");
     formData.append('password', data.password);
+    // formData.append('password', "1234abcd");
     formData.append('password_confirmation', data.password_confirmation);
+    // formData.append('password_confirmation', "1234abcd");
 
     // // pass to the api
     const { response, error } = yield call(api.register, formData);
 
     console.log("RESPONSE", response, error);
 
-    if (response && response.data.status === "Success") {
+    if (response) {
         yield put(Actions.registerSuccess(response.data));
     }
 
     if (error) {
-        yield put(Actions.registerFail(error));
+        yield put(Actions.registerFail(error.response.data));
     }
 }
 

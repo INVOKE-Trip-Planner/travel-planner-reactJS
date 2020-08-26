@@ -7,6 +7,11 @@ import Actions from "actions";
 
 import EditItinForm from "components/forms/itinerary/editItinForm.js";
 
+import DeleteTripModal from "../../components/modals/deleteTrip";
+
+import { PRIMARY_COLOR } from "common/styles/index.js";
+import { SECONDARY_COLOR } from "../../common/styles";
+
 class Itinerary extends React.Component {
 
     constructor(props) {
@@ -14,30 +19,22 @@ class Itinerary extends React.Component {
 
         this.state = {
             scheduleData: this.props.itinScheduleData,
+
             isOpen: false,
+
             itinId: this.props.itinId,
             itinDay: this.props.itinDay,
+
             dropDownOpen: false,
+
+            openModalDelete: false,
+            // openModalEdit: false,
         }
     }
 
-    // sort hour min
     componentDidMount() {
             // console.log("schedule data", this.state.scheduleData)
-            // console.log("schedule data", this.state.scheduleData.filter(schedule => (schedule.itinerary_id === this.props.itinId) && schedule))
-
-    //     var list = this.state.scheduleData.map( data => data.hour);
-
-    //     console.log("sort Schedule data", list)
-
-    //     let keys = Object.keys(list)
-
-    //     console.log("sorted", keys.sort((a,b) => { return list[a] - list[b] })
-    //     .reduce( (prev,curr,i) => {
-    //         prev[i] = list[curr]
-    //         return prev
-    //     }, {} )
-    //     );
+            console.log("schedule data", this.state.scheduleData.filter(schedule => (schedule.itinerary_id === this.props.itinId) && schedule))
     }
 
     handleEdit() {
@@ -48,9 +45,14 @@ class Itinerary extends React.Component {
     }
 
     handleDelete(itinId) {
-        this.props.onDeleteItin(itinId);
+
+        this.setState({
+            openModalDelete: true,
+        })
+        // this.props.onDeleteItin(itinId);
     }
 
+    // toggle MODAL
     toggle() {
 
         this.setState({
@@ -58,10 +60,19 @@ class Itinerary extends React.Component {
         });
     }
 
+    closeModal() {
+        this.setState({
+            // openModalEdit: false,
+            openModalDelete: false,
+        })
+    }
+
+    // toggle DROPDOWN
     toggleDropDown() {
 
         this.setState({
             dropDownOpen: !this.state.dropDownOpen,
+            selected: !this.state.selected,
         });
     }
 
@@ -88,16 +99,16 @@ class Itinerary extends React.Component {
                                     <div style={styles.cardContent}>
                                         <p>Title: <strong>{schedule.title}</strong></p>
                                         <p>Desc: <strong>{schedule.description}</strong></p>
-                                        <p>Time: <strong>{schedule.hour}:{schedule.minute}</strong></p>
+                                <p>Time: <strong>{('0000'+schedule.hour).slice(-2)}:{('0000'+schedule.minute).slice(-2)}{schedule.hour < 12 ? " AM" : " PM"}</strong></p>
                                         <p>Cost: <strong>RM {schedule.cost}</strong></p>
                                     </div>
                                 ))}
                             </div>
 
                             <div style={styles.dropdownContainer}>
-                                <Dropdown isOpen={this.state.dropDownOpen} toggle={() => this.toggleDropDown()} style={styles.dropdownStyle} color="none" size="sm">
-                                    <DropdownToggle>
-                                        <ion-icon name="chevron-down-outline"></ion-icon>
+                                <Dropdown isOpen={this.state.dropDownOpen} toggle={() => this.toggleDropDown()} style={styles.dropdownStyle} color="secondary" size="sm">
+                                    <DropdownToggle style={this.state.selected ? SECONDARY_COLOR : PRIMARY_COLOR} color="secondary">
+                                        <ion-icon name="caret-down" style={{fontSize: 16, color: "black"}}></ion-icon>
                                     </DropdownToggle>
                                     <DropdownMenu style={styles.dropdownStyle}>
                                         <div style={styles.dropdownItemContainer} onClick={() => this.handleEdit()}>
@@ -125,18 +136,29 @@ class Itinerary extends React.Component {
                         toggle={() => this.toggle()}
                         size="lg"
                 >
-                    <ModalHeader></ModalHeader>
+                    <ModalHeader>Edit Itinerary Details</ModalHeader>
                     <ModalBody>
+                        <div style={styles.bodyContainer}>
                         {/* ------------ITINERARY FORM---------------------------------- */}
                         <EditItinForm 
                             itinId={this.state.itinId}
                             itinDay={this.state.itinDay}
                             itinScheduleData={this.state.scheduleData.filter(schedule => (schedule.itinerary_id === this.props.itinId) && schedule)}
                         />
+                       </div>
                     </ModalBody>
-                    <ModalFooter>
-                    </ModalFooter>
-                </Modal>         
+                </Modal>
+
+                {/* --------------------------DELETE ACCOMMODATION-------------------------------- */}
+                <DeleteTripModal
+                    isOpen={this.state.openModalDelete}
+                    toggle={() => this.closeModal()}
+                    // destinationId = {this.state.tripId}
+
+                    deleteType = "itinerary"
+                    tripData = {this.state.tripData}
+                    handleDelete = { () => this.props.onDeleteItin( this.state.itinId) }
+                />         
             </>
         )
     }
@@ -146,10 +168,15 @@ const styles = {
     removeStrap: {
         margin: 0,
         padding: 0,
-        minWidth: 450,
-        maxWidth: 500,
+        minWidth: 400,
+        maxWidth: 400,
+        minHeight: 500,
+        maxHeight: 500,
         borderRadius: 20,
-        maxHeight: 450,
+        overflow: "hidden",
+        backgroundImage: "none",
+        shadowColor: "#000",
+        boxShadow: "0.2px 0.2px 5px 0.7px rgba(0,0,0,0.4)"
     },
     cardContentCenter: {
         padding: 10,
@@ -187,12 +214,13 @@ const styles = {
         overflow: "hidden",
     },
     cardContent: {
-        padding: 10,
+        padding: 5,
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
         borderTop: "1px solid rgba(0, 0, 0, 0.4)",
         width: "100%",
+        height: "100%"
         // overflow: "scroll"
     },
     dropdownContainer: {

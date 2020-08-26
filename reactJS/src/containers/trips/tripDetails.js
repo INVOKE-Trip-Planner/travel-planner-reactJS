@@ -5,6 +5,8 @@ import Actions from "actions";
 
 import { Container, Row, Col, CardDeck, Jumbotron, Spinner, ButtonGroup, Button } from 'reactstrap';
 
+import banner1 from "assets/images/banner1.jpg"
+
 import placeholder from "assets/images/placeholder.png";
 import Accommodation from "../../components/cards/accommodation";
 import Transport from "../../components/cards/transport";
@@ -14,6 +16,9 @@ import CreateDestModal from "components/modals/create/createDest.js";
 import CreateAccModal from "components/modals/create/createAcc.js";
 import CreateTransModal from "components/modals/create/createTrans.js";
 import CreateItinModal from "components/modals/create/createItin.js";
+
+import { PRIMARY_COLOR } from "common/styles/index.js";
+import { SECONDARY_COLOR } from "../../common/styles";
 
 class TripDetails extends React.Component {
 
@@ -33,29 +38,50 @@ class TripDetails extends React.Component {
             filterGetAllData: [],
             loading: true,
 
-            filterLocation: false,
-            filterLocationData: 'ok',
+            filterLocation: true,
+            filterLocationData: this.props.history.location.state.data[0],
             filterLocationId: '',
 
             categorySelectAll: true,
             categorySelectAcc: false,
             categorySelectTrans: false,
             categorySelectItin: false,
+
+            selectedAll: true,
+            selectedAcc: false,
+            selectedTrans: false,
+            selectedItin: false,
+
+            selectedDest: false,
+            selectedAddDest: false,
         }
     }
 
     componentDidMount() {
 
+        console.log("DASHBOARD MOUNTED");
+
+        console.log("details data", this.state.tripData[0])
+
+        const { getUserSession } = this.props;
+
+        // console.log("HOME USER SESSION", getUserSession.data.length);
+
+        if (getUserSession.data.length === undefined || getUserSession.data.length === null || getUserSession.data.length === 0) {
+            alert('No user detected. Please login or sign up.')
+            this.props.history.push("/login");
+        }
+
         this.setState({
             filterLocationData: this.state.tripData[0].destinations[0],
             filterLocationId: this.state.destinationId,
-        }, () => {console.log("filter id", this.state.filterLocationId)})
+        }, () => {console.log("data", this.state.filterLocationData)})
 
         this.props.onGetAll();
     }
 
     componentDidUpdate(prevProps) {
-        const { getGetAllData, getCreateAccData, getEditAccData, getEditTransData, getDeleteAccData, getDeleteTransData, getDeleteItinData } = this.props;
+        const { getGetAllData, getCreateAccData, getCreateTransData, getCreateItinData, getEditAccData, getEditTransData, getEditItinData, getDeleteAccData, getDeleteTransData, getDeleteItinData } = this.props;
 
         // console.log("FIRST Trip Data", this.state.filterLocationData);
 
@@ -75,17 +101,43 @@ class TripDetails extends React.Component {
             }
         }
 
+        // Create Acc
         if (prevProps.getCreateAccData.isLoading && !getCreateAccData.isLoading) {
             if ( (Object.keys(getCreateAccData.data).length !== 0) ) {
                 this.setState({
                     loading: true,
-                    isOpen: false,
+                    openModalAcc: false,
                 })
                 // alert(getEditAccData.data.message);
                 alert("Create accommodation successful!");
             } else {alert("Create accommodation failed.")}
         }
 
+        // Create Trans
+        if (prevProps.getCreateTransData.isLoading && !getCreateTransData.isLoading) {
+            if ( (Object.keys(getCreateTransData.data).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                    openModalTrans: false,
+                })
+                // alert(getEditAccData.data.message);
+                alert("Create transport successful!");
+            } else {alert("Create transport failed.")}
+        }
+
+        // Create Itinerary
+        if (prevProps.getCreateItinData.isLoading && !getCreateItinData.isLoading) {
+            if ( (Object.keys(getCreateItinData.data).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                    openModalItin: false,
+                })
+                // alert(getEditAccData.data.message);
+                alert("Create itinerary successful!");
+            } else {alert("Create itinerary failed.")}
+        }
+
+        // Edit Accommodation
         if (prevProps.getEditAccData.isLoading && !getEditAccData.isLoading) {
             if ( (Object.keys(getEditAccData.data.message).length !== 0) ) {
                 this.setState({
@@ -97,8 +149,9 @@ class TripDetails extends React.Component {
             } else {alert("Edit accommodation failed.")}
         }
 
+        // Edit transport
         if (prevProps.getEditTransData.isLoading && !getEditTransData.isLoading) {
-            if ( (Object.keys(getEditTransData.data.message).length !== 0) ) {
+            if ( (Object.keys(getEditTransData.data).length !== 0) ) {
                 this.setState({
                     loading: true,
                     isOpen: false,
@@ -108,6 +161,20 @@ class TripDetails extends React.Component {
             } else {alert("Edit transport failed.")}
         }
 
+        // Edit itinerary 
+        if (prevProps.getEditItinData.isLoading && !getEditItinData.isLoading) {
+            if ( (Object.keys(getEditItinData.data).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                    isOpen: false,
+                })
+                // alert(getEditAccData.data.message);
+                alert(getEditItinData.data.message);
+            } else {alert("Edit itinerary failed.")}
+        }
+
+
+        // delete accommodation
         if (prevProps.getDeleteAccData.isLoading && !getDeleteAccData.isLoading) {
             if ( (Object.keys(getDeleteAccData.data.message).length !== 0) ) {
                 this.setState({
@@ -117,6 +184,7 @@ class TripDetails extends React.Component {
             } else {alert("Delete accommodation failed.") }
         }
 
+        // delete transport
         if (prevProps.getDeleteTransData.isLoading && !getDeleteTransData.isLoading) {
 
             if ( (Object.keys(getDeleteTransData.data.message).length !== 0) ) {
@@ -131,6 +199,8 @@ class TripDetails extends React.Component {
                 alert("Delete transport failed.")
             }
         }
+
+        // delete itinerary
         if (prevProps.getDeleteItinData.isLoading && !getDeleteItinData.isLoading) {
 
             if ( (Object.keys(getDeleteItinData.data.message).length !== 0) ) {
@@ -157,6 +227,11 @@ class TripDetails extends React.Component {
                   categorySelectAll: false,
                   categorySelectTrans: false,
                   categorySelectItin: false,
+
+                  selectedAll: false,
+                  selectedAcc: true,
+                  selectedTrans: false,
+                  selectedItin: false,
               })
               break;
 
@@ -167,6 +242,11 @@ class TripDetails extends React.Component {
                   categorySelectAll: false,
                   categorySelectAcc: false,
                   categorySelectItin: false,
+
+                  selectedAll: false,
+                  selectedAcc: false,
+                  selectedTrans: true,
+                  selectedItin: false,
               })
               break;            
               
@@ -177,6 +257,11 @@ class TripDetails extends React.Component {
                   categorySelectAll: false,
                   categorySelectTrans: false,
                   categorySelectAcc: false,
+
+                  selectedAll: false,
+                  selectedAcc: false,
+                  selectedTrans: false,
+                  selectedItin: true,
               })
               break;
 
@@ -188,6 +273,11 @@ class TripDetails extends React.Component {
                   categorySelectAcc: false,
                   categorySelectTrans: false,
                   categorySelectItin: false,
+
+                  selectedAll: true,
+                  selectedAcc: false,
+                  selectedTrans: false,
+                  selectedItin: false,
               })
               break;
           }
@@ -200,6 +290,8 @@ class TripDetails extends React.Component {
 
               this.setState({
                   openModalDest: true,
+
+                  selectedAddDest: !this.state.selectedAddDest,
               })
               break;
             case "accommodation":
@@ -248,6 +340,8 @@ class TripDetails extends React.Component {
             filterLocation: true,
             filterLocationData: this.state.tripData.map( list => list.destinations.filter( destination => (destination.id === data.id) && destination )[0])[0],
             filterLocationId: data.id,
+
+            selectedDest: true,
         })
     }
 
@@ -264,8 +358,9 @@ class TripDetails extends React.Component {
                                     <div style={{width: "100%", justifyContent: "center"}}>
 
                                         {/* -----------------------------------------JUMBOTRON----------------------------------------------------------------------------- */}
-                                        <Row style={{width: "100%", justifyContent: "center", margin: 0}}>
-                                            <Jumbotron fluid style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
+                                        <Row style={{width: "100%", justifyContent: "center", margin: 0, color: "white",}}>
+
+                                            <Jumbotron fluid style={{backgroundImage: `url(http://localhost:8000/storage/trip_banners/${this.state.tripData[0].trip_banner})`, opacity: 0.7, ...styles.jumbotronStyle}}>
                                                 <Container fluid>
                                                     <div style={{marginBottom: 40,}}>
                                                         <h1 className="display-3">{list.trip_name}</h1>
@@ -275,35 +370,35 @@ class TripDetails extends React.Component {
                                                         <h5>Start Date: <strong>{list.start_date}</strong></h5>
                                                         <h5>End Date: <strong>{list.end_date}</strong></h5>
                                                     </div>
-                                                    <h5>Trip Cost: <strong>RM{list.cost}</strong></h5>
+                                                    <h5>Trip Cost: <strong>RM{list.total}</strong></h5>
                                                 </Container>
                                             </Jumbotron>
                                         </Row>
 
                                         {/* -----------------------------------FILTER------------------------------------------------------------------------------------ */}
-                                        <Row style={{display: "flex", justifyContent: "space-between", padding: 5, margin: 0,}}>
+                                        <Row style={{display: "flex", justifyContent: "space-between", padding: 0, margin: "0 auto",}}>
 
                                             {/* -------------------------DESTINATION FILTER-------------------------------------- */}
-                                            <Col style={{margin: 10}}>
+                                            <Col xs="12" sm="12" md="5" lg="5" xl="5" style={{margin: "0 auto", padding: 5,}}>
                                                 <h6>Destinations:</h6>
                                                 <ButtonGroup>                                               
                                                     { list.destinations.map( destination => (
-                                                        <Button onClick={() => this.filterLocation(destination)}>{destination.location}</Button>
+                                                        <Button style={this.state.selectedDest ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.filterLocation(destination)}>{destination.location}</Button>
                                                     ))}
-                                                    <Button onClick={() => this.handleCreate("destination")}>
+                                                    <Button onClick={() => this.handleCreate("destination")} style={this.state.selectedAddDest ? SECONDARY_COLOR : PRIMARY_COLOR}>
                                                         <ion-icon name="create" style={{fontSize: 24}}></ion-icon>
                                                     </Button>
                                                 </ButtonGroup>
                                             </Col>
 
                                             {/* -------------------------CATEGORY FILTER-------------------------------------- */}
-                                            <Col style={{margin: 10}}>
+                                            <Col xs="12" sm="12" md="5" lg="5" xl="5" style={{margin: "0 auto", padding: 5,}}>
                                                 <h6>Category:</h6>
                                                 <ButtonGroup>
-                                                    <Button  onClick={() => this.handleCategory()}>All</Button>
-                                                    <Button  onClick={() => this.handleCategory("accommodation")}>Accommodations</Button>
-                                                    <Button  onClick={() => this.handleCategory("transport")}>Tranports</Button>
-                                                    <Button  onClick={() => this.handleCategory("itinerary")}>Itineraries</Button>
+                                                    <Button style={this.state.selectedAll ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory()}>All</Button>
+                                                    <Button style={this.state.selectedAcc ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("accommodation")}>Accommodation</Button>
+                                                    <Button style={this.state.selectedTrans ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("transport")}>Transport</Button>
+                                                    <Button style={this.state.selectedItin ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("itinerary")}>Itinerary</Button>
                                                 </ButtonGroup>
                                             </Col>
                                         </Row>
@@ -313,8 +408,7 @@ class TripDetails extends React.Component {
 
                                             <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
-        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
                                                     <div style={styles.categoryTitleContainer}>
 
                                                         <h4>Accommodations</h4>
@@ -324,9 +418,9 @@ class TripDetails extends React.Component {
 
                                                 {this.state.loading ? (
 
-                                                <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
+                                                <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
                                         
-                                                    <Spinner animation="border" role="status">
+                                                    <Spinner type="grow" color="danger">
                                                         <span className="sr-only">Loading...</span>
                                                     </Spinner>
                                                 </Row>) : (
@@ -367,8 +461,7 @@ class TripDetails extends React.Component {
 
                                             (<Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
-        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)"}}>
                                                     <div style={styles.categoryTitleContainer}>
                                                         <h4>Transports</h4>
                                                         <button style={styles.selectButton} onClick={() => this.handleCreate("transport")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
@@ -377,8 +470,8 @@ class TripDetails extends React.Component {
 
                                                 {this.state.loading ? (
 
-                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
-                                                        <Spinner animation="border" role="status">
+                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
+                                                        <Spinner type="grow" color="danger">
                                                             <span className="sr-only">Loading...</span>
                                                         </Spinner>
                                                     </Row>) : (
@@ -422,8 +515,7 @@ class TripDetails extends React.Component {
 
                                             <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0,         borderTop: "1px solid rgba(0,0,0,0.4)",
-        borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)"}}>
 
                                                     <div style={styles.categoryTitleContainer}>
                                                         <h4>Itineraries</h4>
@@ -433,9 +525,9 @@ class TripDetails extends React.Component {
 
                                                 {this.state.loading ? (
 
-                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
+                                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
 
-                                                        <Spinner animation="border" role="status">
+                                                        <Spinner type="grow" color="danger">
                                                             <span className="sr-only">Loading...</span>
                                                         </Spinner>
                                                     </Row>) : (
@@ -496,7 +588,7 @@ class TripDetails extends React.Component {
                 <CreateItinModal 
                     isOpen={this.state.openModalItin}
                     toggle={() => this.toggle()}
-                    data = {this.state.filterLocationData.id}
+                    destinationId = {this.state.filterLocationData.id}
                     // tripData = {this.state.filterLocationData.id}
                 />
                 </Container>
@@ -521,17 +613,20 @@ const styles = {
         margin: 10,
         overflow: "hidden",
     },
-    sidebarBox: {
-        border: "2px solid black",
-        width: "100%",
-        height: 40,
-        backgroundColor: "white",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        // margin: 10,
-        padding: 10,
-    },
+    jumbotronStyle:
+        {
+            width: "100%", 
+            height: "100%", 
+            justifyContent: "center", 
+            alignItems: "center", 
+            // backgroundImage: `url(http://localhost:8000/storage/trip_banners/${this.state.tripData[0].trip_banner})`,
+            backgroundPosition: "center", 
+            backgroundSize: "cover", 
+            opacity: 0.9, 
+            textShadow: "0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black",
+            fontWeight: "bold",
+        }
+    ,
     selectContainer: {
         // width: "80%",
         // height: 40,
@@ -609,12 +704,19 @@ const styles = {
 
 // get data from api
 const mapStateToProps = (store) => ({
+    getUserSession: Actions.getUserSession(store),
     getGetAllData: Actions.getGetAllData(store),
+
     getCreateAccData: Actions.getCreateAccData(store),
     getEditAccData: Actions.getEditAccData(store),
     getDeleteAccData: Actions.getDeleteAccData(store),
+
+    getCreateTransData: Actions.getCreateTransData(store),
     getEditTransData: Actions.getEditTransData(store),
     getDeleteTransData: Actions.getDeleteTransData(store),
+
+    getCreateItinData: Actions.getCreateItinData(store),
+    getEditItinData: Actions.getEditItinData(store),
     getDeleteItinData: Actions.getDeleteItinData(store),
 });
 

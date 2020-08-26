@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 
 import { Button } from "reactstrap";
 
+import { PRIMARY_COLOR } from "common/styles/index.js";
+
 // Redux
 import { connect } from "react-redux";
 import Actions from "../../../actions";
@@ -43,6 +45,7 @@ const SignupForm = (props) => {
   return (
     <Formik
       initialValues={{ username: '', name:'', email: '', password: '', password_confirmation: ''}}
+      // initialValues={{ name: 'test', username:'aizat', email: 'test@gmail.com', password: '1234abcd', password_confirmation: '1234abcd'}}
 
       validationSchema={Yup.object({
         name: Yup.string()
@@ -65,7 +68,7 @@ const SignupForm = (props) => {
       onSubmit={(values, { setSubmitting }) => {
         console.log(values);
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          // alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400)
         props.onRegister(values);
@@ -109,7 +112,7 @@ const SignupForm = (props) => {
         />
 
         <div style={styles.buttonContainer}>
-          <Button color="primary" type="submit" size="lg">Register</Button>
+          <Button style={PRIMARY_COLOR} color="primary" type="submit" size="lg">Register</Button>
           {/* <button type="submit">Register</button> */}
         </div>
       </Form>

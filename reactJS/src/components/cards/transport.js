@@ -7,6 +7,11 @@ import Actions from "actions";
 
 import TransEditForm from "components/forms/transport/editTransForm.js";
 
+import DeleteTripModal from "../../components/modals/deleteTrip";
+
+import { PRIMARY_COLOR } from "common/styles/index.js";
+import { SECONDARY_COLOR } from "../../common/styles";
+
 class Transport extends React.Component {
 
     constructor(props) {
@@ -17,6 +22,9 @@ class Transport extends React.Component {
             transId: this.props.transId,
             tripData: this.props.tripData,
             dropDownOpen: false,
+
+            openModalDelete: false,
+            // openModalEdit: false,
         }
     }
 
@@ -30,22 +38,35 @@ class Transport extends React.Component {
     }
 
     handleDelete(transId) {
-        console.log('delete');
-        this.props.onDeleteTrans(transId);
+
+        this.setState({
+            openModalDelete: true,
+        })
+
+        // console.log('delete');
+        // this.props.onDeleteTrans(transId);
     }
 
     toggle() {
 
         this.setState({
             isOpen: !this.state.isOpen,
-            dropDownOpen: !this.state.dropDownOpen,
+            // dropDownOpen: !this.state.dropDownOpen,
         });
+    }
+
+    closeModal() {
+        this.setState({
+            // openModalEdit: false,
+            openModalDelete: false,
+        })
     }
 
     toggleDropDown() {
 
         this.setState({
             dropDownOpen: !this.state.dropDownOpen,
+            selected: !this.state.selected,
         });
     }
 
@@ -65,16 +86,18 @@ class Transport extends React.Component {
                                 <p>Origin: <strong>{this.props.transOrigin}</strong></p>
                                 <p>Destination: <strong>{this.props.transDestination}</strong></p>
                                 <p>Departure Date: <strong>{this.props.transDepartureDate}</strong></p>
-                                <p>Departure Time: <strong>{this.props.transDepartureHour}:{this.props.transDepartureMin}</strong></p>
+                                {/* <p>Departure Time: <strong>{this.props.transDepartureHour}:{this.props.transDepartureMin}</strong></p> */}
+                                <p>Departure Time: <strong>{this.props.transDepartureHour !== null && (('0000'+this.props.transDepartureHour).slice(-2))}:{ this.props.transDepartureMin !== null && (('0000'+this.props.transDepartureMin).slice(-2))}{this.props.transDepartureHour < 12 ? " AM" : " PM"}</strong></p>
                                 <p>Arrival Date: <strong>{this.props.transArrivalDate}</strong></p>
-                                <p>Arrival Time: <strong>{this.props.transArrivalHour}:{this.props.transArrivalMin}</strong></p>
+                                {/* <p>Arrival Time: <strong>{this.props.transArrivalHour}:{this.props.transArrivalMin}</strong></p> */}
+                                <p>Arrival Time: <strong>{this.props.transArrivalHour !== null && (('0000'+this.props.transArrivalHour).slice(-2))}:{this.props.transArrivalMin !== null && (('0000'+this.props.transArrivalMin).slice(-2))}{this.props.transArrivalHour < 12 ? " AM" : " PM"}</strong></p>
                                 <p>Operator: <strong>{this.props.transOperator}</strong></p>
                             </div>
 
                             <div style={styles.cardContent}>
                                 <Dropdown isOpen={this.state.dropDownOpen} toggle={() => this.toggleDropDown()} style={styles.dropdownStyle} color="none" size="sm">
-                                    <DropdownToggle>
-                                        <ion-icon name="chevron-down-outline"></ion-icon>
+                                    <DropdownToggle style={this.state.selected ? SECONDARY_COLOR : PRIMARY_COLOR} color="secondary">
+                                        <ion-icon name="caret-down" style={{fontSize: 16, color: "black"}}></ion-icon>
                                     </DropdownToggle>
                                     <DropdownMenu style={styles.dropdownStyle}>
                                         <div style={styles.dropdownItemContainer} onClick={() => this.handleEdit()}>
@@ -125,7 +148,18 @@ class Transport extends React.Component {
                     </ModalBody>
                     <ModalFooter>
                     </ModalFooter>
-                </Modal>      
+                </Modal>
+
+                {/* --------------------------DELETE TRANSPORT-------------------------------- */}
+                <DeleteTripModal
+                    isOpen={this.state.openModalDelete}
+                    toggle={() => this.closeModal()}
+                    // destinationId = {this.state.tripId}
+
+                    deleteType = "transport"
+                    tripData = {this.state.tripData}
+                    handleDelete = { () => this.props.onDeleteTrans( this.state.transId) }
+                />    
             </>
         )
     }
@@ -135,8 +169,15 @@ const styles = {
     removeStrap: {
         margin: 0,
         padding: 0,
-        minWidth: 500,
+        minWidth: 400,
+        maxWidth: 400,
+        minHeight: 500,
+        maxHeight: 500,
         borderRadius: 20,
+        overflow: "hidden",
+        backgroundImage: "none",
+        shadowColor: "#000",
+        boxShadow: "0.2px 0.2px 5px 0.7px rgba(0,0,0,0.4)"
     },
     cardContent: {
         padding: 10,

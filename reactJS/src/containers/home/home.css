@@ -1,0 +1,43 @@
+.learn-container {
+    height: 15vh;
+
+    
+    /* border: 1px solid black; */
+}
+
+.learn-title {
+    /* border: 1px solid black; */
+    height: 50px;
+}
+
+@keyframes goDown {
+    from {height: 30px;}
+    to {height: 35px;}
+}
+
+.down-icon {
+    /* border: 1px solid black; */
+    /* height: 30px; */
+    display: flex;
+    align-items: flex-end;
+    animation-name: goDown;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+}
+
+.learn-text {
+    font-size: 32px;
+}
+
+@media (max-width: 780px) {
+
+    .learn-text {
+        font-size: 26px;
+        /* color: red; */
+    }
+
+    #travelimg1 {
+        opacity: 0.4;
+    }
+}

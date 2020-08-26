@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-import { Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Button, Spinner, ButtonGroup } from 'reactstrap';
+import { Container, Row, Col, Button, Spinner, ButtonGroup, CardDeck } from 'reactstrap';
 // import reducers from "../../reducers";
 
 import { connect } from 'react-redux';
@@ -10,6 +10,8 @@ import TripsCard from "../../components/cards/tripsCard";
 import TripDetailsModal from "components/modals/tripDetails";
 import EditTripModal from "../../components/modals/editTrip";
 import DeleteTripModal from "../../components/modals/deleteTrip";
+
+import { PRIMARY_COLOR, SECONDARY_COLOR } from "common/styles/index.js";
 
 class Dashboard extends React.Component {
 
@@ -24,11 +26,22 @@ class Dashboard extends React.Component {
             openModalDelete: false,
             openModalEdit: false,
             tripData: null,
+
+            selected: false,
         };
     }
 
     componentDidMount() {
         // console.log("DASHBOARD MOUNTED");
+
+        const { getUserSession } = this.props;
+
+        // console.log("HOME USER SESSION", getUserSession.data.length);
+
+        if (getUserSession.data.length === undefined || getUserSession.data.length === null || getUserSession.data.length === 0) {
+            alert('No user detected. Please login or sign up.')
+            this.props.history.push("/login");
+        }
 
         this.props.onGetAll();
     }
@@ -37,7 +50,7 @@ class Dashboard extends React.Component {
         // console.log("DASHBOARD UPDATE");
         const { getGetAllData } = this.props;
 
-        console.log("TRIP DATA", getGetAllData.data);
+        console.log("TRIP DATA", getGetAllData.data.length);
 
 
         if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
@@ -51,6 +64,10 @@ class Dashboard extends React.Component {
                         openModalEdit: false,
                     }
                 )
+            } else {
+                this.setState({
+                    loading: false,
+                })
             }
         }
     }
@@ -103,10 +120,20 @@ class Dashboard extends React.Component {
           }
     }
 
+    buttonPressed() {
+        this.setState({
+            selected: !this.state.selected,
+        })
+    }
+
+    handleAddTrip() {
+        this.props.history.push("/addtrip");
+    }
+
     render() {
         return(
             <> 
-                <Container className="themed-container" fluid="xl" style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems:"center", padding: 0, margin: "0 auto"}}>
+                <Container className="themed-container" fluid="xl" style={styles.dashboardContainer}>
 
                             {/*-------------------------Dashboard------------------------------------------------------------------------------------------------- */}
                             <Container className="themed-container" style={{ textAlign:"center", margin: 0, padding: 0}} fluid={true}  >
@@ -123,58 +150,66 @@ class Dashboard extends React.Component {
 
                                 <div style={{margin: 40,}}>
                                 <ButtonGroup>
-                                    <Button >Upcoming</Button>
-                                    <Button >Past Trips</Button>
+                                    <Button style={this.state.selected ? PRIMARY_COLOR : SECONDARY_COLOR} onClick={() => this.buttonPressed()}>Upcoming</Button>
+                                    <Button style={PRIMARY_COLOR}>Past Trips</Button>
                                 </ButtonGroup>
                                 </div>
 
                                 {this.state.loading ? (
                                     
-                                <Row style={{height: "40vh", justifyContent: "center", alignItems: "center"}}>
-                                
-                                    <Spinner animation="border" role="status">
-                                        <span className="sr-only">Loading...</span>
-                                    </Spinner>
-                                </Row>) : (
+                                    <Row style={{height: "40vh", justifyContent: "center", alignItems: "center"}}>
+                                    
+                                        <Spinner type="grow" color="danger">
+                                            <span className="sr-only">Loading...{console.log("IF STATE", this.state.tripsList.length)}</span>
+                                        </Spinner>
+                                    </Row>) : (
 
-                                <Row style={{justifyContent: "center", alignItems: "center",}}>
+                                    <Row style={{justifyContent: "center", alignItems: "center",}}>
 
-                                    {
-                                        this.state.tripsList.map( list => (
-                                        <Col xs="2" md="6" lg="5" style={{margin: 10,}}>
+                                        {   ( (this.state.tripsList.length === 0) || (this.state.tripsList.length === undefined) ) ? 
+                                        
+                                            (
+                                                // <CardDeck>
+                                                    <div style={{height: 200, width: 200, display: "flex", flexDirection: "column", justifyContent: "space-around"}}>
+                                                        <h4>No trips found.</h4>
 
-                                                <TripsCard
-                                                    tripData={list}
-                                                    tripId={list.id}
-                                                    tripTitle={list.trip_name}
-                                                    tripOrigin={list.origin}
-                                                    tripCreatedBy={list.created_by}
-                                                    tripStartDate={list.start_date}
-                                                    tripEndDate={list.end_date}
-                                                    tripTotal={list.total}
-                                                    tripUsers={list.users}
-                                                    tripBanner={list.trip_banner}
-                                                    onClick={() => this.detailsPressed(list.id)}
-                                                    handleEdit={ () => this.handleShowModal('EDIT', list)}
-                                                    handleDelete={ () => this.handleShowModal('DELETE', list)}
-                                                
-                                                />
+                                                        <Button 
+                                                            style={PRIMARY_COLOR}
+                                                            size="lg"
+                                                            // block
+                                                            onClick={()=>this.handleAddTrip()}
+                                                            >Create a New Trip
+                                                        </Button>
+                                                    </div>
+                                                // </CardDeck>
+
+                                            ) : (
+
+                                                this.state.tripsList.map( list => (
+                                                    <CardDeck style={{margin: 10,}}>
+
+                                                        <TripsCard
+                                                            tripData={list}
+                                                            tripId={list.id}
+                                                            tripTitle={list.trip_name}
+                                                            tripOrigin={list.origin}
+                                                            tripCreatedBy={list.created_by}
+                                                            tripStartDate={list.start_date}
+                                                            tripEndDate={list.end_date}
+                                                            tripTotal={list.total}
+                                                            tripUsers={list.users}
+                                                            tripBanner={list.trip_banner}
+                                                            onClick={() => this.detailsPressed(list.id)}
+                                                            handleEdit={ () => this.handleShowModal('EDIT', list)}
+                                                            handleDelete={ () => this.handleShowModal('DELETE', list)}
+                                                        />
                                             
-                                                {/* <div style={styles.buttonContainer}>
-                                                    <Button 
-                                                        style={{border: "rgba(0,0,0,0.4)"}} // backgroundImage: "linear-gradient(to bottom right, #E74C3C, #B03A2E)"}}
-                                                        type="submit"
-                                                        color="link"
-                                                        // size="sm"
-                                                        onClick={() => this.detailsPressed(list.id)}
-                                                        block
-                                                    >Trip Details</Button>
-                                                </div> */}
-                                                </Col>
-                                                ) )
+                                                    </CardDeck>
+                                                    ) )
+                                                ) 
                                         }
 
-                                </Row>
+                                    </Row>
                                 )}
                             </Container>
                         {/* </Col> */}
@@ -193,6 +228,8 @@ class Dashboard extends React.Component {
                     isOpen={this.state.openModalDelete}
                     toggle={() => this.closeModal()}
                     // destinationId = {this.state.tripId}
+
+                    deleteType = "trip"
                     tripData = {this.state.tripData}
                     handleDelete = { () => this.props.onDeleteTrip( {id: this.state.tripData.id} ) }
                 />
@@ -202,6 +239,17 @@ class Dashboard extends React.Component {
 }
 
 const styles = {
+    dashboardContainer: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center", 
+        alignItems:"center", 
+        padding: 0, 
+        margin: "0 auto",
+
+        border: "0.2px solid rgba(0,0,0,0.3)",
+        borderRadius: 20,
+    },
     columnStyle: {
         // border: "1px solid rgba(0,0,0,0.6)",
         borderRadius: 20,
@@ -272,7 +320,7 @@ const styles = {
 // get data from api
 const mapStateToProps = store => ({
     getGetAllData: Actions.getGetAllData(store),
-    // getUserSession: Actions.getUserSession(store),
+    getUserSession: Actions.getUserSession(store),
     // getDeleteTaskData: Actions.getDeleteTaskData(store)
 });
 
