@@ -50,8 +50,7 @@ class Dashboard extends React.Component {
         // console.log("DASHBOARD UPDATE");
         const { getGetAllData } = this.props;
 
-        console.log("TRIP DATA", getGetAllData.data.length);
-
+        // console.log("TRIP DATA", getGetAllData.data.length);
 
         if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
 
@@ -139,7 +138,14 @@ class Dashboard extends React.Component {
                             <Container className="themed-container" style={{ textAlign:"center", margin: 0, padding: 0}} fluid={true}  >
 
                                 <div style={{margin: 40,}}>
-                                    <h1>Your Trips</h1>
+                                    <div style={styles.categoryTitleContainer}>
+                                        <h1>Your Trips</h1>
+                                        {/* <Link> */}
+                                            <button style={styles.selectButton} onClick={() => this.handleAddTrip()}>
+                                                <ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon
+                                            ></button>
+                                        {/* </Link> */}
+                                    </div>
                                 </div>
 
                                 {/* ------------------------DATE FILTER---------------------------- */}
@@ -149,10 +155,10 @@ class Dashboard extends React.Component {
                                 </div> */}
 
                                 <div style={{margin: 40,}}>
-                                <ButtonGroup>
-                                    <Button style={this.state.selected ? PRIMARY_COLOR : SECONDARY_COLOR} onClick={() => this.buttonPressed()}>Upcoming</Button>
-                                    <Button style={PRIMARY_COLOR}>Past Trips</Button>
-                                </ButtonGroup>
+                                    <ButtonGroup>
+                                        <Button style={this.state.selected ? PRIMARY_COLOR : SECONDARY_COLOR} onClick={() => this.buttonPressed()}>Upcoming</Button>
+                                        <Button style={PRIMARY_COLOR}>Past Trips</Button>
+                                    </ButtonGroup>
                                 </div>
 
                                 {this.state.loading ? (
@@ -160,13 +166,13 @@ class Dashboard extends React.Component {
                                     <Row style={{height: "40vh", justifyContent: "center", alignItems: "center"}}>
                                     
                                         <Spinner type="grow" color="danger">
-                                            <span className="sr-only">Loading...{console.log("IF STATE", this.state.tripsList.length)}</span>
+                                            <span className="sr-only">Loading...</span>
                                         </Spinner>
                                     </Row>) : (
 
                                     <Row style={{justifyContent: "center", alignItems: "center",}}>
 
-                                        {   ( (this.state.tripsList.length === 0) || (this.state.tripsList.length === undefined) ) ? 
+                                        {   ( (this.state.tripsList.length === 0) || (this.state.tripsList.length === undefined) ) ?
                                         
                                             (
                                                 // <CardDeck>
@@ -249,6 +255,22 @@ const styles = {
 
         border: "0.2px solid rgba(0,0,0,0.3)",
         borderRadius: 20,
+    },
+    categoryTitleContainer: {
+        // width: "80%",
+        // height: 40,
+        backgroundColor: "white",
+        margin: 5,
+        padding: 5,
+        // overflow: "hidden",
+        // borderRadius: 10,
+        // borderTop: "1px solid rgba(0,0,0,0.4)",
+        // borderBottom: "1px solid rgba(0,0,0,0.4)",
+
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center"
     },
     columnStyle: {
         // border: "1px solid rgba(0,0,0,0.6)",

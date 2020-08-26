@@ -25,7 +25,9 @@ class TripDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            
             tripData: this.props.history.location.state.data,
+
             tripId: this.props.history.location.state.data[0].id,
             destinationId: this.props.history.location.state.data[0].destinations[0].id,
 

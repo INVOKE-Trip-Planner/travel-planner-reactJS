@@ -17,12 +17,25 @@ class TripsCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            tripData: this.props.tripData,
             usersList: this.props.tripUsers,
+
+            tripCreator: '',
             listId: this.props.tripId,
             dropdownOpen: false,
 
             selected: false,
         }
+    }
+
+    componentDidMount() {
+        this.setState({
+            tripCreator: this.state.usersList.find(list => (list.id === this.props.tripCreatedBy) && list).name,
+        })
+    }
+
+    componentDidUpdate() {
+        
     }
 
     toggle() {
@@ -81,7 +94,7 @@ class TripsCard extends React.Component {
                             <div style={styles.cardContent}>
                                 <p>Date: <strong>{this.props.tripStartDate} - {this.props.tripEndDate}</strong></p>
                                 <p>Origin: <strong>{this.props.tripOrigin}</strong></p>
-                                <p>Created by: <strong>User {this.props.tripCreatedBy}</strong></p>
+                                <p>Created by: <strong>{this.state.tripCreator}</strong></p>
                                 <p>Trip Total: <strong>RM {this.props.tripTotal}</strong></p>
                             </div>
 
@@ -180,7 +193,7 @@ const styles = {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        alignItems: "flex-start",
+        alignItems: "center",
         color: "white",
         // border: "1px solid black"
         // position: "absolute",

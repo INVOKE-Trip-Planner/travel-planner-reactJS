@@ -34,7 +34,7 @@ class Header extends React.Component {
         const { getUserSession } = this.props;
         const { getUpdateUserData } = this.props;
 
-        console.log("CHECK", getUpdateUserData.data.username)
+        // console.log("CHECK", getUpdateUserData.data.username)
 
         if ( getUserSession.data.length !== undefined ) {
             // console.log("user detected");
@@ -83,7 +83,8 @@ class Header extends React.Component {
         // }
 
     logoutPressed() {
-        this.props.resetUserSession();
+        // this.props.resetUserSession();
+        this.props.onLogout();
 
         this.setState({
             isLogin: false,
@@ -168,7 +169,8 @@ const mapStateToProps = (store) => ({
   })
   
 const mapDispatchToProps = {
-    resetUserSession: Actions.resetUserSession
+    // resetUserSession: Actions.resetUserSession,
+    onLogout: Actions.logout,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
