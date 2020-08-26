@@ -31,11 +31,26 @@ class AddTrip extends React.Component {
     render() {
         return (
             <>
-                <Container fluid="xl">
+                <Container className="themed-container" fluid="xl" style={styles.fillPage}>
                     <AddTripForm />
                 </Container>
             </>
         )
+    }
+}
+
+const styles = {
+    fillPage: {
+        padding: 0,
+        // display: "flex",
+        // flexDirection: "column",
+        // alignItems: "center",
+        // justifyContent: "center",
+        // minWidth: 400,
+
+        border: "1px solid black",
+        minHeight: "90vh",
+        marginTop: 50,
     }
 }
 

@@ -34,9 +34,11 @@ class Header extends React.Component {
         const { getUserSession } = this.props;
         const { getUpdateUserData } = this.props;
 
-        // console.log("CHECK", getUpdateUserData.data.username)
+        // console.log("CHECK", getUpdateUserData.data)
+        console.log("CHECK", getUpdateUserData.data)
 
-        if ( getUserSession.data.length !== undefined ) {
+        // if ( getUserSession.data.length !== undefined ) {
+        if ( getUpdateUserData.data !== null ) {
             // console.log("user detected");
 
             this.setState({
@@ -98,7 +100,7 @@ class Header extends React.Component {
         return (
             <>
                 <Container className="themed-container" fluid={true}>
-                    <Navbar color="light" light expand="md">
+                    <Navbar color="light" light expand={true} style={{borderBottom: "0.5px solid rgba(0,0,0,0.1)"}}>
                         <NavbarBrand><Link to="/" style={styles.linkstyle}>Trip<span style={PRIMARY_COLOR_FONT}>Bantu</span></Link></NavbarBrand>
                         <NavbarToggler onClick={() => this.toggle()} />
                         <Collapse isOpen={this.state.isOpen} navbar>

@@ -135,7 +135,7 @@ class Dashboard extends React.Component {
                 <Container className="themed-container" fluid="xl" style={styles.dashboardContainer}>
 
                             {/*-------------------------Dashboard------------------------------------------------------------------------------------------------- */}
-                            <Container className="themed-container" style={{ textAlign:"center", margin: 0, padding: 0}} fluid={true}  >
+                            <Container className="themed-container" style={{ textAlign:"center", margin:0, padding: 0}} fluid={true}  >
 
                                 <div style={{margin: 40,}}>
                                     <div style={styles.categoryTitleContainer}>
@@ -249,12 +249,16 @@ const styles = {
         display: "flex",
         flexDirection: "row",
         justifyContent: "center", 
-        alignItems:"center", 
+        alignItems:"flex-start", 
         padding: 0, 
         margin: "0 auto",
+        marginTop: 50,
+
+        // backgroundColor: "black",
 
         border: "0.2px solid rgba(0,0,0,0.3)",
         borderRadius: 20,
+        minHeight: "100vh"
     },
     categoryTitleContainer: {
         // width: "80%",
