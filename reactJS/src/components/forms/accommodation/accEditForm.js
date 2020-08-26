@@ -131,7 +131,7 @@ const AccEditForm = (props) => {
         accCheckInMin: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
-          .max(60, 'Must be less than 60'),
+          .max(59, 'Must be less than 59'),
         accCheckOutDate: Yup.date()
           .min(Yup.ref('accCheckInDate' - (new Date(Date.now() - 8640000))), 'Must be after Check In date'),
           // .min(Yup.ref('accCheckInDate').setDate(Yup.ref('accCheckInDate').getDate() - 1), 'Must be after Check In Date'),
@@ -142,7 +142,7 @@ const AccEditForm = (props) => {
         accCheckOutMin: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
-          .max(60, 'Must be less than 60'),
+          .max(59, 'Must be less than 59'),
         accCost: Yup.number()
             .positive('Must be a positive integer'),
         accBookingId: Yup.string()

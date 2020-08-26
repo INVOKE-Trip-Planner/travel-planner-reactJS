@@ -282,13 +282,6 @@ const TransEditForm = (props) => {
           placeholder="Enter the arrival minute here"
         />
 
-        {/* <MyTextInput
-          label="Arrival Time"
-          name="transArrivalTime"
-          type="time"
-          placeholder="Enter the check out time here"
-        />     */}
-
         <MyCostInput
           label="Cost"
           name="transCost"
