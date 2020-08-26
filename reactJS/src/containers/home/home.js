@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import {Container, Row, Col, Button} from "reactstrap";
 
@@ -66,26 +67,29 @@ class Home extends React.Component {
                                     <h5>Making trip planning easier for all travellers</h5>
                                 </div>
 
-
-                                {/* ----------USER CAN CHOOSE TO PLAN TRIP OR EXPLORE PLACES--------------- */}
+{/* 
+                                ----------USER CAN CHOOSE TO PLAN TRIP OR EXPLORE PLACES---------------
                                 <div style={styles.selectContainer}>
                                     <button style={styles.selectButton} onClick={() => this.handlePlan()}>Plan your trip</button>
                                     <button style={styles.selectButton} onClick={() => this.handleExplore()}>Explore places</button>
-                                </div>
+                                </div> */}
+
                                 <div style={styles.searchContainer}>
 
                                     {this.state.showExplore ?
                                         (
                                         <div>
                                         {/* <h4>Create a new trip</h4> */}
-                                        <Button 
-                                            style={PRIMARY_COLOR}
-                                            size="lg"
-                                            // block
-                                            onClick={()=>this.handleAddTrip()}
-                                        >Begin Planning
-                                        </Button>
-                                        </div>)
+                                            <Button 
+                                                style={{marginBottom: 10,...PRIMARY_COLOR}}
+                                                size="lg"
+                                                block
+                                                onClick={()=>this.handleAddTrip()}
+                                            >Begin Planning
+                                            </Button>
+                                            <p style={{fontSize: "16px"}}>Haven't registered? <Link to="/register" style={{textDecoration: "underline", fontWeight: "bold", ...PRIMARY_COLOR_FONT}}>Sign up now!</Link></p>
+                                        </div>
+                                        )
                                         : 
                                         (<SearchForm />)
                                     }
@@ -250,7 +254,9 @@ const styles = {
         minwidth: "25%",
         // height: 150,
         // backgroundColor: "white",
+        color: "white",
         // border: "3px solid yellow",
+        // margin: 5,
         
         padding: 20,
     },
@@ -395,6 +401,10 @@ const styles = {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+    },
+    linkstyle: {
+        textDecoration: "none",
+        color: "black",
     },
 }
   

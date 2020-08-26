@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 
 import Header from "./components/header/header.js";
+import Footer from "./components/footer/footer.js";
 import Home from "./containers/home/home.js";
 import Dashboard from "./containers/trips/dashboard.js";
 import AddTrip from "./containers/trips/addTrip.js";
@@ -39,6 +40,7 @@ function App() {
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register}/>
             </Switch>
+          <Footer />
         </Router>
 
       </PersistGate>

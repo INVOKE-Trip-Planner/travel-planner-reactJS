@@ -313,7 +313,8 @@ const styles = {
     selectButton: {
         backgroundColor: "transparent",
         outline: "none",
-        border: "1px solid rgba(0,0,0,0.4)",
+        border: "none",
+        // border: "1px solid rgba(0,0,0,0.4)",
         // borderRadius: 10,
         padding: 10,
         color: "black",
