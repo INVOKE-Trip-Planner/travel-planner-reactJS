@@ -40,6 +40,7 @@ class AddTrip extends React.Component {
 
                 alert("Trip created successfully!")
             } else {
+                alert(Object.values(getCreateTripData.error.errors).flat().join('\n'));
                 alert("Create trip unsuccessful.")
             }
 

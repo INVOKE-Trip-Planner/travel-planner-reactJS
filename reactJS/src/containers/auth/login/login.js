@@ -32,8 +32,12 @@ class Login extends React.Component {
                 alert("Success");
                 this.props.history.push("/");
             } else {
+
+                // console.log(getLoginData)
+
+                alert(Object.values(getLoginData.error.errors).flat().join('\n'));
                 // if no login data
-                alert("Login failed.")
+                // alert("Login failed.")
             }
         }    
     }

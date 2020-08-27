@@ -184,6 +184,7 @@ const AddTripForm = props => {
                                 width: '100%',
                             }}
                         >
+
                             <MyTextInput 
                                 name={`destinations.${index}.start_date`}
                                 label="start date"

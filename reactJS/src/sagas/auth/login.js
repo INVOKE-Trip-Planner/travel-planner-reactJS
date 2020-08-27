@@ -30,7 +30,7 @@ function* login({ data }) { // data coming from view
   }
 
   if(error) {
-    yield put(Actions.loginFail(error));
+    yield put(Actions.loginFail(error.response.data));
   }
 }
 
