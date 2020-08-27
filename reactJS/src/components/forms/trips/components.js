@@ -192,6 +192,57 @@ export const MyPhotoInput = ({ label, containerStyle, ...props }) => {
     );
 };
 
+export const SearchArticlesInput = (props) => {
+
+    const [query, setQuery] = React.useState('');
+
+    const handleSubmit = async (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const {response, error} = await api.searchArticles(query);
+        if (error) {
+            alert(error);
+            props.handleSubmit(null);
+        } else {
+            props.handleSubmit(response.data);
+        }
+    }
+    
+    return (
+        <form
+            style={{
+                width: '100%',
+                maxWidth: 400,
+                margin: '0 auto',
+                // height: 150,
+                borderRadius: '1em',
+                background: 'white',
+                border: '1px solid black',
+                // position: 'absolute',
+                padding: '0.5em',
+                top: 50,
+                // left: (props.itemCount + 1) * 50,
+            }}
+            onSubmit={handleSubmit}
+        >
+            <input 
+                name="query"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Enter a destination."
+                autoComplete="off"
+                style={{
+                    // borderRadius: '1em',
+                    border: 'none',
+                    width: '100%',
+                    outline: 'none',
+                    // margin: '0.5em'
+                }}    
+            />
+        </form>
+    )
+}
+
 export const SearchUserInput = (props) => {
 
     const [query, setQuery] = React.useState('');
