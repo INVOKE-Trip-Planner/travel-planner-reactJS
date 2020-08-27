@@ -96,3 +96,10 @@ export const deleteItin = (data, headers) => {
 };
 
 // export const addToDo = data, header
+
+//-----------TRIPOSO----------------------------
+export const searchArticles = (query) => {
+  const formData = new FormData();
+  formData.append('city', query);
+  return fetchApi('post', `api/triposo/articles/`, formData);
+}

@@ -22,6 +22,7 @@ import TripDetails from "./containers/trips/tripDetails.js";
 
 import { store, persistor } from "./store/index";
 import Profile from './containers/profile/profile';
+import TriposoArticle from './containers/triposo/test';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
               <Route exact path="/profile" component={Profile} />
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register}/>
+              <Route path="/discover" component={TriposoArticle} />
             </Switch>
           <Footer />
         </Router>
