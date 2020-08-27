@@ -40,7 +40,7 @@ function App() {
               <Route exact path="/profile" component={Profile} />
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register}/>
-              <Route path="/test" component={TriposoArticle} />
+              <Route path="/discover" component={TriposoArticle} />
             </Switch>
           <Footer />
         </Router>
