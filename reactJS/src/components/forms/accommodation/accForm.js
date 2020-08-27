@@ -131,7 +131,7 @@ const AccForm = (props) => {
         accCheckInMin: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
-          .max(60, 'Must be less than 60'),
+          .max(59, 'Must be less than 59'),
         accCheckOutDate: Yup.date()
           .min(Yup.ref('accCheckInDate'), 'Must be after Check In date'),
         accCheckOutHour: Yup.number()
@@ -141,7 +141,7 @@ const AccForm = (props) => {
         accCheckOutMin: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
-          .max(60, 'Must be less than 60'),
+          .max(59, 'Must be less than 59'),
         accCost: Yup.number()
             .positive('Must be a positive integer'),
         accBookingID: Yup.string()
@@ -152,7 +152,7 @@ const AccForm = (props) => {
         console.log(values);
 
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          // alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400)
         props.onCreateAcc(values);

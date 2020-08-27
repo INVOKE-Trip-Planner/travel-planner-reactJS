@@ -30,6 +30,7 @@ class Register extends React.Component {
             // console.log("REGISTER DATA", Object.keys(getRegisterData));
 
             // console.log("REGISTER DATA", getRegisterData.error.errors.username[0]);
+            // console.log("REGISTER DATA", getRegisterData.error.errors.length);
     
             // Check length of getLoginData to see if data exist
             if ( (Object.keys(getRegisterData.data).length !== 0) ) {
@@ -37,15 +38,23 @@ class Register extends React.Component {
                 // if login data exist
                 alert("Registration success! Please login to your account.");
                 this.props.history.push("/login");
-            }  else {
-
-                if (Object.keys(getRegisterData.error.errors.username[0] !== 0)) {
-                    alert(getRegisterData.error.errors.username[0])
-                } else {
-                // alert(getRegisterData.error.response.data.errors.username[0])
-                    alert("Registration failed.")
-                }
             }
+            
+            // if {
+                
+                // if (Object.keys(getRegisterData.error).length !== 0) {
+                //     if (Object.keys(getRegisterData.error.errors.username).length !== 0) {
+                //         alert(getRegisterData.error.errors.username[0]);
+                //     } 
+                
+                //      if (Object.keys(getRegisterData.error.errors.email).length !== 0) {
+                //         alert(getRegisterData.error.errors.email[0]);
+                //     }
+                // }
+
+                alert("Registration failed.");
+                
+            // }
         }    
     }
 

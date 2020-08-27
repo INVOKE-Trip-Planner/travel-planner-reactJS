@@ -201,7 +201,7 @@ const TransEditForm = (props) => {
         console.log(values);
 
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          // alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400)
         props.onEditTrans(values);
@@ -281,13 +281,6 @@ const TransEditForm = (props) => {
           type="number"
           placeholder="Enter the arrival minute here"
         />
-
-        {/* <MyTextInput
-          label="Arrival Time"
-          name="transArrivalTime"
-          type="time"
-          placeholder="Enter the check out time here"
-        />     */}
 
         <MyCostInput
           label="Cost"

@@ -122,9 +122,9 @@ class Itinerary extends React.Component {
                             </div>
                         </div>
                     </CardBody>
-                <CardFooter style={{width: "100%"}}>
+                {/* <CardFooter style={{width: "100%"}}>
                     <p>Total cost: <strong>RM{this.props.itinCost}</strong></p>
-                </CardFooter>
+                </CardFooter> */}
             </Card>
 
                 {/* -------------------------EDIT ITIN MODAL------------------------------------ */}

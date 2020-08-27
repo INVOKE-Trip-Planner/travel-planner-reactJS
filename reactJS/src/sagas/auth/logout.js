@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* logout() {
-    // console.log("GETALL SAGA");
+    console.log("LOGOUT SAGA");
 
     // // let store = getStore().getState();
 

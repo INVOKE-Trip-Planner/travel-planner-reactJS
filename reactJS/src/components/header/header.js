@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import Actions from "../../actions";
 import { getUserSession } from "../../actions/profile/userSession";
 
-import { PRIMARY_COLOR_FONT } from "common/styles/index.js";
+import { PRIMARY_COLOR_FONT, PRIMARY_COLOR } from "common/styles/index.js";
 
 class Header extends React.Component {
 
@@ -34,9 +34,11 @@ class Header extends React.Component {
         const { getUserSession } = this.props;
         const { getUpdateUserData } = this.props;
 
-        console.log("CHECK", getUpdateUserData.data.username)
+        // console.log("CHECK", getUpdateUserData.data)
+        console.log("CHECK", getUpdateUserData.data)
 
-        if ( getUserSession.data.length !== undefined ) {
+        // if ( getUserSession.data.length !== undefined ) {
+        if ( getUpdateUserData.data !== null ) {
             // console.log("user detected");
 
             this.setState({
@@ -83,7 +85,8 @@ class Header extends React.Component {
         // }
 
     logoutPressed() {
-        this.props.resetUserSession();
+        // this.props.resetUserSession();
+        this.props.onLogout();
 
         this.setState({
             isLogin: false,
@@ -96,10 +99,10 @@ class Header extends React.Component {
     render() {
         return (
             <>
-                <Container className="themed-container" fluid={true}>
-                    <Navbar color="light" light expand="md">
+                <Container className="themed-container" fluid={true} style={{margin: 0, padding: 0,}}>
+                    <Navbar color="light" light expand="md" style={{borderBottom: "0.5px solid rgba(0,0,0,0.1)", paddingLeft: 20, paddingRight: 20,}} fluid={true}>
                         <NavbarBrand><Link to="/" style={styles.linkstyle}>Trip<span style={PRIMARY_COLOR_FONT}>Bantu</span></Link></NavbarBrand>
-                        <NavbarToggler onClick={() => this.toggle()} />
+                        <NavbarToggler onClick={() => this.toggle()} style={{color: "white", ...PRIMARY_COLOR}}/>
                         <Collapse isOpen={this.state.isOpen} navbar>
 
                                 {/* NAV USER LOGIN CONDITION */}
@@ -133,7 +136,7 @@ class Header extends React.Component {
                                                 Hi {this.state.displayUsername}
                                             </NavbarText>
                                         </DropdownToggle>
-                                        <DropdownMenu right>
+                                        <DropdownMenu left>
                                             <DropdownItem>
                                                 <Link to="/profile" style={styles.linkstyle}>Profile</Link>
                                             </DropdownItem>
@@ -168,7 +171,8 @@ const mapStateToProps = (store) => ({
   })
   
 const mapDispatchToProps = {
-    resetUserSession: Actions.resetUserSession
+    // resetUserSession: Actions.resetUserSession,
+    onLogout: Actions.logout,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

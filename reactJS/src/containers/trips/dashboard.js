@@ -48,10 +48,10 @@ class Dashboard extends React.Component {
 
     componentDidUpdate(prevProps) {
         // console.log("DASHBOARD UPDATE");
-        const { getGetAllData } = this.props;
+        const { getGetAllData, getUpdateTripData, getDeleteTripData } = this.props;
 
-        console.log("TRIP DATA", getGetAllData.data.length);
-
+        // console.log("TRIP DATA", getGetAllData);
+        // console.log("DELETETRIP DATA", getDeleteTripData);
 
         if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
 
@@ -69,6 +69,32 @@ class Dashboard extends React.Component {
                     loading: false,
                 })
             }
+        }
+
+        // Update trip
+        if (prevProps.getUpdateTripData.isLoading && !getUpdateTripData.isLoading) {
+            if ( (Object.keys(getUpdateTripData.data).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                    tripsList: getGetAllData.data,
+                    openModalEdit: false,
+                })
+                // alert(getEditAccData.data.message);
+                alert(getUpdateTripData.data.message);
+            } else {alert("Update trip failed.")}
+        }
+
+        // Delete trip
+        if (prevProps.getDeleteTripData.isLoading && !getDeleteTripData.isLoading) {
+            if ( getDeleteTripData.error === null ) {
+                this.setState({
+                    loading: true,
+                    tripsList: getGetAllData.data,
+                    openModalDelete: false,
+                })
+                // alert(getEditAccData.data.message);
+                alert("Successfully deleted trip.");
+            } else {alert("Delete trip failed.")}
         }
     }
 
@@ -136,10 +162,17 @@ class Dashboard extends React.Component {
                 <Container className="themed-container" fluid="xl" style={styles.dashboardContainer}>
 
                             {/*-------------------------Dashboard------------------------------------------------------------------------------------------------- */}
-                            <Container className="themed-container" style={{ textAlign:"center", margin: 0, padding: 0}} fluid={true}  >
+                            <Container className="themed-container" style={{ textAlign:"center", margin:0, padding: 0}} fluid={true}  >
 
                                 <div style={{margin: 40,}}>
-                                    <h1>Your Trips</h1>
+                                    <div style={styles.categoryTitleContainer}>
+                                        <h1>Your Trips</h1>
+                                        {/* <Link> */}
+                                            <button style={styles.selectButton} onClick={() => this.handleAddTrip()}>
+                                                <ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon
+                                            ></button>
+                                        {/* </Link> */}
+                                    </div>
                                 </div>
 
                                 {/* ------------------------DATE FILTER---------------------------- */}
@@ -149,10 +182,10 @@ class Dashboard extends React.Component {
                                 </div> */}
 
                                 <div style={{margin: 40,}}>
-                                <ButtonGroup>
-                                    <Button style={this.state.selected ? PRIMARY_COLOR : SECONDARY_COLOR} onClick={() => this.buttonPressed()}>Upcoming</Button>
-                                    <Button style={PRIMARY_COLOR}>Past Trips</Button>
-                                </ButtonGroup>
+                                    <ButtonGroup>
+                                        <Button style={this.state.selected ? PRIMARY_COLOR : SECONDARY_COLOR} onClick={() => this.buttonPressed()}>Upcoming</Button>
+                                        <Button style={PRIMARY_COLOR}>Past Trips</Button>
+                                    </ButtonGroup>
                                 </div>
 
                                 {this.state.loading ? (
@@ -160,13 +193,13 @@ class Dashboard extends React.Component {
                                     <Row style={{height: "40vh", justifyContent: "center", alignItems: "center"}}>
                                     
                                         <Spinner type="grow" color="danger">
-                                            <span className="sr-only">Loading...{console.log("IF STATE", this.state.tripsList.length)}</span>
+                                            <span className="sr-only">Loading...</span>
                                         </Spinner>
                                     </Row>) : (
 
                                     <Row style={{justifyContent: "center", alignItems: "center",}}>
 
-                                        {   ( (this.state.tripsList.length === 0) || (this.state.tripsList.length === undefined) ) ? 
+                                        {   ( (this.state.tripsList.length === 0) || (this.state.tripsList.length === undefined) ) ?
                                         
                                             (
                                                 // <CardDeck>
@@ -243,12 +276,32 @@ const styles = {
         display: "flex",
         flexDirection: "row",
         justifyContent: "center", 
-        alignItems:"center", 
+        alignItems:"flex-start", 
         padding: 0, 
         margin: "0 auto",
+        marginTop: 50,
+
+        // backgroundColor: "black",
 
         border: "0.2px solid rgba(0,0,0,0.3)",
         borderRadius: 20,
+        minHeight: "100vh"
+    },
+    categoryTitleContainer: {
+        // width: "80%",
+        // height: 40,
+        backgroundColor: "white",
+        margin: 5,
+        padding: 5,
+        // overflow: "hidden",
+        // borderRadius: 10,
+        // borderTop: "1px solid rgba(0,0,0,0.4)",
+        // borderBottom: "1px solid rgba(0,0,0,0.4)",
+
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center"
     },
     columnStyle: {
         // border: "1px solid rgba(0,0,0,0.6)",
@@ -291,7 +344,8 @@ const styles = {
     selectButton: {
         backgroundColor: "transparent",
         outline: "none",
-        border: "1px solid rgba(0,0,0,0.4)",
+        border: "none",
+        // border: "1px solid rgba(0,0,0,0.4)",
         // borderRadius: 10,
         padding: 10,
         color: "black",
@@ -322,6 +376,8 @@ const mapStateToProps = store => ({
     getGetAllData: Actions.getGetAllData(store),
     getUserSession: Actions.getUserSession(store),
     // getDeleteTaskData: Actions.getDeleteTaskData(store)
+    getUpdateTripData: Actions.getUpdateTripData(store),
+    getDeleteTripData: Actions.getDeleteTripData(store),
 });
 
 // dispatch to action

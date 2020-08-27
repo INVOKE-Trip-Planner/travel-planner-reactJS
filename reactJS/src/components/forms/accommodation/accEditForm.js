@@ -123,7 +123,7 @@ const AccEditForm = (props) => {
           .max(100, 'Must be 100 characters or less')
           .required('Required'),
         accCheckInDate: Yup.date()
-          .min(new Date(), "Date cannot be in the past"),
+          .min(new Date(Date.now() - 8640000), "Date cannot be in the past"),
         accCheckInHour: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
@@ -131,9 +131,10 @@ const AccEditForm = (props) => {
         accCheckInMin: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
-          .max(60, 'Must be less than 60'),
+          .max(59, 'Must be less than 59'),
         accCheckOutDate: Yup.date()
           .min(Yup.ref('accCheckInDate'), 'Must be after Check In date'),
+          // .min(Yup.ref('accCheckInDate').setDate(Yup.ref('accCheckInDate').getDate() - 1), 'Must be after Check In Date'),
         accCheckOutHour: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
@@ -141,7 +142,7 @@ const AccEditForm = (props) => {
         accCheckOutMin: Yup.number()
           .positive('Must be a positive integer')
           .min(0, 'Must be more than 0')
-          .max(60, 'Must be less than 60'),
+          .max(59, 'Must be less than 59'),
         accCost: Yup.number()
             .positive('Must be a positive integer'),
         accBookingId: Yup.string()
@@ -152,7 +153,7 @@ const AccEditForm = (props) => {
         console.log(values);
 
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          // alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400)
         props.onEditAcc(values);

@@ -11,8 +11,8 @@
 }
 
 @keyframes goDown {
-    from {height: 30px;}
-    to {height: 35px;}
+    from {transform:translateY(0);}
+    to {transform: translateY(10px);}
 }
 
 .down-icon {
@@ -21,9 +21,10 @@
     display: flex;
     align-items: flex-end;
     animation-name: goDown;
-    animation-duration: 1.5s;
+    animation-duration: 1s;
+    animation-direction: alternate;
     animation-iteration-count: infinite;
-    animation-timing-function: ease;
+    animation-timing-function: ease-in-out;
 }
 
 .learn-text {

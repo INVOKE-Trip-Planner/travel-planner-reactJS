@@ -5,6 +5,8 @@ import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, 
 import { connect } from "react-redux";
 import Actions from "actions";
 
+import moment from 'moment';
+
 import { PRIMARY_COLOR } from "common/styles/index.js";
 import { SECONDARY_COLOR } from "../../common/styles";
 
@@ -28,6 +30,10 @@ class Accommodation extends React.Component {
             // openModalEdit: false,
             selected: false,
         }
+    }
+
+    componentDidMount() {
+        console.log(moment(this.props.accCheckInDate, "YYYY-MM-DD").format('D MMMM YYYY'));
     }
 
     handleEdit() {
@@ -81,11 +87,11 @@ class Accommodation extends React.Component {
                 <CardBody>
                     <div style={styles.cardContentContainer}>
                         <div style={styles.cardContent}>
-                            <p>Booking ID: <strong>{this.props.accBookingId}</strong></p>
-                            <p>Check In Date: <strong>{this.props.accCheckInDate}</strong></p>
-                            <p>Check In Time: <strong>{this.props.accCheckInHour}:{this.props.accCheckInMin}</strong></p>
-                            <p>Check Out Date: <strong>{this.props.accCheckOutDate}</strong></p>
-                            <p>Check Out Time: <strong>{this.props.accCheckOutHour}:{this.props.accCheckOutMin}</strong></p>
+                            {this.props.accBookingId !== null && (<p>Booking ID: <strong>{this.props.accBookingId}</strong></p> )}
+                            {this.props.accCheckInDate !== null && (<p>Check In Date: <strong>{moment(this.props.accCheckInDate, "YYYY-MM-DD").format("D MMMM YYYY")}</strong></p> )}
+                            {this.props.accCheckInHour !== null && (<p>Check In Time: <strong>{('0000'+this.props.accCheckInHour).slice(-2)}:{('0000'+this.props.accCheckInMin).slice(-2)} {this.props.accCheckInHour < 12 ? " AM" : " PM"}</strong></p> )}
+                            {this.props.accCheckOutDate !== null && (<p>Check Out Date: <strong>{moment(this.props.accCheckOutDate, "YYYY-MM-DD").format('D MMMM YYYY')}</strong></p> )}
+                            {this.props.accCheckOutHour !== null && (<p>Check Out Time: <strong>{('0000'+this.props.accCheckOutHour).slice(-2)}:{('0000'+this.props.accCheckOutMin).slice(-2)} {this.props.accCheckInHour < 12 ? " AM" : " PM"}</strong></p> )}
                         </div>
 
                         <div style={styles.cardContent}>
@@ -182,7 +188,7 @@ const styles = {
         justifyContent: "space-between",
         alignItems: "flex-start",
         // border: "1px solid black",
-        overflow: "hidden",
+        // overflow: "hidden",
     },
     cardContentCenter: {
         padding: 10,

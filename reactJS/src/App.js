@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 
 import Header from "./components/header/header.js";
+import Footer from "./components/footer/footer.js";
 import Home from "./containers/home/home.js";
 import Dashboard from "./containers/trips/dashboard.js";
 import AddTrip from "./containers/trips/addTrip.js";
@@ -41,6 +42,7 @@ function App() {
               <Route path="/register" component={Register}/>
               <Route path="/test" component={TriposoArticle} />
             </Switch>
+          <Footer />
         </Router>
 
       </PersistGate>
