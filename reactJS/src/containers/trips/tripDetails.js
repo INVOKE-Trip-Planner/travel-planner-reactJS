@@ -3,6 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 import Actions from "actions";
 
+import moment from "moment";
+
 import { Container, Row, Col, CardDeck, Jumbotron, Spinner, ButtonGroup, Button } from 'reactstrap';
 
 import banner1 from "assets/images/banner1.jpg"
@@ -382,12 +384,12 @@ class TripDetails extends React.Component {
                                         <div style={{marginBottom: 40,}}>
                                             <h1 className="display-3">{list.trip_name}</h1>
                                         </div>
-                                        <h5>From: <strong>{list.origin}</strong></h5>
+                                        <h5>Origin: <strong>{list.origin}</strong></h5>
                                         <div style={{display: "flex", justifyContent: "space-around", width: "100%"}}>
-                                            <h5>Start Date: <strong>{list.start_date}</strong></h5>
-                                            <h5>End Date: <strong>{list.end_date}</strong></h5>
+                                            <h5>From: <strong>{moment(list.start_date, "YYYY-MM-DD").format('D MMMM YYYY')}</strong></h5>
+                                            <h5>To: <strong>{moment(list.end_date, "YYYY-MM-DD").format("D MMMM YYYY")}</strong></h5>
                                         </div>
-                                        <h5>Trip Cost: <strong>RM{list.total}</strong></h5>
+                                        <h5>Trip Cost: <strong>RM{(list.total).toFixed(2)}</strong></h5>
                                     </Container>
                                 </Jumbotron>
                             </Row>
@@ -510,7 +512,7 @@ class TripDetails extends React.Component {
                                         { this.state.filterLocation ? (
 
                                             // --------------CHECK TRANS LENGTH-----------------
-                                            (this.state.filterLocationData.itineraries.length !== 0) ? (
+                                            (this.state.filterLocationData.transports.length !== 0) ? (
 
                                             this.state.filterLocationData.transports.map( transport => (
                                                 <CardDeck style={styles.cardDeckStyle}>

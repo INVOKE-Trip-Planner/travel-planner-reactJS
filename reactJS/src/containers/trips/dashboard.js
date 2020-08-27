@@ -48,9 +48,10 @@ class Dashboard extends React.Component {
 
     componentDidUpdate(prevProps) {
         // console.log("DASHBOARD UPDATE");
-        const { getGetAllData } = this.props;
+        const { getGetAllData, getUpdateTripData, getDeleteTripData } = this.props;
 
-        // console.log("TRIP DATA", getGetAllData.data.length);
+        // console.log("TRIP DATA", getGetAllData);
+        // console.log("DELETETRIP DATA", getDeleteTripData);
 
         if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
 
@@ -68,6 +69,32 @@ class Dashboard extends React.Component {
                     loading: false,
                 })
             }
+        }
+
+        // Update trip
+        if (prevProps.getUpdateTripData.isLoading && !getUpdateTripData.isLoading) {
+            if ( (Object.keys(getUpdateTripData.data).length !== 0) ) {
+                this.setState({
+                    loading: true,
+                    tripsList: getGetAllData.data,
+                    openModalEdit: false,
+                })
+                // alert(getEditAccData.data.message);
+                alert(getUpdateTripData.data.message);
+            } else {alert("Update trip failed.")}
+        }
+
+        // Delete trip
+        if (prevProps.getDeleteTripData.isLoading && !getDeleteTripData.isLoading) {
+            if ( getDeleteTripData.error === null ) {
+                this.setState({
+                    loading: true,
+                    tripsList: getGetAllData.data,
+                    openModalDelete: false,
+                })
+                // alert(getEditAccData.data.message);
+                alert("Successfully deleted trip.");
+            } else {alert("Delete trip failed.")}
         }
     }
 
@@ -349,6 +376,8 @@ const mapStateToProps = store => ({
     getGetAllData: Actions.getGetAllData(store),
     getUserSession: Actions.getUserSession(store),
     // getDeleteTaskData: Actions.getDeleteTaskData(store)
+    getUpdateTripData: Actions.getUpdateTripData(store),
+    getDeleteTripData: Actions.getDeleteTripData(store),
 });
 
 // dispatch to action

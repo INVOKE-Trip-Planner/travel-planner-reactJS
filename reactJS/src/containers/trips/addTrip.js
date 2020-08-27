@@ -28,6 +28,24 @@ class AddTrip extends React.Component {
         // this.props.onGetAll();
     }
 
+    componentDidUpdate(prevProps) {
+
+        const { getCreateTripData } = this.props;
+
+        console.log("create trip data", getCreateTripData)
+
+        if (prevProps.getCreateTripData.isLoading && !getCreateTripData.isLoading) {
+        
+            if ( (Object.keys(getCreateTripData.data).length !== 0) ) {
+
+                alert("Trip created successfully!")
+            } else {
+                alert("Create trip unsuccessful.")
+            }
+
+        }
+    }
+
     render() {
         return (
             <>
@@ -59,6 +77,7 @@ const mapStateToProps = store => ({
     getGetAllData: Actions.getGetAllData(store),
     getUserSession: Actions.getUserSession(store),
     // getDeleteTaskData: Actions.getDeleteTaskData(store)
+    getCreateTripData: Actions.getCreateTripData(store),
 });
 
 // dispatch to action

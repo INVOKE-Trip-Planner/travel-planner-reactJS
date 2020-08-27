@@ -5,6 +5,8 @@ import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, 
 import { connect } from "react-redux";
 import Actions from "actions";
 
+import moment from "moment";
+
 import TransEditForm from "components/forms/transport/editTransForm.js";
 
 import DeleteTripModal from "../../components/modals/deleteTrip";
@@ -82,16 +84,21 @@ class Transport extends React.Component {
                     <CardBody>
                         <div style={styles.cardContentContainer}>
                             <div style={styles.cardContent}>
-                                <p>Booking ID: <strong>{this.props.transBookingId}</strong></p>
-                                <p>Origin: <strong>{this.props.transOrigin}</strong></p>
-                                <p>Destination: <strong>{this.props.transDestination}</strong></p>
-                                <p>Departure Date: <strong>{this.props.transDepartureDate}</strong></p>
+                                {this.props.transBookingId !== null && ( <p>Booking ID: <strong>{this.props.transBookingId}</strong></p> )}
+                                {this.props.transOrigin !== null && ( <p>Origin: <strong>{this.props.transOrigin}</strong></p> )}
+                                {this.props.transDestination !== null && ( <p>Destination: <strong>{this.props.transDestination}</strong></p> )}
+                                {this.props.transDepartureDate !== null && (<p>Departure Date: <strong>{moment(this.props.transDepartureDate, "YYYY-MM-DD").format('D MMMM YYYY')}</strong></p> )}
                                 {/* <p>Departure Time: <strong>{this.props.transDepartureHour}:{this.props.transDepartureMin}</strong></p> */}
-                                <p>Departure Time: <strong>{this.props.transDepartureHour !== null && (('0000'+this.props.transDepartureHour).slice(-2))}:{ this.props.transDepartureMin !== null && (('0000'+this.props.transDepartureMin).slice(-2))}{this.props.transDepartureHour < 12 ? " AM" : " PM"}</strong></p>
-                                <p>Arrival Date: <strong>{this.props.transArrivalDate}</strong></p>
+                                {this.props.transDepartureHour !== null && (
+                                    <p>Departure Time: <strong>{this.props.transDepartureHour !== null && (('0000'+this.props.transDepartureHour).slice(-2))}:{ this.props.transDepartureMin !== null && (('0000'+this.props.transDepartureMin).slice(-2))}{this.props.transDepartureHour < 12 ? " AM" : " PM"}</strong></p> 
+                                )}
+
+                                {this.props.transArrivalDate !== null && ( <p>Arrival Date: <strong>{moment(this.props.transArrivalDate, "YYYY-MM-DD").format('D MMMM YYYY')}</strong></p> )}
                                 {/* <p>Arrival Time: <strong>{this.props.transArrivalHour}:{this.props.transArrivalMin}</strong></p> */}
-                                <p>Arrival Time: <strong>{this.props.transArrivalHour !== null && (('0000'+this.props.transArrivalHour).slice(-2))}:{this.props.transArrivalMin !== null && (('0000'+this.props.transArrivalMin).slice(-2))}{this.props.transArrivalHour < 12 ? " AM" : " PM"}</strong></p>
-                                <p>Operator: <strong>{this.props.transOperator}</strong></p>
+                                {this.props.transArrivalHour !== null && ( 
+                                    <p>Arrival Time: <strong>{this.props.transArrivalHour !== null && (('0000'+this.props.transArrivalHour).slice(-2))}:{this.props.transArrivalMin !== null && (('0000'+this.props.transArrivalMin).slice(-2))}{this.props.transArrivalHour < 12 ? " AM" : " PM"}</strong></p> 
+                                )}
+                                {this.props.transOperator !== null && ( <p>Operator: <strong>{this.props.transOperator}</strong></p> )}
                             </div>
 
                             <div style={styles.cardContent}>
@@ -111,9 +118,11 @@ class Transport extends React.Component {
                             </div>
                         </div>
                     </CardBody>
-                    <CardFooter style={{width: "100%"}}>
-                        <p><strong>Cost: RM{this.props.transCost}</strong></p>
-                    </CardFooter>
+                    {this.props.transCost !== null && (
+                        <CardFooter style={{width: "100%"}}>
+                            <p><strong>Cost: RM{this.props.transCost}</strong></p>
+                        </CardFooter>
+                    )}
                 </Card>
             
                 {/* -------------------- CREATE TRANS MODAL ------------------------- */}
@@ -193,7 +202,7 @@ const styles = {
         justifyContent: "space-between",
         alignItems: "flex-start",
         // border: "1px solid black",
-        overflow: "hidden",
+        // overflow: "hidden",
     },
     cardContentCenter: {
         padding: 10,
