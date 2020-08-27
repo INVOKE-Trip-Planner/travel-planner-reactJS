@@ -379,7 +379,7 @@ class TripDetails extends React.Component {
                             {/* -----------------------------------------JUMBOTRON----------------------------------------------------------------------------- */}
                             <Row style={{width: "100%", justifyContent: "center", margin: 0, color: "white",}}>
 
-                                <Jumbotron fluid style={{backgroundImage: `url(http://localhost:8000/storage/trip_banners/${this.state.tripData[0].trip_banner})`, opacity: 0.7, ...styles.jumbotronStyle}}>
+                                <Jumbotron fluid style={{backgroundImage: `url(http://localhost:8000/storage/trip_banners/${this.state.tripData[0].trip_banner})`, opacity: 0.4, ...styles.jumbotronStyle}} loading="lazy">
                                     <Container fluid>
                                         <div style={{marginBottom: 40,}}>
                                             <h1 className="display-3">{list.trip_name}</h1>
@@ -430,7 +430,7 @@ class TripDetails extends React.Component {
 
                                 <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                    <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 20, borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
+                                    <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
                                         <div style={styles.categoryTitleContainer}>
 
                                             <h4>Accommodations</h4>

@@ -72,7 +72,7 @@ class TripsCard extends React.Component {
                         {/* <div className="image-container" style={styles.imageContainer}> */}
                             <div className="image-sizing" style={styles.tripImageBox}>
                                 {/* {console.log(this.props.tripBanner)} */}
-                                <img id="banner1" src={`http://localhost:8000/storage/trip_banners/${this.props.tripBanner}`} alt="banner1" style={styles.imageSize}/>
+                                <img id="banner1" src={`http://localhost:8000/storage/trip_banners/${this.props.tripBanner}`} loading="lazy" alt="banner1" style={styles.imageSize}/>
                             </div>
                             <div className="trip-title-container" style={styles.cardTripTitle}>
                                 <h4>{this.props.tripTitle}</h4>
@@ -83,7 +83,7 @@ class TripsCard extends React.Component {
                                         
                                         <div className="avatar-sizing" style={styles.avatarContainer}>
                                             {/* {console.log(list.avatar)} */}
-                                            <img id="user-avatar" src={`http://localhost:8000/storage/avatars/${list.avatar}`} alt="placeholder" style={styles.avatarSize} />
+                                            <img id="user-avatar" src={`http://localhost:8000/storage/avatars/${list.avatar}`} loading="lazy" alt="placeholder" style={styles.avatarSize} />
                                         </div>
                                     ) )
                                 }

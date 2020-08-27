@@ -99,7 +99,7 @@ class Itinerary extends React.Component {
                                     <div style={styles.cardContent}>
                                         <p>Title: <strong>{schedule.title}</strong></p>
                                         <p>Desc: <strong>{schedule.description}</strong></p>
-                                <p>Time: <strong>{('0000'+schedule.hour).slice(-2)}:{('0000'+schedule.minute).slice(-2)}{schedule.hour < 12 ? " AM" : " PM"}</strong></p>
+                                        <p>Time: <strong>{('0000'+schedule.hour).slice(-2)}:{('0000'+schedule.minute).slice(-2)}{schedule.hour < 12 ? " AM" : " PM"}</strong></p>
                                         <p>Cost: <strong>RM {schedule.cost}</strong></p>
                                     </div>
                                 ))}

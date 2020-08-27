@@ -58,7 +58,7 @@ class Home extends React.Component {
                 <Container className="themed-container" fluid={true} style={styles.fillPage}>
                     <div style={styles.firstContainer}>
                         <div style={styles.imageContainer}>
-                            <img id="frontpage" src={FrontPageBanner} alt="frontpage" style={styles.frontImage}/>
+                            <img id="frontpage" src={FrontPageBanner} alt="frontpage" loading="lazy" style={styles.frontImage}/>
                         </div>
                         <div style={styles.contentContainer}>
                             <div style={styles.contentTopContainer}>

@@ -48,7 +48,7 @@ function* updateTrip({ data }) {
     }
 
     if (error) {
-        yield put(Actions.updateTripFail(error));
+        yield put(Actions.updateTripFail(error.response.data));
     }
 }
 

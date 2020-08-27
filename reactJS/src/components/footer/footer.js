@@ -20,7 +20,7 @@ class Footer extends React.Component {
                     {/* <h5>This is footer</h5> */}
 
                     <Row style={{width: "100%", padding: 0, margin: 0, display: "flex", justifyContent: "center", alignItems: "flex-start"}}>
-                        <Col xs="12" sm="12" md="4" lg="4" xl="4" style={styles.colContainer}>
+                        <Col id="col-one" xs="12" sm="12" md="4" lg="4" xl="4" style={styles.colContainer}>
                             <p><strong>Keep track of all your travel informations with the TripBantu mobile apps.</strong></p>
                             <p>Anything you plan or save automatically syncs with the apps, ready for you when you travel!</p>
 
@@ -30,7 +30,7 @@ class Footer extends React.Component {
                             </div>
                         </Col>
 
-                        <Col xs="12" sm="12" md="4" lg="4" xl="4" style={styles.colContainerTwo}>
+                        <Col id="col-two" xs="12" sm="12" md="4" lg="4" xl="4" style={styles.colContainerTwo}>
                             <div style={styles.aboutContainer}>
                                 <p>About:</p>
                                 <h6>About Us</h6>
@@ -53,7 +53,7 @@ class Footer extends React.Component {
                             </div>
                         </Col>
 
-                        <Col xs="12" sm="12" md="4" lg="4" xl="4" style={styles.colContainerThree}>
+                        <Col id="col-three" xs="12" sm="12" md="4" lg="4" xl="4" style={styles.colContainerThree}>
                             <p>Privacy Policy</p>
                             <p>Terms and Conditions</p>
                             <p>Copyright</p>
@@ -101,7 +101,7 @@ const styles = {
         display: "flex",
         flexDirection: "column",
 
-        borderRight: "1px solid rgba(0,0,0,0.4)"
+        // borderRight: "1px solid rgba(0,0,0,0.4)"
     },
     
     buttonContainer: {
@@ -167,7 +167,7 @@ const styles = {
         display: "flex",
         flexDirection: "column",
 
-        borderLeft: "1px solid rgba(0,0,0,0.4)",
+        // borderLeft: "1px solid rgba(0,0,0,0.4)",
     },
 
 

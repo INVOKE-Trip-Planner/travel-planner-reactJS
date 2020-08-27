@@ -6,6 +6,8 @@ import { Container, Row, Col, Button, Spinner, ButtonGroup, CardDeck } from 'rea
 
 import { connect } from 'react-redux';
 import Actions from 'actions';
+
+import moment from "moment";
 import TripsCard from "../../components/cards/tripsCard";
 import TripDetailsModal from "components/modals/tripDetails";
 import EditTripModal from "../../components/modals/editTrip";
@@ -27,16 +29,20 @@ class Dashboard extends React.Component {
             openModalEdit: false,
             tripData: null,
 
+            filterTripsList: [],
+
             selected: false,
+
+            colorChange: false,
         };
     }
 
     componentDidMount() {
-        // console.log("DASHBOARD MOUNTED");
+        console.log("DASHBOARD MOUNTED");
 
         const { getUserSession } = this.props;
 
-        // console.log("HOME USER SESSION", getUserSession.data.length);
+        // console.log("DASHBOARD DATA", this.state.tripsList);
 
         if (getUserSession.data.length === undefined || getUserSession.data.length === null || getUserSession.data.length === 0) {
             alert('No user detected. Please login or sign up.')
@@ -50,8 +56,12 @@ class Dashboard extends React.Component {
         // console.log("DASHBOARD UPDATE");
         const { getGetAllData, getUpdateTripData, getDeleteTripData } = this.props;
 
+        // console.log("DASHBOARD DATA", this.state.tripsList.filter(list => list.start_date > moment().format("YYYY-MM-DD") && list ));
+
         // console.log("TRIP DATA", getGetAllData);
         // console.log("DELETETRIP DATA", getDeleteTripData);
+
+        // console.log(getUpdateTripData)
 
         if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
 
@@ -81,7 +91,10 @@ class Dashboard extends React.Component {
                 })
                 // alert(getEditAccData.data.message);
                 alert(getUpdateTripData.data.message);
-            } else {alert("Update trip failed.")}
+            } else {
+                alert(Object.values(getUpdateTripData.error.errors).flat().join('\n'));
+                alert("Update trip failed.")
+            }
         }
 
         // Delete trip
@@ -145,10 +158,32 @@ class Dashboard extends React.Component {
               break;
           }
     }
-
-    buttonPressed() {
+    
+    buttonAllPressed() {
         this.setState({
-            selected: !this.state.selected,
+            selected: false,
+            // filterTripsList:  this.state.tripsList.filter(list => list.start_date > moment().format("YYYY-MM-DD") && list ),
+            colorChangeAll: true,
+            colorChangeUpcoming: false,
+            colorChangePast: false,
+        })
+    }
+    buttonUpcomingPressed() {
+        this.setState({
+            selected: true,
+            filterTripsList:  this.state.tripsList.filter(list => list.start_date > moment().format("YYYY-MM-DD") && list ),
+            colorChangeAll: false,
+            colorChangeUpcoming: true,
+            colorChangePast: false,
+        })
+    }
+    buttonPastPressed() {
+        this.setState({
+            selected: true,
+            filterTripsList:  this.state.tripsList.filter(list => list.start_date < moment().format("YYYY-MM-DD") && list ),
+            colorChangeAll: false,
+            colorChangeUpcoming: false,
+            colorChangePast: true,
         })
     }
 
@@ -183,8 +218,10 @@ class Dashboard extends React.Component {
 
                                 <div style={{margin: 40,}}>
                                     <ButtonGroup>
-                                        <Button style={this.state.selected ? PRIMARY_COLOR : SECONDARY_COLOR} onClick={() => this.buttonPressed()}>Upcoming</Button>
-                                        <Button style={PRIMARY_COLOR}>Past Trips</Button>
+                                        {/* <Button style={this.state.selectedAll ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.buttonUpcomingPressed()}>Upcoming</Button> */}
+                                        <Button style={this.state.colorChangeAll ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.buttonAllPressed()}>All</Button>
+                                        <Button style={this.state.colorChangeUpcoming ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.buttonUpcomingPressed()}>Upcoming</Button>
+                                        <Button style={this.state.colorChangePast ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.buttonPastPressed()}>Past Trips</Button>
                                     </ButtonGroup>
                                 </div>
 
@@ -195,11 +232,14 @@ class Dashboard extends React.Component {
                                         <Spinner type="grow" color="danger">
                                             <span className="sr-only">Loading...</span>
                                         </Spinner>
-                                    </Row>) : (
+                                    </Row>) : 
+                                    (
 
                                     <Row style={{justifyContent: "center", alignItems: "center",}}>
 
-                                        {   ( (this.state.tripsList.length === 0) || (this.state.tripsList.length === undefined) ) ?
+                                    
+
+                                        {   ( (!this.state.selected && (this.state.tripsList.length === 0)) || ( !this.state.selected && (this.state.tripsList.length === undefined)) || (this.state.selected && (this.state.filterTripsList.length === undefined)) || (this.state.selected && (this.state.filterTripsList.length === 0))  ) ?
                                         
                                             (
                                                 // <CardDeck>
@@ -218,7 +258,7 @@ class Dashboard extends React.Component {
 
                                             ) : (
 
-                                                this.state.tripsList.map( list => (
+                                                (this.state.selected) ? (                                                this.state.filterTripsList.map( list => (
                                                     <CardDeck style={{margin: 10,}}>
 
                                                         <TripsCard
@@ -238,7 +278,29 @@ class Dashboard extends React.Component {
                                                         />
                                             
                                                     </CardDeck>
-                                                    ) )
+                                                    ) )) : (                                                this.state.tripsList.map( list => (
+                                                    <CardDeck style={{margin: 10,}}>
+
+                                                        <TripsCard
+                                                            tripData={list}
+                                                            tripId={list.id}
+                                                            tripTitle={list.trip_name}
+                                                            tripOrigin={list.origin}
+                                                            tripCreatedBy={list.created_by}
+                                                            tripStartDate={list.start_date}
+                                                            tripEndDate={list.end_date}
+                                                            tripTotal={list.total}
+                                                            tripUsers={list.users}
+                                                            tripBanner={list.trip_banner}
+                                                            onClick={() => this.detailsPressed(list.id)}
+                                                            handleEdit={ () => this.handleShowModal('EDIT', list)}
+                                                            handleDelete={ () => this.handleShowModal('DELETE', list)}
+                                                        />
+                                            
+                                                    </CardDeck>
+                                                    ) ))
+
+                                               
                                                 ) 
                                         }
 

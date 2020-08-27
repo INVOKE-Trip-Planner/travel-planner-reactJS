@@ -1,4 +1,22 @@
-@media (max-width: 400px) {
+#col-one {
+    border-right: 1px solid rgba(0,0,0,0.2);
+}
+
+#col-three {
+    border-left: 1px solid rgba(0,0,0,0.2);
+}
+
+@media (max-width: 770px) {
+
+    #col-one {
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+        border-right: none;
+    }
+
+    #col-three {
+        border-left: none;
+        border-top: 1px solid rgba(0,0,0,0.2);
+    }
     .social-icon {
         display: "flex";
         flex-direction: "row";

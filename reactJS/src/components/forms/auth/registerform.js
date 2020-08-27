@@ -74,7 +74,7 @@ const SignupForm = (props) => {
         props.onRegister(values);
       }}
     >
-      <Form >
+      <Form style={{minHeight: "100vh"}}>
 
         <MyTextInput
           label="Name"
@@ -140,7 +140,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: "2vh",
     width: "100%",
 
     padding: 10,

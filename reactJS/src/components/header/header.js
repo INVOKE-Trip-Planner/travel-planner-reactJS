@@ -35,7 +35,7 @@ class Header extends React.Component {
         const { getUpdateUserData } = this.props;
 
         // console.log("CHECK", getUpdateUserData.data)
-        console.log("CHECK", getUpdateUserData.data)
+        // console.log("CHECK", getUpdateUserData.data)
 
         // if ( getUserSession.data.length !== undefined ) {
         if ( getUpdateUserData.data !== null ) {

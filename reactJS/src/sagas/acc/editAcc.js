@@ -23,7 +23,7 @@ function* editAcc( {data} ) {
     formData.append('checkout_hour', data.accCheckOutHour);
     formData.append('checkout_minute', data.accCheckOutMin);
     formData.append('cost', data.accCost);
-    formData.append('booking_id', data.accBookingID);
+    formData.append('booking_id', data.accBookingId);
 
     console.log(formData);
 

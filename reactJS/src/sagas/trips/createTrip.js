@@ -40,7 +40,7 @@ function* createTrip({ data }) {
     }
 
     if (error) {
-        yield put(Actions.createTripFail(error));
+        yield put(Actions.createTripFail(error.response.data));
     }
 }
 

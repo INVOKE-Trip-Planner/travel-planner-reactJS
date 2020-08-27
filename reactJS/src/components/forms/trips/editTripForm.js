@@ -36,8 +36,8 @@ const EditTripForm = props => {
             id: id || '',
             trip_name: trip_name || '',
             origin: origin || '',
-            start_date: start_date || '',
-            end_date: end_date || '',
+            // start_date: start_date || '',
+            // end_date: end_date || '',
             group_type: group_type || '',
             trip_type: trip_type || '',
             trip_banner: trip_banner || '',
@@ -55,12 +55,12 @@ const EditTripForm = props => {
             //   .required('Required'),
             origin: Yup.string(),
             //   .required('Required'),
-            start_date: Yup.date()
+            // start_date: Yup.date()
             //   .required('Required')
-              .min(new Date(), "Date cannot be in the past"),
-            end_date: Yup.date()
+              // .min(new Date(), "Date cannot be in the past"),
+            // end_date: Yup.date()
             //   .required('Required')
-              .min(Yup.ref('start_date'), 'Must be after start date'),
+              // .min(Yup.ref('start_date'), 'Must be after start date'),
             users: Yup
               .array()
               // .of(Yup.number())
@@ -185,7 +185,7 @@ const EditTripForm = props => {
                 //   type="text"
                 //   placeholder="Enter origin here"
                 />
-                <MyTextInput
+                {/* <MyTextInput
                   label="start date"
                   name="start_date"
                   type="date"
@@ -196,7 +196,7 @@ const EditTripForm = props => {
                   name="end_date"
                   type="date"
                 //   placeholder="Enter end date here"
-                />
+                /> */}
                 <MySelectInput
                   label="group type"
                   name="group_type"

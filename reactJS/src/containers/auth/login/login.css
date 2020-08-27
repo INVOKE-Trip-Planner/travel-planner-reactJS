@@ -1,0 +1,11 @@
+@media (max-width: 990px) {
+
+    .loginImg {
+        opacity: 0.5;
+        /* border: 1px solid black */
+    }
+
+    .login-container {
+        border: none;
+    }
+}
