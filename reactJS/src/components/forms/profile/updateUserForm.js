@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Field, useField, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import QRCode from "react-qr-code";
@@ -9,9 +9,18 @@ import { Button } from "reactstrap";
 import { connect } from "react-redux";
 import Actions from "../../../actions";
 
+function usePrevious(value) {
+  const ref = React.useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
 const UpdateUserForm = (props) => {
 
-  console.log(props);
+  // console.log(props);
+  const prevGetUpdateUserData = usePrevious(props.getUpdateUserData)
 
   const { id, name, username, email, phone, gender, birth_date, avatar } = props.getUpdateUserData.data
 
@@ -26,6 +35,16 @@ const UpdateUserForm = (props) => {
 
     return values;
   }
+
+  useEffect(() => {
+    if (prevGetUpdateUserData 
+      && prevGetUpdateUserData.isLoading 
+      && !props.getUpdateUserData.isLoading) {
+        if (!props.getUpdateUserData.error) {
+          alert('Your profile has been successfully updated.')
+        }
+    }
+  }, [props.getUpdateUserData])
 
   return (
     <Formik
