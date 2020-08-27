@@ -7,7 +7,7 @@ import Actions from "../../../actions";
 
 import SignupForm from "../../../components/forms/auth/registerform.js";
 
-import registerImg from "assets/images/registerpage.png";
+import registerImg from "assets/images/undraw/register.png";
 
 
 class Register extends React.Component {
@@ -77,7 +77,7 @@ class Register extends React.Component {
                             </div>
                         </Col>
                         <Col lg="6" xl="6" style={styles.fillPage2}>
-                            <div style={styles.registerContainer}>
+                            <div className="register-container" style={styles.registerContainer}>
                                 <div style={styles.titleContainer}>
                                     <h3>Register</h3>
                                 </div>
@@ -119,8 +119,9 @@ const styles = {
         // minHeight: "80vh",
         // border: "5px solid pink",
 
-        // overflow: "scroll" // TEMPORARY FIX ->CHANGE THIS LATER
+        overflow: "hidden",// TEMPORARY FIX ->CHANGE THIS LATER
         // position: "fixed"
+
 
 
     },
@@ -141,23 +142,25 @@ const styles = {
     imageContainer: {
         // border: "1px solid red",
         width: "100%",
-        minHeight: "100vh",
+        minHeight: "105vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        padding: 50
+        padding: 50,
+
+        borderRight: "1px solid rgba(0,0,0,0.4)",
     },
 
     registerImage: {
         // border: "1px solid blue",
         width: "100%",
-        opacity: 0.5,
+        // opacity: 0.5,
     },
 
     registerContainer: {
         width: "100%",
         // maxHeight: "100vh",
-        borderLeft: "1px solid rgba(0,0,0,0.4)",
+        // borderLeft: "1px solid rgba(0,0,0,0.4)",
         // border: "5px solid rgba(0,0,0,0.4)",
         display: "flex",
         flexDirection: "column",

@@ -7,7 +7,9 @@ import Actions from "../../../actions";
 
 import LoginForm from "../../../components/forms/auth/loginform.js";
 
-import loginImg from "assets/images/loginpage.png";
+import "./login.css";
+
+import loginImg from "assets/images/undraw/login.png";
 
 class Login extends React.Component {
 
@@ -49,11 +51,11 @@ class Login extends React.Component {
                     <Row>
                         <Col lg="6" xl="6" style={styles.fillPage1}>
                             <div style={styles.imageContainer}>
-                                <img id="loginImg" src={loginImg} alt="loginImg" style={styles.loginImage}/>
+                                <img className="loginImg" src={loginImg} alt="loginImg" style={styles.loginImage}/>
                             </div>
                         </Col>
                         <Col lg="6"xl="6" style={styles.fillPage2}>
-                            <div style={styles.loginContainer}>
+                            <div className="login-container" style={styles.loginContainer}>
                                 <div style={styles.titleContainer}>
                                     <h3>Login</h3>
                                 </div>
@@ -128,7 +130,7 @@ const styles = {
     loginImage: {
         // border: "1px solid blue",
         width: "100%",
-        opacity: 0.5,
+        // opacity: 0.5,
     },
 
     loginContainer: {
