@@ -3,9 +3,9 @@ import Actions from "../../actions";
 import * as api from "../../api";
 
 function* register({data}) {
-    console.log("REGISTER SAGA");
+    // console.log("REGISTER SAGA");
 
-    console.log("DATA", data);
+    // console.log("DATA", data);
 
     // formData
     const formData = new FormData();
@@ -23,7 +23,7 @@ function* register({data}) {
     // // pass to the api
     const { response, error } = yield call(api.register, formData);
 
-    console.log("RESPONSE", response, error);
+    // console.log("RESPONSE", response, error);
 
     if (response) {
         yield put(Actions.registerSuccess(response.data));

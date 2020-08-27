@@ -5,6 +5,8 @@ import { Container,Row,Col } from "reactstrap";
 import { connect } from "react-redux";
 import Actions from "../../../actions";
 
+import "./register.css";
+
 import SignupForm from "../../../components/forms/auth/registerform.js";
 
 import registerImg from "assets/images/undraw/register.png";
@@ -21,43 +23,17 @@ class Register extends React.Component {
     
     componentDidUpdate(prevProps) {
         const { getRegisterData } = this.props;
-
-            // console.log("REGISTER DATA", getRegisterData.error.errors.u);
-
     
         if (prevProps.getRegisterData.isLoading && !getRegisterData.isLoading) {
-    
-            // console.log("REGISTER DATA", Object.keys(getRegisterData));
 
-            // console.log("REGISTER DATA", getRegisterData.error.errors.username[0]);
-            // console.log("REGISTER DATA", getRegisterData.error.errors.length);
-    
             // Check length of getLoginData to see if data exist
             if ( (Object.keys(getRegisterData.data).length !== 0) ) {
-                
                 // if login data exist
                 alert("Registration success! Please login to your account.");
                 this.props.history.push("/login");
             } else {
-            
-            // if {
-
                 alert(Object.values(getRegisterData.error.errors).flat().join('\n'));
-                
-                // if (Object.keys(getRegisterData.error).length !== 0) {
-                //     // if (Object.keys(getRegisterData.error.errors.username).length !== 0) {
-                //     if (getRegisterData.error.errors.username) {
-                //         alert(getRegisterData.error.errors.username[0]);
-                //     } 
-                
-                //     //  if (getRegisterData.error.errors.email && Object.keys(getRegisterData.error.errors.email).length !== 0) {
-                //      if (getRegisterData.error.errors.email) {
-                //         alert(getRegisterData.error.errors.email[0]);
-                //     }
-                // }
-
                 alert("Registration failed.");
-                
             }
         }    
     }
@@ -66,17 +42,13 @@ class Register extends React.Component {
         return (
             <>  
                 <Container fluid={true} style={styles.fillPageMain}>
-                    <Row style={{minHeight: "100vh", maxHeight: "100vh", width: "100%", padding: 0, margin: 0}}>
-                        <Col lg="6" xl="6" style={styles.fillPage1}>
-                            {/* <div style={styles.imageTextContainer}>
-                                <h3>Register Now</h3>
-                                <h3>and Plan Your Journey!</h3>
-                            </div> */}
+                    <Row style={{minHeight: "100vh",  width: "100%", padding: 0, margin: 0}}>
+                        <Col  lg="6" xl="6" style={styles.fillPage1}>
                             <div style={styles.imageContainer}>
                                 <img id="registerImg" src={registerImg} alt="registerImg" style={styles.registerImage}/>
                             </div>
                         </Col>
-                        <Col lg="6" xl="6" style={styles.fillPage2}>
+                        <Col className="fillpage2" md={{size:"auto", offset:4}} lg={{size:2, offset: 8}} xl={{size:"auto", offset:8}} style={styles.fillPage2}>
                             <div className="register-container" style={styles.registerContainer}>
                                 <div style={styles.titleContainer}>
                                     <h3>Register</h3>
@@ -101,6 +73,7 @@ const styles = {
         // border: "5px solid pink",
         // overflow: "scroll",
         minHeight: "100vh",
+        
 
         position: "relative"
     },
@@ -111,15 +84,17 @@ const styles = {
         // border: "5px solid pink",
     },
     fillPage2: {
-        margin: 0,
+        marginTop: 0,
+        marginBottom: 0,
         padding: 0,
         position: "absolute",
-        right: 0,
-
+        // right: 0,
+        // display: "flex",
+        // justifyContent: "flex-end",
         // minHeight: "80vh",
         // border: "5px solid pink",
 
-        overflow: "hidden",// TEMPORARY FIX ->CHANGE THIS LATER
+        // overflow: "hidden",// TEMPORARY FIX ->CHANGE THIS LATER
         // position: "fixed"
 
 

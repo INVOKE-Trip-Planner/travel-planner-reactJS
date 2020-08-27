@@ -5,11 +5,11 @@ import Actions from "actions";
 
 import moment from "moment";
 
-import { Container, Row, Col, CardDeck, Jumbotron, Spinner, ButtonGroup, Button } from 'reactstrap';
+import { Container, Row, Col, CardDeck, CardGroup, Jumbotron, Spinner, ButtonGroup, Button } from 'reactstrap';
 
-import banner1 from "assets/images/banner1.jpg"
+// import banner1 from "assets/images/banner1.jpg"
 
-import placeholder from "assets/images/placeholder.png";
+// import placeholder from "assets/images/placeholder.png";
 import Accommodation from "../../components/cards/accommodation";
 import Transport from "../../components/cards/transport";
 import Itinerary from "../../components/cards/itinerary";
@@ -59,14 +59,16 @@ class TripDetails extends React.Component {
 
             selectedDest: false,
             selectedAddDest: false,
+
+            setRow: true,
         }
     }
 
     componentDidMount(prevProps) {
 
-        console.log("DASHBOARD MOUNTED");
+        // console.log("DASHBOARD MOUNTED");
 
-        console.log("details data", this.state.tripData[0])
+        // console.log("details data", this.state.tripData[0])
 
         const { getUserSession } = this.props;
 
@@ -93,7 +95,7 @@ class TripDetails extends React.Component {
         this.setState({
             filterLocationData: this.state.tripData[0].destinations[0],
             filterLocationId: this.state.destinationId,
-        }, () => {console.log("data", this.state.filterLocationData)})
+        })
 
         this.props.onGetAll();
     }
@@ -190,7 +192,6 @@ class TripDetails extends React.Component {
                 alert(getEditItinData.data.message);
             } else {alert("Edit itinerary failed.")}
         }
-
 
         // delete accommodation
         if (prevProps.getDeleteAccData.isLoading && !getDeleteAccData.isLoading) {
@@ -358,9 +359,22 @@ class TripDetails extends React.Component {
             filterLocation: true,
             filterLocationData: this.state.tripData.map( list => list.destinations.filter( destination => (destination.id === data.id) && destination )[0])[0],
             filterLocationId: data.id,
-
+            
             selectedDest: true,
         })
+    }
+
+    handleView(condition) {
+
+        if (condition) {
+            this.setState({
+                setRow : true,
+            })
+        } else {
+            this.setState({
+                setRow: false,
+            })
+        }
     }
 
     render() {
@@ -370,35 +384,34 @@ class TripDetails extends React.Component {
 
                 {/*-------------------------Dashboard------------------------------------------------------------------------------------------------- */}
                 <Container className="themed-container" style={{textAlign:"center", margin: 0, padding: 0,}} fluid={true} >
-
-                    {this.state.tripData.map( list => (
-                    // {this.state.filterLocationData.map( list => (
-
+                            
+                    {this.state.tripData.map( list => (    
+ 
                         <div style={{width: "100%", justifyContent: "center"}}>
-
-                            {/* -----------------------------------------JUMBOTRON----------------------------------------------------------------------------- */}
-                            <Row style={{width: "100%", justifyContent: "center", margin: 0, color: "white",}}>
+                            
+                                {/* -----------------------------------------JUMBOTRON----------------------------------------------------------------------------- */}
+                                <Row style={{width: "100%", justifyContent: "center", margin: 0, color: "white",}}>
 
                                 <Jumbotron fluid style={{backgroundImage: `url(http://localhost:8000/storage/trip_banners/${this.state.tripData[0].trip_banner})`, opacity: 0.4, ...styles.jumbotronStyle}} loading="lazy">
                                     <Container fluid>
                                         <div style={{marginBottom: 40,}}>
-                                            <h1 className="display-3">{list.trip_name}</h1>
+                                            <h1 className="display-4">{list.trip_name}</h1>
                                         </div>
                                         <h5>Origin: <strong>{list.origin}</strong></h5>
                                         <div style={{display: "flex", justifyContent: "space-around", width: "100%"}}>
                                             <h5>From: <strong>{moment(list.start_date, "YYYY-MM-DD").format('D MMMM YYYY')}</strong></h5>
                                             <h5>To: <strong>{moment(list.end_date, "YYYY-MM-DD").format("D MMMM YYYY")}</strong></h5>
                                         </div>
-                                        <h5>Trip Cost: <strong>RM{(list.total).toFixed(2)}</strong></h5>
+                                        <h5>Trip Total: <strong>RM{(list.total).toFixed(2)}</strong></h5>
                                     </Container>
                                 </Jumbotron>
                             </Row>
 
-                            {/* -----------------------------------FILTER------------------------------------------------------------------------------------ */}
-                            <Row style={{display: "flex", justifyContent: "space-between", padding: 0, margin: "0 auto",}}>
+                                {/* -----------------------------------FILTER------------------------------------------------------------------------------------ */}
+                                <Row style={{display: "flex",  padding: 0, margin: "0 auto",}}>
 
                                 {/* -------------------------DESTINATION FILTER-------------------------------------- */}
-                                <Col xs="12" sm="12" md="5" lg="5" xl="5" style={{margin: "0 auto", padding: 5,}}>
+                                <Col xs="12" sm="12" md="2" lg="2" xl="2" style={{margin: "0 auto", padding: 5,}}>
                                     <h6>Destinations:</h6>
                                     <ButtonGroup>
                                         {/*-------------------LIST DESTINATION-------------------------  */}
@@ -413,244 +426,457 @@ class TripDetails extends React.Component {
                                     </ButtonGroup>
                                 </Col>
 
-                                {/* -------------------------CATEGORY FILTER-------------------------------------- */}
-                                <Col xs="12" sm="12" md="5" lg="5" xl="5" style={{margin: "0 auto", padding: 5,}}>
-                                    <h6>Category:</h6>
+                                {/* -------------------------VIEW FILTER-------------------------------------- */}
+                                <Col xs="12" sm="12" md="2" lg="2" xl="2" style={{margin: "0 auto", padding: 5,}}>
+                                    <h6>View:</h6>
                                     <ButtonGroup>
-                                        <Button style={this.state.selectedAll ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory()}>All</Button>
-                                        <Button style={this.state.selectedAcc ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("accommodation")}>Accommodation</Button>
-                                        <Button style={this.state.selectedTrans ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("transport")}>Transport</Button>
-                                        <Button style={this.state.selectedItin ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("itinerary")}>Itinerary</Button>
+                                        <Button style={this.state.setRow ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleView(true)}>Row</Button>
+                                        <Button style={this.state.setRow ? PRIMARY_COLOR : SECONDARY_COLOR} onClick={() => this.handleView(false)}>Column</Button>
+
                                     </ButtonGroup>
                                 </Col>
+
+                                {/* -------------------------CATEGORY FILTER-------------------------------------- */}
+                                <Col xs="12" sm="12" md="2" lg="2" xl="2" style={{margin: "0 auto", padding: 5,}}>
+                                <h6>Category:</h6>
+                                <ButtonGroup>
+                                    <Button style={this.state.selectedAll ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory()}>All</Button>
+                                    <Button style={this.state.selectedAcc ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("accommodation")}>Accommodation</Button>
+                                    <Button style={this.state.selectedTrans ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("transport")}>Transport</Button>
+                                    <Button style={this.state.selectedItin ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.handleCategory("itinerary")}>Itinerary</Button>
+                                </ButtonGroup>
+                            </Col>
                             </Row>
                             
-                            {/* --------------------ACCOMMODATIONS------------------------------------------ */}
-                            { (this.state.categorySelectAll || this.state.categorySelectAcc) &&
 
-                                <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
+                            {this.state.setRow ? (
 
-                                    <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
-                                        <div style={styles.categoryTitleContainer}>
-
-                                            <h4>Accommodations</h4>
-                                            <button style={styles.selectButton} onClick={() => this.handleCreate("accommodation")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
-                                        </div>
-                                    </div>
-
-                                {this.state.loading ? (
-
-                                <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
-                        
-                                    <Spinner type="grow" color="danger">
-                                        <span className="sr-only">Loading...</span>
-                                    </Spinner>
-                                </Row>) : (
-
-                                <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0}}>
-                                    {/* --------CHECK IF FILTER IS CLICKED-------------------------- */}
-                                    { this.state.filterLocation ? (
-
-                                        // --------------CHECK ACC LENGTH-----------------
-                                        (this.state.filterLocationData.accommodations.length !== 0) ? (
-                                        
-                                        this.state.filterLocationData.accommodations.map( accommodation => (
-                                            // <div style={{height: "100vh", border: "1px solid black"}}>
-                                            <CardDeck style={styles.cardDeckStyle}>
-                                            <Accommodation
-                                                    accId = {accommodation.id}
-                                                    accName = {accommodation.accommodation_name}
-                                                    accBookingId = {accommodation.booking_id}
-                                                    accCheckInDate = {accommodation.checkin_date}
-                                                    accCheckInHour = {accommodation.checkin_hour}
-                                                    accCheckInMin = {accommodation.checkin_minute}
-                                                    accCheckOutDate = {accommodation.checkout_date}
-                                                    accCheckOutHour = {accommodation.checkout_hour}
-                                                    accCheckOutMin = {accommodation.checkout_minute}
-                                                    accCost = {accommodation.cost}
-                                                />
-                                            </CardDeck>
-                                            // </div>
-                                        ))
-                                        ) : (<CardDeck><p>No accommodation(s) found.</p></CardDeck>) // IF ACC ZERO
-                                        // ------------------END OF TRANS LENGTH CHECK--------------------------- 
-                                        ) : (
-                                        <CardDeck style={styles.cardDeckStyle}>
-                                            <p>Please select a destination.</p>
-                                        </CardDeck>)
-                                    }
-                                    {/* ----------------END OF FILTER CHECK-------------------------------- */}
-                                </Row>
-
-                                )}
-                                </Row>
-                            }
-
-                            {/* ----------------------------TRANSPORT------------------------------------------- */}
-
-                            {(this.state.categorySelectAll || this.state.categorySelectTrans) && 
-
-                            (<Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
-
-                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)"}}>
-                                    <div style={styles.categoryTitleContainer}>
-                                        <h4>Transports</h4>
-                                        <button style={styles.selectButton} onClick={() => this.handleCreate("transport")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
-                                    </div>
-                                </div>
-
-                                {this.state.loading ? (
-
-                                    <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
-                                        <Spinner type="grow" color="danger">
-                                            <span className="sr-only">Loading...</span>
-                                        </Spinner>
-                                    </Row>) : (
-
-                                    <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
-                                        {/* --------CHECK IF FILTER IS CLICKED-------------------------- */}
-                                        { this.state.filterLocation ? (
-
-                                            // --------------CHECK TRANS LENGTH-----------------
-                                            (this.state.filterLocationData.transports.length !== 0) ? (
-
-                                            this.state.filterLocationData.transports.map( transport => (
-                                                <CardDeck style={styles.cardDeckStyle}>
-                                                    {/* <div style={{height: "100vh"}}> */}
-                                                    <Transport
-                                                        transId = {transport.id}
-                                                        transMode = {transport.mode}
-                                                        transBookingId = {transport.booking_id}
-                                                        transDepartureDate = {transport.departure_date}
-                                                        transDepartureHour = {transport.departure_hour}
-                                                        transDepartureMin = {transport.departure_minute}
-                                                        transArrivalDate = {transport.arrival_date}
-                                                        transArrivalHour = {transport.arrival_hour}
-                                                        transArrivalMin = {transport.arrival_minute}
-                                                        transOrigin = {transport.origin}
-                                                        transDestination = {transport.destination}
-                                                        transOperator = {transport.operator}
-                                                        transCost = {transport.cost}
-                                                    />
-                                                    {/* </div> */}
-                                                </CardDeck>
-                                            ))  
-                                            ) : (<CardDeck><p>No transport(s) found.</p></CardDeck>) // IF TRANS ZERO
-                                            // ------------------END OF TRANS LENGTH CHECK---------------------------
-                                            
-                                            ) : (
-                                                <CardDeck style={styles.cardDeckStyle}>
-                                                    <p>Please select a destination.</p>
-                                                </CardDeck>)
-                                        }
-                                        {/* ----------------END OF FILTER CHECK-------------------------------- */}
-                                    </Row>
-                                )}
-
-                            </Row>)
-                            }
-
-                            {/* -------------------------------ITINERARIES------------------------------------------------ */}
-
-                            {(this.state.categorySelectAll || this.state.categorySelectItin) && 
-
-                                <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
-
-                                    <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)"}}>
-
-                                        <div style={styles.categoryTitleContainer}>
-                                            <h4>Itineraries</h4>
-                                            <button style={styles.selectButton} onClick={() => this.handleCreate("itinerary")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
-                                        </div>
-                                    </div>
-
-                                    {this.state.loading ? (
-
-                                        <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
-
-                                            <Spinner type="grow" color="danger">
-                                                <span className="sr-only">Loading...</span>
-                                            </Spinner>
-                                        </Row>) : (
+                                <Row style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", margin: "0 auto", width: "100%"}}>
+                                    {/* --------------------ACCOMMODATIONS------------------------------------------ */}
+                                    { (this.state.categorySelectAll || this.state.categorySelectAcc) &&
 
                                         <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
 
-                                            {/* --------CHECK IF FILTER IS CLICKED-------------------------- */}
-                                            { this.state.filterLocation ? (
+                                            <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
+                                                <div style={styles.categoryTitleContainer}>
 
-                                                    // --------------CHECK ITIN LENGTH-----------------
-                                                    (this.state.filterLocationData.itineraries.length !== 0) ? (
+                                                    <h4>Accommodations</h4>
+                                                    <button style={styles.selectButton} onClick={() => this.handleCreate("accommodation")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                </div>
+                                            </div>
 
-                                                        this.state.filterLocationData.itineraries.map( itinerary => (
-                                                            <CardDeck style={styles.cardDeckStyle}>
-                                                                <Itinerary 
-                                                                    itinId={itinerary.id}
-                                                                    itinDay={itinerary.day}
-                                                                    itinScheduleData={itinerary.schedules}
-                                                                    // itiCost={itinerary.cost}
-                                                                />
-                                                            </CardDeck>
+                                            {this.state.loading ? (
 
-                                                        )) 
+                                            <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
+                                    
+                                                <Spinner type="grow" color="danger">
+                                                    <span className="sr-only">Loading...</span>
+                                                </Spinner>
+                                            </Row>) : (
+
+                                            <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0}}>
+                                                {/* --------CHECK IF FILTER IS CLICKED-------------------------- */}
+                                                { this.state.filterLocation ? (
+
+                                                    // --------------CHECK ACC LENGTH-----------------
+                                                    (this.state.filterLocationData.accommodations.length !== 0) ? (
                                                     
-                                                    ) : (<CardDeck><p>No itineraries(s) found.</p></CardDeck>) // IF ITIN ZERO
-                                                    // ------------------END OF ITIN LENGTH CHECK---------------------------
-                                                ) : (
-
+                                                    this.state.filterLocationData.accommodations.map( accommodation => (
+                                                        // <div style={{height: "100vh", border: "1px solid black"}}>
+                                                        <CardDeck style={styles.cardDeckStyle}>
+                                                        <Accommodation
+                                                                accId = {accommodation.id}
+                                                                accName = {accommodation.accommodation_name}
+                                                                accBookingId = {accommodation.booking_id}
+                                                                accCheckInDate = {accommodation.checkin_date}
+                                                                accCheckInHour = {accommodation.checkin_hour}
+                                                                accCheckInMin = {accommodation.checkin_minute}
+                                                                accCheckOutDate = {accommodation.checkout_date}
+                                                                accCheckOutHour = {accommodation.checkout_hour}
+                                                                accCheckOutMin = {accommodation.checkout_minute}
+                                                                accCost = {accommodation.cost}
+                                                            />
+                                                        </CardDeck>
+                                                        // </div>
+                                                    ))
+                                                    ) : (<CardDeck><p>No accommodation(s) found.</p></CardDeck>) // IF ACC ZERO
+                                                    // ------------------END OF TRANS LENGTH CHECK--------------------------- 
+                                                    ) : (
                                                     <CardDeck style={styles.cardDeckStyle}>
-                                                    <p>Please select a destination.</p>
-                                                </CardDeck>)
-                                            }
-                                            {/* ----------------END OF FILTER CHECK-------------------------------- */}
-                                        </Row>
+                                                        <p>Please select a destination.</p>
+                                                    </CardDeck>)
+                                                }
+                                                {/* ----------------END OF FILTER CHECK-------------------------------- */}
+                                            </Row>
 
-                                    )}
+                                            )}
+                                        </Row>
+                                    }
+
+                                    {/* ----------------------------TRANSPORT------------------------------------------- */}
+
+                                    {(this.state.categorySelectAll || this.state.categorySelectTrans) && 
+
+                                    (<Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
+
+                                        <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)"}}>
+                                            <div style={styles.categoryTitleContainer}>
+                                                <h4>Transports</h4>
+                                                <button style={styles.selectButton} onClick={() => this.handleCreate("transport")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                            </div>
+                                        </div>
+
+                                        {this.state.loading ? (
+
+                                            <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
+                                                <Spinner type="grow" color="danger">
+                                                    <span className="sr-only">Loading...</span>
+                                                </Spinner>
+                                            </Row>) : (
+
+                                            <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
+                                                {/* --------CHECK IF FILTER IS CLICKED-------------------------- */}
+                                                { this.state.filterLocation ? (
+
+                                                    // --------------CHECK TRANS LENGTH-----------------
+                                                    (this.state.filterLocationData.transports.length !== 0) ? (
+
+                                                    this.state.filterLocationData.transports.map( transport => (
+                                                        <CardDeck style={styles.cardDeckStyle}>
+                                                            {/* <div style={{height: "100vh"}}> */}
+                                                            <Transport
+                                                                transId = {transport.id}
+                                                                transMode = {transport.mode}
+                                                                transBookingId = {transport.booking_id}
+                                                                transDepartureDate = {transport.departure_date}
+                                                                transDepartureHour = {transport.departure_hour}
+                                                                transDepartureMin = {transport.departure_minute}
+                                                                transArrivalDate = {transport.arrival_date}
+                                                                transArrivalHour = {transport.arrival_hour}
+                                                                transArrivalMin = {transport.arrival_minute}
+                                                                transOrigin = {transport.origin}
+                                                                transDestination = {transport.destination}
+                                                                transOperator = {transport.operator}
+                                                                transCost = {transport.cost}
+                                                            />
+                                                            {/* </div> */}
+                                                        </CardDeck>
+                                                    ))  
+                                                    ) : (<CardDeck><p>No transport(s) found.</p></CardDeck>) // IF TRANS ZERO
+                                                    // ------------------END OF TRANS LENGTH CHECK---------------------------
+                                                    
+                                                    ) : (
+                                                        <CardDeck style={styles.cardDeckStyle}>
+                                                            <p>Please select a destination.</p>
+                                                        </CardDeck>)
+                                                }
+                                                {/* ----------------END OF FILTER CHECK-------------------------------- */}
+                                            </Row>
+                                        )}
+
+                                    </Row>)
+                                    }
+
+                                    {/* -------------------------------ITINERARIES------------------------------------------------ */}
+
+                                    {(this.state.categorySelectAll || this.state.categorySelectItin) && 
+
+                                        <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
+
+                                            <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)"}}>
+
+                                                <div style={styles.categoryTitleContainer}>
+                                                    <h4>Itineraries</h4>
+                                                    <button style={styles.selectButton} onClick={() => this.handleCreate("itinerary")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                </div>
+                                            </div>
+
+                                            {this.state.loading ? (
+
+                                                <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
+
+                                                    <Spinner type="grow" color="danger">
+                                                        <span className="sr-only">Loading...</span>
+                                                    </Spinner>
+                                                </Row>) : (
+
+                                                <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
+
+                                                    {/* --------CHECK IF FILTER IS CLICKED-------------------------- */}
+                                                    { this.state.filterLocation ? (
+
+                                                            // --------------CHECK ITIN LENGTH-----------------
+                                                            (this.state.filterLocationData.itineraries.length !== 0) ? (
+
+                                                                this.state.filterLocationData.itineraries.map( itinerary => (
+                                                                    <CardDeck style={styles.cardDeckStyle}>
+                                                                        <Itinerary 
+                                                                            itinId={itinerary.id}
+                                                                            itinDay={itinerary.day}
+                                                                            itinScheduleData={itinerary.schedules}
+                                                                            // itiCost={itinerary.cost}
+                                                                        />
+                                                                    </CardDeck>
+
+                                                                )) 
+                                                            
+                                                            ) : (<CardDeck><p>No itineraries(s) found.</p></CardDeck>) // IF ITIN ZERO
+                                                            // ------------------END OF ITIN LENGTH CHECK---------------------------
+                                                        ) : (
+
+                                                            <CardDeck style={styles.cardDeckStyle}>
+                                                            <p>Please select a destination.</p>
+                                                        </CardDeck>)
+                                                    }
+                                                    {/* ----------------END OF FILTER CHECK-------------------------------- */}
+                                                </Row>
+
+                                            )}
+
+                                        </Row>
+                                    }
 
                                 </Row>
+                                ) : (
+                                <Row style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", margin: "0 auto", width: "100%", minHeight: "100vh"}}>
+
+                                            {/* --------------------ACCOMMODATIONS------------------------------------------ */}
+                                            { (this.state.categorySelectAll || this.state.categorySelectAcc) &&
+                                                <Col xl="4" style={{width: "100%", display:"flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
+
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)",}}>
+                                                        <div style={styles.categoryTitleContainer}>
+
+                                                            <h4>Accommodations</h4>
+                                                            <button style={styles.selectButton} onClick={() => this.handleCreate("accommodation")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                        </div>
+                                                </div>
+
+                                                {this.state.loading ? (
+
+                                                // <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
+
+                                                    <Spinner type="grow" color="danger">
+                                                        <span className="sr-only">Loading...</span>
+                                                    </Spinner>
+                                                // </Row>
+                                                ) : (
+
+                                                // <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0}}>
+                                                <Col xl="12" style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
+                                                    {/* --------CHECK IF FILTER IS CLICKED-------------------------- */}
+                                                    { this.state.filterLocation ? (
+
+                                                        // --------------CHECK ACC LENGTH-----------------
+                                                        (this.state.filterLocationData.accommodations.length !== 0) ? (
+                                                        
+                                                        this.state.filterLocationData.accommodations.map( accommodation => (
+                                                            // <div style={{height: "100vh", border: "1px solid black"}}>
+                                                            <CardGroup style={styles.cardDeckStyle}>
+                                                            <Accommodation
+                                                                    accId = {accommodation.id}
+                                                                    accName = {accommodation.accommodation_name}
+                                                                    accBookingId = {accommodation.booking_id}
+                                                                    accCheckInDate = {accommodation.checkin_date}
+                                                                    accCheckInHour = {accommodation.checkin_hour}
+                                                                    accCheckInMin = {accommodation.checkin_minute}
+                                                                    accCheckOutDate = {accommodation.checkout_date}
+                                                                    accCheckOutHour = {accommodation.checkout_hour}
+                                                                    accCheckOutMin = {accommodation.checkout_minute}
+                                                                    accCost = {accommodation.cost}
+                                                                />
+                                                            </CardGroup>
+                                                            // </div>
+                                                        ))
+                                                        ) : (<CardGroup style={styles.cardDeckStyle}><p>No accommodation(s) found.</p></CardGroup>) // IF ACC ZERO
+                                                        // ------------------END OF TRANS LENGTH CHECK--------------------------- 
+                                                        ) : (
+                                                        <CardGroup style={styles.cardDeckStyle}>
+                                                            <p>Please select a destination.</p>
+                                                        </CardGroup>)
+                                                    }
+                                                    {/* ----------------END OF FILTER CHECK-------------------------------- */}
+                                                    </Col>
+
+
+                                                )}
+
+                                                </Col>
+                                            }
+
+                                            {/* ----------------------------TRANSPORT------------------------------------------- */}
+                                            {(this.state.categorySelectAll || this.state.categorySelectTrans) && 
+
+                                                (<Col xl="4" style={{width: "100%", display:"flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
+
+                                                <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)"}}>
+                                                    <div style={styles.categoryTitleContainer}>
+                                                        <h4>Transports</h4>
+                                                        <button style={styles.selectButton} onClick={() => this.handleCreate("transport")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                    </div>
+                                                </div>
+
+                                                {this.state.loading ? (
+
+                                                    // <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
+                                                        <Spinner type="grow" color="danger">
+                                                            <span className="sr-only">Loading...</span>
+                                                        </Spinner>
+                                                    // </Row>
+                                                    ) : (
+
+                                                    // <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
+                                                    <Col xl="12" style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
+                                                        {/* --------CHECK IF FILTER IS CLICKED-------------------------- */}
+                                                        { this.state.filterLocation ? (
+
+                                                            // --------------CHECK TRANS LENGTH-----------------
+                                                            (this.state.filterLocationData.transports.length !== 0) ? (
+
+                                                            this.state.filterLocationData.transports.map( transport => (
+                                                                <CardGroup style={styles.cardDeckStyle}>
+                                                                    {/* <div style={{height: "100vh"}}> */}
+                                                                    <Transport
+                                                                        transId = {transport.id}
+                                                                        transMode = {transport.mode}
+                                                                        transBookingId = {transport.booking_id}
+                                                                        transDepartureDate = {transport.departure_date}
+                                                                        transDepartureHour = {transport.departure_hour}
+                                                                        transDepartureMin = {transport.departure_minute}
+                                                                        transArrivalDate = {transport.arrival_date}
+                                                                        transArrivalHour = {transport.arrival_hour}
+                                                                        transArrivalMin = {transport.arrival_minute}
+                                                                        transOrigin = {transport.origin}
+                                                                        transDestination = {transport.destination}
+                                                                        transOperator = {transport.operator}
+                                                                        transCost = {transport.cost}
+                                                                    />
+                                                                    {/* </div> */}
+                                                                </CardGroup>
+                                                            ))  
+                                                            ) : (<CardGroup style={styles.cardDeckStyle}><p>No transport(s) found.</p></CardGroup>) // IF TRANS ZERO
+                                                            // ------------------END OF TRANS LENGTH CHECK---------------------------
+                                                            
+                                                            ) : (
+                                                                <CardGroup style={styles.cardDeckStyle}>
+                                                                    <p>Please select a destination.</p>
+                                                                </CardGroup>)
+                                                        }
+                                                        {/* ----------------END OF FILTER CHECK-------------------------------- */}
+                                                    </Col>
+                                                    // {/* </Row> */}
+
+                                                )}
+
+                                            {/* </Row>) */}
+                                            </Col>)
+                                            }
+
+                                            {/* -------------------------------ITINERARIES------------------------------------------------ */}
+                                            {(this.state.categorySelectAll || this.state.categorySelectItin) && 
+                                                <Col xl="4" style={{width: "100%",display:"flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: 0, padding: 0,}}>
+
+                                                    <div style={{width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: 50, borderBottom: "1px solid rgba(0,0,0,0.4)"}}>
+
+                                                        <div style={styles.categoryTitleContainer}>
+                                                            <h4>Itineraries</h4>
+                                                            <button style={styles.selectButton} onClick={() => this.handleCreate("itinerary")}><ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon></button>
+                                                        </div>
+                                                    </div>
+
+                                                    {this.state.loading ? (
+
+                                                        // <Row style={{justifyContent: "center", alignItems: "center", margin: 0, padding: 50,}}>
+
+                                                            <Spinner type="grow" color="danger">
+                                                                <span className="sr-only">Loading...</span>
+                                                            </Spinner>
+                                                        // </Row>
+                                                        ) : (
+
+                                                        // <Row style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
+                                                        <Col xl="12" style={{width: "100%", justifyContent: "center", margin: 0, padding: 0,}}>
+
+                                                            {/* --------CHECK IF FILTER IS CLICKED-------------------------- */}
+                                                            { this.state.filterLocation ? (
+
+                                                                    // --------------CHECK ITIN LENGTH-----------------
+                                                                    (this.state.filterLocationData.itineraries.length !== 0) ? (
+
+                                                                        this.state.filterLocationData.itineraries.map( itinerary => (
+                                                                            <CardGroup style={styles.cardDeckStyle}>
+                                                                                <Itinerary 
+                                                                                    itinId={itinerary.id}
+                                                                                    itinDay={itinerary.day}
+                                                                                    itinScheduleData={itinerary.schedules}
+                                                                                    // itiCost={itinerary.cost}
+                                                                                />
+                                                                            </CardGroup>
+
+                                                                        )) 
+                                                                    
+                                                                    ) : (<CardGroup style={styles.cardDeckStyle}><p>No itineraries(s) found.</p></CardGroup>) // IF ITIN ZERO
+                                                                    // ------------------END OF ITIN LENGTH CHECK---------------------------
+                                                                ) : (
+
+                                                                    <CardGroup style={styles.cardDeckStyle}>
+                                                                    <p>Please select a destination.</p>
+                                                                </CardGroup>)
+                                                            }
+                                                            {/* ----------------END OF FILTER CHECK-------------------------------- */}
+                                                        {/* </Row> */}
+                                                        </Col>
+
+                                                    )}
+
+                                                {/* </Row> */}
+                                                </Col>
+                                            }
+                                        </Row>)
+                                  
                             }
-
                         </div>
-                    ) )
-                    }
+                    ))}
                 </Container>
+                
+                
+                
 
-                {/* --------------------------------------MODALS FOR CREATE FORMS----------------------------------- */}
+                                {/* --------------------------------------MODALS FOR CREATE FORMS----------------------------------- */}
 
-                {/* -----------------------------------CREATE DESTINATION------------------------------------- */}
-                <CreateDestModal 
-                    isOpen={this.state.openModalDest}
-                    toggle={() => this.toggle()}
-                    tripData={this.state.tripData}
-                />
+                                {/* -----------------------------------CREATE DESTINATION------------------------------------- */}
+                                <CreateDestModal 
+                                    isOpen={this.state.openModalDest}
+                                    toggle={() => this.toggle()}
+                                    tripData={this.state.tripData}
+                                />
 
-                {/* -----------------------------------CREATE ACCOMMODATION------------------------------------- */}
-                <CreateAccModal 
-                    isOpen={this.state.openModalAcc}
-                    toggle={() => this.toggle()}
-                    destinationId = {this.state.filterLocationData.id}
-                    // tripData = {this.state.filterLocationData.id}
-                />
+                                {/* -----------------------------------CREATE ACCOMMODATION------------------------------------- */}
+                                <CreateAccModal 
+                                    isOpen={this.state.openModalAcc}
+                                    toggle={() => this.toggle()}
+                                    destinationId = {this.state.filterLocationData.id}
+                                    // tripData = {this.state.filterLocationData.id}
+                                />
 
-                {/* -----------------------------------CREATE TRANSPORT------------------------------------- */}
-                <CreateTransModal 
-                    isOpen={this.state.openModalTrans}
-                    toggle={() => this.toggle()}
-                    destinationId = {this.state.filterLocationData.id}
-                    // tripData = {this.state.filterLocationData.id}
-                />
+                                {/* -----------------------------------CREATE TRANSPORT------------------------------------- */}
+                                <CreateTransModal 
+                                    isOpen={this.state.openModalTrans}
+                                    toggle={() => this.toggle()}
+                                    destinationId = {this.state.filterLocationData.id}
+                                    // tripData = {this.state.filterLocationData.id}
+                                />
 
-                {/* -----------------------------------CREATE ITINERARY------------------------------------- */}
-                <CreateItinModal 
-                    isOpen={this.state.openModalItin}
-                    toggle={() => this.toggle()}
-                    destinationId = {this.state.filterLocationData.id}
-                    // tripData = {this.state.filterLocationData.id}
-                />
+                                {/* -----------------------------------CREATE ITINERARY------------------------------------- */}
+                                <CreateItinModal 
+                                    isOpen={this.state.openModalItin}
+                                    toggle={() => this.toggle()}
+                                    destinationId = {this.state.filterLocationData.id}
+                                    // tripData = {this.state.filterLocationData.id}
+                                />
                 </Container>
-
-
             </>
-        )
+        )   
     }
 }
 
@@ -754,6 +980,10 @@ const styles = {
         // border: "1px solid blue",
         // overflow: "scroll"
         // height: "100vh"
+
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
     }
 }
 

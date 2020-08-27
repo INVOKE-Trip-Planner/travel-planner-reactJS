@@ -284,7 +284,7 @@ export const SearchUserInput = (props) => {
 
 export const DestinationInput = ({ index, handleRemove, ...props }) => {
     // const [field, meta] = useField(props);
-    console.log(props);
+    // console.log(props);
 
     return (
         <div 

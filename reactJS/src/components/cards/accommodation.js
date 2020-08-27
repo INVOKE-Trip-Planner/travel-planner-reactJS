@@ -32,9 +32,9 @@ class Accommodation extends React.Component {
         }
     }
 
-    componentDidMount() {
-        console.log(moment(this.props.accCheckInDate, "YYYY-MM-DD").format('D MMMM YYYY'));
-    }
+    // componentDidMount() {
+    //     console.log(moment(this.props.accCheckInDate, "YYYY-MM-DD").format('D MMMM YYYY'));
+    // }
 
     handleEdit() {
         this.setState({
@@ -47,7 +47,7 @@ class Accommodation extends React.Component {
         this.setState({
             openModalDelete: true,
         })
-        console.log("ACC ID:", accId);
+        // console.log("ACC ID:", accId);
         // this.props.onDeleteAcc(accId);
     }
 

@@ -149,7 +149,7 @@ const AccForm = (props) => {
       })}
 
       onSubmit={(values, { setSubmitting }) => {
-        console.log(values);
+        // console.log(values);
 
         setTimeout(() => {
           // alert(JSON.stringify(values, null, 2));

@@ -77,7 +77,7 @@ const UpdateUserForm = (props) => {
 
       onSubmit={(values, { setSubmitting }) => {
         values = postProcessValue(values);
-        console.log(values);
+        // console.log(values);
         setTimeout(() => {
           // alert(JSON.stringify(values, null, 2));
           setSubmitting(false);

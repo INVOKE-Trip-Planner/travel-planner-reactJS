@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* logout() {
-    console.log("LOGOUT SAGA");
+    // console.log("LOGOUT SAGA");
 
     // // let store = getStore().getState();
 
@@ -19,7 +19,7 @@ function* logout() {
     // pass to the api
     const { response, error } = yield call(api.logout, headers);
 
-    console.log("GET ALL RESPONSE ", response, error);
+    // console.log("GET ALL RESPONSE ", response, error);
     // yield put();
 
     if (response) {

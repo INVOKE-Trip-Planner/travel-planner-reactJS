@@ -21,7 +21,7 @@ function* deleteTrip({ data }) {
     // pass to the api
     const { response, error } = yield call(api.deleteTrip, formData, headers);
 
-    console.log("RESPONSE ", response, error);
+    // console.log("RESPONSE ", response, error);
     // yield put();
 
     if (response) {

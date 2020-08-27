@@ -52,7 +52,7 @@ const LoginForm = (props) => {
       })}
 
       onSubmit={(values, { setSubmitting }) => {
-        console.log(values);
+        // console.log(values);
         setTimeout(() => {
         //   alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
@@ -103,8 +103,8 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
-    justifyContent: "space-center",
-    marginBottom: 20,
+    justifyContent: "space-between",
+    marginBottom: "2vh",
     width: "100%",
 
     padding: 10,

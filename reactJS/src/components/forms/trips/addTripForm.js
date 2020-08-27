@@ -117,7 +117,7 @@ const AddTripForm = props => {
         onSubmit={(values, { setSubmitting }) => {
           values = postProcessValue(values);
           // alert(JSON.stringify(values, null, 2));
-          console.log('values', isEdit);
+          // console.log('values', isEdit);
           (isEdit) ? props.onUpdateTrip(values) : props.onCreateTrip(values)
           setSubmitting(false);
         }}

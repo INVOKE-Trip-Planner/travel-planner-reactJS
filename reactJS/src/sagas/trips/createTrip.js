@@ -32,7 +32,7 @@ function* createTrip({ data }) {
 
     const { response, error } = yield call(api.createTrip, formData, headers);
 
-    console.log("RESPONSE ", response, error);
+    // console.log("RESPONSE ", response, error);
 
     if (response) {
         yield put(Actions.getAll());

@@ -7,9 +7,8 @@ import {PRIMARY_COLOR, PRIMARY_COLOR_FONT} from "common/styles/index.js";
 import "./home.css";
 
 import FrontPageBanner from "../../assets/images/frontpage.jpg";
-import TravelPlan1 from "../../assets/images/travel_plan1.png";
-import TravelPlan2 from "../../assets/images/travel_plan2.png";
-import TravelPlan3 from "../../assets/images/travel_plan3.png";
+// import FrontPageBanner2 from "../../assets/images/frontpage2.jpg";
+// import FrontPageBanner3 from "../../assets/images/frontpage3.jpg";
 import organize from "../../assets/images/undraw/organize.png";
 import mobile from "../../assets/images/undraw/mobile.png";
 import buddy from "../../assets/images/undraw/buddy.png";
@@ -32,7 +31,7 @@ class Home extends React.Component {
     componentDidMount() {
         const { getUserSession } = this.props;
 
-        console.log("HOME USER SESSION", getUserSession.data.length);
+        // console.log("HOME USER SESSION", getUserSession.data.length);
     }
 
     handlePlan() {
@@ -103,7 +102,7 @@ class Home extends React.Component {
                     {/* ---------------------LEARN MORE DIV------------------------- */}
                     <div className="learn-container" style={styles.learnContainer}>
                         <div className="learn-title">
-                            <h4>Learn More about TripBantu</h4>
+                            <h4>Learn More about Trip<span style={PRIMARY_COLOR_FONT}>Bantu</span></h4>
 
                         </div>
                         <div className="down-icon">
@@ -201,7 +200,10 @@ const styles = {
     },
     frontImage: {
         width: "100%",
-        height: "80vh",
+        // height: "80vh",
+        height: "100%",
+        backgroundPosition: "center",
+        backgroundSize: "stretch",
     },
     contentContainer: {
         // border: "1px solid black",

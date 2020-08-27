@@ -32,7 +32,7 @@ class AddTrip extends React.Component {
 
         const { getCreateTripData } = this.props;
 
-        console.log("create trip data", getCreateTripData)
+        // console.log("create trip data", getCreateTripData)
 
         if (prevProps.getCreateTripData.isLoading && !getCreateTripData.isLoading) {
         

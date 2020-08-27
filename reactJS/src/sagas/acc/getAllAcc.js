@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* getAllAcc() {
-    console.log("GETALL ACC SAGA");
+    // console.log("GETALL ACC SAGA");
 
     // // let store = getStore().getState();
 
@@ -19,7 +19,7 @@ function* getAllAcc() {
     // pass to the api
     const { response, error } = yield call(api.getAllAcc, headers);
 
-    console.log("get all RESPONSE: ", response, error);
+    // console.log("get all RESPONSE: ", response, error);
     // yield put();
 
     if (response) {

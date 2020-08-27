@@ -70,7 +70,6 @@ const ReadOnlyTextInput = ({ label, ...props }) => {
 
 const EditItinForm = (props) => (
   <div style={{display: "flex", flexDirection: "column",}}>
-    {/* <h6>Edit schedule {console.log("itin data", props.itinScheduleData.map(itin => itin.title))}</h6> */}
     <Formik
       initialValues={
       // initialValues={props.itinScheduleData.map
@@ -146,7 +145,6 @@ const EditItinForm = (props) => (
                         <label htmlFor={`schedules.${index}.title`}>Title</label>
                         <Field
                           name={`schedules.${index}.title`}
-                          // name={console.log(schedule[index].title)}
                           placeholder="Enter title here"
                           type="text"
                         />
@@ -194,7 +192,6 @@ const EditItinForm = (props) => (
                       </div>
                       {/* ------------MIN--------------- */}
                       <div className="col" style={styles.inputStyle}>
-                      {/* <label htmlFor={`schedules.${index}.minute`}>Minute{console.log("values", values.schedules[0].map(schedule => schedule))}</label> */}
                         <label htmlFor={`schedules.${index}.minute`}>Minute</label>
                         <Field
                           name={`schedules.${index}.minute`}
@@ -267,7 +264,7 @@ const styles = {
     },
   
     inputContainer: {
-      border: "1px solid green",
+      // border: "1px solid green",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",

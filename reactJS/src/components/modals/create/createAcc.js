@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, } from "reactstrap";
 
 import AccForm from "components/forms/accommodation/accForm.js";
 

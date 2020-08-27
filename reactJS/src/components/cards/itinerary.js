@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, CardHeader, CardBody, CardFooter, Modal, ModalHeader, ModalBody, ModalFooter, Button, Dropdown, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Row, Col} from "reactstrap";
+import { Card, CardHeader, CardBody, Modal, ModalHeader, ModalBody, Dropdown,  DropdownToggle, DropdownMenu,} from "reactstrap";
 
 import { connect } from "react-redux";
 import Actions from "actions";
@@ -32,10 +32,10 @@ class Itinerary extends React.Component {
         }
     }
 
-    componentDidMount() {
-            // console.log("schedule data", this.state.scheduleData)
-            console.log("schedule data", this.state.scheduleData.filter(schedule => (schedule.itinerary_id === this.props.itinId) && schedule))
-    }
+    // componentDidMount() {
+    //         // console.log("schedule data", this.state.scheduleData)
+    //         // console.log("schedule data", this.state.scheduleData.filter(schedule => (schedule.itinerary_id === this.props.itinId) && schedule))
+    // }
 
     handleEdit() {
         this.setState({

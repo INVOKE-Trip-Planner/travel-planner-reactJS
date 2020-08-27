@@ -20,7 +20,7 @@ function* updateTrip({ data }) {
             })
           } else if (field === 'users') {
             data[field].forEach((user) => {
-              formData.append('users[]', user);
+              formData.append('users[]', user.id);
             })
           } else {
             formData.append(field, data[field]);

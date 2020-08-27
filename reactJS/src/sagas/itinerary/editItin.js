@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* editItin( {data} ) {
-    console.log("EDIT ITIN SAGA", data);
+    // console.log("EDIT ITIN SAGA", data);
 
     let token = store.getState().PROFILE.userSession.data;
 
@@ -31,7 +31,7 @@ function* editItin( {data} ) {
     // pass to the api
     const { response, error } = yield call(api.editItin, formData, headers);
 
-    console.log("RESPONSE", response, error);
+    // console.log("RESPONSE", response, error);
     // // yield put();
 
     if (response) {

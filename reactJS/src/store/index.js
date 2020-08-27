@@ -16,7 +16,7 @@ const reducer = persistReducer(
   combineReducers({ ...rootReducer })
 );
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancer = compose; // window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 /* istanbul ignore next */
 const configStore = (initialState = {}) => {

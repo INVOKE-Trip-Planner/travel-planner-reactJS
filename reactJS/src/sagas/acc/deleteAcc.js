@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* deleteAcc( {data} ) {
-    console.log("DELETE ACC SAGA", data);
+    // console.log("DELETE ACC SAGA", data);
 
     // let store = getStore().getState();
 
@@ -23,7 +23,7 @@ function* deleteAcc( {data} ) {
     // pass to the api
     const { response, error } = yield call(api.deleteAcc, formData, headers);
 
-    console.log("Delete response: ", response, error);
+    // console.log("Delete response: ", response, error);
     // yield put();
 
     if (response) {

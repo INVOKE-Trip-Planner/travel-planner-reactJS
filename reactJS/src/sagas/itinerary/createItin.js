@@ -6,11 +6,11 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* createItin( {data} ) {
-    console.log("CREATE ITIN SAGA");
+    // console.log("CREATE ITIN SAGA");
 
     let token = store.getState().PROFILE.userSession.data;
 
-    console.log("createItin saga DATA: ", data);
+    // console.log("createItin saga DATA: ", data);
     const headers = { Authorization: `Bearer ${token}` };
 
     const formData = new FormData();
@@ -28,12 +28,12 @@ function* createItin( {data} ) {
         }
     })
 
-    console.log(formData);
+    // console.log(formData);
 
     // pass to the api
     const { response, error } = yield call(api.createItin, formData, headers);
 
-    console.log("RESPONSE", response, error);
+    // console.log("RESPONSE", response, error);
     // // // yield put();
 
     if (response) {

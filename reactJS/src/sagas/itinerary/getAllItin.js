@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* getAllItin() {
-    console.log("GETALL ITIN SAGA");
+    // console.log("GETALL ITIN SAGA");
 
     // // let store = getStore().getState();
 
@@ -19,7 +19,7 @@ function* getAllItin() {
     // pass to the api
     const { response, error } = yield call(api.getAllItin, headers);
 
-    console.log("get all RESPONSE: ", response, error);
+    // console.log("get all RESPONSE: ", response, error);
     // yield put();
 
     if (response) {

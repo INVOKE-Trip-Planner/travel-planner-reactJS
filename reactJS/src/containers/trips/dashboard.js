@@ -1,7 +1,7 @@
 import React from "react";
 // import { Link } from "react-router-dom";
 
-import { Container, Row, Col, Button, Spinner, ButtonGroup, CardDeck } from 'reactstrap';
+import { Container, Row, Button, Spinner, ButtonGroup, CardDeck } from 'reactstrap';
 // import reducers from "../../reducers";
 
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ import Actions from 'actions';
 
 import moment from "moment";
 import TripsCard from "../../components/cards/tripsCard";
-import TripDetailsModal from "components/modals/tripDetails";
+// import TripDetailsModal from "components/modals/tripDetails";
 import EditTripModal from "../../components/modals/editTrip";
 import DeleteTripModal from "../../components/modals/deleteTrip";
 
@@ -38,7 +38,7 @@ class Dashboard extends React.Component {
     }
 
     componentDidMount() {
-        console.log("DASHBOARD MOUNTED");
+        // console.log("DASHBOARD MOUNTED");
 
         const { getUserSession } = this.props;
 

@@ -24,7 +24,7 @@ const EditTripForm = props => {
             }
         })
 
-        values.users = values.users.map(user => user.id)
+        // values.users = values.users.map(user => user.id)
 
         return values;
     }
@@ -68,9 +68,9 @@ const EditTripForm = props => {
           })}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
-              values = postProcessValue(values);
+              // values = postProcessValue(values);
               // alert(JSON.stringify(values, null, 2));
-              props.onUpdateTrip(values);
+              props.onUpdateTrip( postProcessValue(values));
               setSubmitting(false);
             }, 400);
           }}

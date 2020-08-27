@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* editTrans( {data} ) {
-    console.log("EDIT TRANS SAGA");
+    // console.log("EDIT TRANS SAGA");
 
     let token = store.getState().PROFILE.userSession.data;
 
@@ -31,7 +31,7 @@ function* editTrans( {data} ) {
     // pass to the api
     const { response, error } = yield call(api.editTrans, formData, headers);
 
-    console.log("RESPONSE", response, error);
+    // console.log("RESPONSE", response, error);
     // // yield put();
 
     if (response) {

@@ -25,7 +25,7 @@ class Login extends React.Component {
 
         if (prevProps.getLoginData.isLoading && !getLoginData.isLoading) {
 
-            console.log("LOGIN DATA", Object.keys(getLoginData.data));
+            // console.log("LOGIN DATA", Object.keys(getLoginData.data));
 
             // Check length of getLoginData to see if data exist
             if ( (Object.keys(getLoginData.data).length !== 0) ) {
@@ -48,13 +48,13 @@ class Login extends React.Component {
         return (
             <>  
                 <Container fluid={true} style={styles.fillPage}>
-                    <Row>
+                    <Row style={{minHeight: "100vh",  width: "100%", padding: 0, margin: 0}}>
                         <Col lg="6" xl="6" style={styles.fillPage1}>
                             <div style={styles.imageContainer}>
                                 <img className="loginImg" src={loginImg} alt="loginImg" style={styles.loginImage}/>
                             </div>
                         </Col>
-                        <Col lg="6"xl="6" style={styles.fillPage2}>
+                        <Col className="fillpage2" md={{size:"auto", offset:3}} lg={{size:2, offset:8}} xl={{size:2, offset:8}}style={styles.fillPage2}>
                             <div className="login-container" style={styles.loginContainer}>
                                 <div style={styles.titleContainer}>
                                     <h3>Login</h3>
@@ -77,19 +77,15 @@ const styles = {
     fillPage: {
         margin: 0,
         padding: 0,
+        minHeight: "100vh",
+        // minWidth: 400
         // border: "5px solid pink",
         // width: "100%",
         // display: "flex",
         // justifyContent: "center",
         // alignItems: "center",
+        // position: "relative",
     },
-
-    centerAll: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-
     fillPage1: {
         margin: 0,
         padding: 0,
@@ -97,10 +93,11 @@ const styles = {
         // border: "5px solid pink",
     },
     fillPage2: {
-        margin: 0,
+        marginTop: 0,
+        marginBottom: 0,
         padding: 0,
         position: "absolute",
-        right: 0,
+        // right: 0,
         // border: "5px solid pink",
 
     },
@@ -125,7 +122,9 @@ const styles = {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        padding: 50
+        padding: 50,
+
+        borderRight: "1px solid rgba(0,0,0,0.4)",
     },
     loginImage: {
         // border: "1px solid blue",
@@ -135,8 +134,8 @@ const styles = {
 
     loginContainer: {
         width: "100%",
-        height: "100vh",
-        borderLeft: "1px solid rgba(0,0,0,0.4)",
+        // height: "100vh",
+        // borderLeft: "1px solid rgba(0,0,0,0.4)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -146,8 +145,8 @@ const styles = {
 
     titleContainer: {
         // border: "1px solid black",
-        margin: 60,
-        padding: 10,
+        // margin: 60,
+        padding: 100,
     },
 
     formContainer: {

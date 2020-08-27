@@ -6,11 +6,11 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* editAcc( {data} ) {
-    console.log("EDIT ACC SAGA");
+    // console.log("EDIT ACC SAGA");
 
     let token = store.getState().PROFILE.userSession.data;
 
-    console.log("editAcc saga DATA: ", data);
+    // console.log("editAcc saga DATA: ", data);
     const headers = { Authorization: `Bearer ${token}` };
 
     const formData = new FormData();
@@ -25,12 +25,12 @@ function* editAcc( {data} ) {
     formData.append('cost', data.accCost);
     formData.append('booking_id', data.accBookingId);
 
-    console.log(formData);
+    // console.log(formData);
 
     // pass to the api
     const { response, error } = yield call(api.editAcc, formData, headers);
 
-    console.log("RESPONSE", response, error);
+    // console.log("RESPONSE", response, error);
     // // yield put();
 
     if (response) {

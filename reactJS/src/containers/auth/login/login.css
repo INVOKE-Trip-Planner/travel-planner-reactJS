@@ -1,5 +1,10 @@
 @media (max-width: 990px) {
 
+    .fillpage2 {
+        position: static;
+        /* minHeight:  */
+    }
+
     .loginImg {
         opacity: 0.5;
         /* border: 1px solid black */
