@@ -12,7 +12,7 @@ class Profile extends React.Component {
     componentDidUpdate(prevProps) {
         const { getUpdateUserData } = this.props;
 
-        console.log("PROFILE DATA", getUpdateUserData);
+        // console.log("PROFILE DATA", getUpdateUserData);
     
         if (prevProps.getUpdateUserData.isLoading && !getUpdateUserData.isLoading) {
 

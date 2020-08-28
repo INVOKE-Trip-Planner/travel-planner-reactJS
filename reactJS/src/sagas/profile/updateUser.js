@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* updateUser({ data }) {
-    console.log("UPDATE USER SAGA");
+    // console.log("UPDATE USER SAGA");
     const formData = new FormData();
     const fields = ['name', 'username', 'email', 'password', 'password_confirmation', 'phone', 'gender', 'birth_date', 'avatar'];
 
