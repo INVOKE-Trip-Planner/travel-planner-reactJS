@@ -264,12 +264,13 @@ const styles = {
     },
   
     inputContainer: {
-      // border: "1px solid green",
+      border: "0.2px solid rgba(0,0,0,0.3)",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "space-between",
       marginBottom: 20,
+      borderRadius: 20,
     //   width: 600,
   
       padding: 20,

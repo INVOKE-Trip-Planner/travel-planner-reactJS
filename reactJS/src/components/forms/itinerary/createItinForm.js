@@ -132,7 +132,7 @@ const CreateItinForm = (props) => (
                     <div className="row" key={index} style={styles.inputContainer}>
 
                     {/* -----------x BUTTON---------------- */}
-                      <div className="col" style={{display:"flex", justifyContent: "flex-end"}}>
+                      <div className="col" style={{display:"flex", justifyContent: "flex-end",}}>
                         <button
                           type="button"
                           className="secondary"
@@ -270,15 +270,18 @@ const styles = {
     },
   
     inputContainer: {
-      border: "1px solid green",
+      border: "0.2px solid rgba(0,0,0,0.3)",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "space-between",
       marginBottom: 20,
+      borderRadius: 20,
     //   width: 600,
   
       padding: 20,
+
+      // border: "0.2px solid rgba(0,0,0,0.3)",
   
     },
   
