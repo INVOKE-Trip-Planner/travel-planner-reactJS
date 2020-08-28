@@ -66,9 +66,10 @@ const styles = {
         // alignItems: "center",
         // justifyContent: "center",
         // minWidth: 400,
-
-        border: "1px solid black",
-        minHeight: "90vh",
+        border: "0.2px solid rgba(0,0,0,0.3)",
+        borderRadius: 20,
+        // border: "1px solid black",
+        minHeight: "100vh",
         marginTop: 50,
     }
 }
