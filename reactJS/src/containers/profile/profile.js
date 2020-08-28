@@ -1,9 +1,33 @@
 import React from "react";
 import { Container } from "reactstrap";
+
+// Redux
+import { connect } from "react-redux";
+import Actions from "../../actions";
 import UpdateUserForm from "../../components/forms/profile/updateUserForm";
 
 
 class Profile extends React.Component {
+
+    componentDidUpdate(prevProps) {
+        const { getUpdateUserData } = this.props;
+
+        console.log("PROFILE DATA", getUpdateUserData);
+    
+        if (prevProps.getUpdateUserData.isLoading && !getUpdateUserData.isLoading) {
+
+            // Check length of getLoginData to see if data exist
+            if ( getUpdateUserData.error !== null ) {
+                alert(Object.values(getUpdateUserData.error.errors).flat().join('\n'));
+                alert("Update profile failed.");
+                window.location.reload();
+            } else {
+                // alert(Object.values(getUpdateUserData.error.errors).flat().join('\n'));
+                alert("Profile updated!");
+                window.location.reload();
+            }
+        }    
+    }
 
     render() {
         return (
@@ -66,4 +90,12 @@ const styles = {
   }
   
 
-export default Profile;
+  const mapStateToProps = (store) => ({
+    getUpdateUserData: Actions.getUpdateUserData(store),
+  })
+  
+const mapDispatchToProps = {
+    // onRegister: Actions.register,
+  }
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

@@ -6,7 +6,7 @@ import * as api from "../../api";
 import {store} from "store/index";
 
 function* updateUser({ data }) {
-    // console.log("GETALL SAGA");
+    console.log("UPDATE USER SAGA");
     const formData = new FormData();
     const fields = ['name', 'username', 'email', 'password', 'password_confirmation', 'phone', 'gender', 'birth_date', 'avatar'];
 
@@ -26,7 +26,7 @@ function* updateUser({ data }) {
     // pass to the api
     const { response, error } = yield call(api.updateUser, formData, headers);
 
-    // console.log("RESPONSE ", response, error);
+    console.log("RESPONSE ", response, error);
     // yield put();
 
     if (response) {
@@ -36,7 +36,7 @@ function* updateUser({ data }) {
     }
 
     if (error) {
-        yield put(Actions.updateUserFail(error));
+        yield put(Actions.updateUserFail(error.response.data));
     }
 }
 
