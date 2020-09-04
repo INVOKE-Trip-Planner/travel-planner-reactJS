@@ -4,6 +4,7 @@ import React from "react";
 import { Container, Row, Button, Spinner, ButtonGroup, CardDeck } from 'reactstrap';
 
 import fitri from "assets/images/brew/fitri.png"
+import affiq from "assets/images/brew/affiq.png"
 import aizat from "assets/images/brew/aizat.png"
 import aliya from "assets/images/brew/aliya.png"
 import lukman from "assets/images/brew/lukman.jpg"
@@ -249,7 +250,7 @@ class Dashboard extends React.Component {
                                                             image={sharafi}
                                                             productName={"SHARAFI ILMAN"}
                                                             model={"June 1993"}
-                                                            intendedUse={"To build the best solution for solve the problem"}
+                                                            intendedUse={"To build the best solution to solve the problem"}
                                                             features={["Trust with capability"]}
                                                             A={"Can do anything as much as you want"}
                                                             B={"Moderate, pragmatic"}
@@ -330,42 +331,54 @@ class Dashboard extends React.Component {
                                                             image={aliya}
                                                             productName={"Aliya"}
                                                             model={"AC80663"}
-                                                            intendedUse={"Be reliable"}
-                                                            features={""}
+                                                            intendedUse={"To be helpful as possible in terms of career or as a person"}
+                                                            features={["Easily influenced (good way), flexible, simple"]}
+                                                            A={"Positive vibes, energetic, cognitive empathy"}
+                                                            B={"Simple, Outgoing"}
+                                                            C={"Fragile, no negative vibe allowed"}
+                                                            D={"Explain nicely and professionally"}
+                                                            E={"Need clear instructions with good manners"}
+                                                            F={"Talk nicely and lend an ears to give opinions "}
+                                                            G={"Give attention, positivity and motivation to move forward"}
+                                                            H={"Give time and space. (Easy to cool and easy to burn out)"}
+                                                            I={"Same way you when you get the product"}
+                                                            J={"Understand the problem and find suitable solution for it"}
 
                                                         />
                                                             <TripsCard
-                                                                image={""}
-                                                                productName={"AZT"}
-                                                                model={"v2.5"}
-                                                                intendedUse={"Provide happiness and solution to those needed"}
-                                                                features={["Aware of the emotions of those around them."]}
-                                                                A={"sentiasa meluangkan masa untuk mendengar luahan hati kawan kawan"}
-                                                                B={"senyum dan gelak"}
-                                                                C={"dont like fake stories and people"}
-                                                                D={"i got some stories to be share "}
-                                                                E={"hanya just come and stories everything"}
-                                                                F={"akan terlebih fikir penyelesaiannya tonton movie"}
-                                                                G={"just be yourself "}
-                                                                H={"get rid toxic in my life"}
-                                                                I={""}
-                                                                J={""}
+                                                                image={affiq}
+                                                                productName={"Affiq PRGF"}
+                                                                model={"V. 29"}
+                                                                intendedUse={"To create solutions for visual communications and ideation for a better way to communicate visually and creatively with audience/   happiness and solution to those needed"}
+                                                                features={["Morph great ideas and concept into a stunning visual language"]}
+                                                                A={"Unique, Witty, Enlightening, Speaks Volume, Bold"}
+                                                                B={"Simple, Straight-forward"}
+                                                                C={"Self-entitlement, Condescending, Judgemental, Toxic"}
+                                                                D={"Assignment briefs, Clear message or instructions, Provide the support and materials required, Be professional"}
+                                                                E={"Design is how it works"}
+                                                                F={" Verbal communication is the best way to solve problems."}
+                                                                G={"Work-life balance, Creative freedom, Faith and Chances"}
+                                                                H={"Motivational talks, Self-improvement class, Counselling session"}
+                                                                I={"Send back to factory "}
+                                                                J={"A graphic artist that aims to solve the visual communication and ideation limitation from the product owner/ clients or customers"}
     
                                                             />
                                                         <TripsCard
-                                                            image={""}
+                                                            image={aizat}
                                                             productName={"AZT"}
                                                             model={"v2.5"}
-                                                            intendedUse={"Be reliable"}
-                                                            features={""}
-
-                                                        />
-                                                        <TripsCard
-                                                            image={""}
-                                                            productName={"AZT"}
-                                                            model={"v2.5"}
-                                                            intendedUse={"Be reliable"}
-                                                            features={""}
+                                                            intendedUse={""}
+                                                            features={[""]}
+                                                            A={""}
+                                                            B={""}
+                                                            C={""}
+                                                            D={""}
+                                                            E={"s"}
+                                                            F={""}
+                                                            G={""}
+                                                            H={""}
+                                                            I={" "}
+                                                            J={""}
 
                                                         />
                                             

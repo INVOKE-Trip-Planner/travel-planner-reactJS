@@ -61,8 +61,8 @@ class TripsCard extends React.Component {
                             <div style={styles.cardContent}>
                                 <p>Product Name: <strong>{this.props.productName}</strong></p>
                                 <p>Model: <strong>{this.props.model}</strong></p>
-                                <p>Intended Use: <strong>{this.props.intendedUse}</strong></p>
-                                <p>Features: <strong>{this.props.features}</strong></p>
+                                <p>Intended Use: </p><p><strong>{this.props.intendedUse}</strong></p>
+                                <p>Features: </p><p><strong>{this.props.features}</strong></p>
                             </div>
 
 
@@ -92,20 +92,21 @@ class TripsCard extends React.Component {
                     <ModalHeader>Product Details</ModalHeader>
                     <ModalBody>
                         <div style={styles.bodyContainer}>
-                            <p>Product Name: </p><p>{this.props.productName}</p><br/>
+                            <p>Product Name: </p><p><strong>{this.props.productName}</strong></p><br/>
 
-                            <p>Model/Type Number: </p><p>{this.props.model}</p><br/>
-                            <p>Intended Use: </p><p>{this.props.intendedUse}</p><br/>
-                            <p>Features: </p><p>{this.props.features}</p><br/>
-                            <p>Description of main product elements: </p><p>{this.props.A}</p><br/>
-                            <p>Description of user interface: </p><p>{this.props.C}</p><br/>
-                            <p>Safety warnings: </p><p>{this.props.D}</p><br/>
-                            <p>Installation instructions: </p><p>{this.props.E}</p><br/>
-                            <p>Description to operate: </p><p>{this.props.F}</p><br/>
-                            <p>Maintenance information: </p><p>{this.props.G}</p><br/>
-                            <p>Repair information: </p><p>{this.props.H}</p><br/>
-                            <p>Information on disposal of the product and packaging: </p><p>{this.props.I}</p><br/>
-                            <p>Technical specifications: </p><p>{this.props.J}</p>
+                            <p>Model/Type Number: </p><p><strong>{this.props.model}</strong></p><br/>
+                            <p>Intended Use: </p><p><strong>{this.props.intendedUse}</strong></p><br/>
+                            <p>Features: </p><p><strong>{this.props.features}</strong></p><br/>
+                            <p>Description of main product elements: </p><p><strong>{this.props.A}</strong></p><br/>
+                            <p>Description of user interface: </p><p><strong>{this.props.B}</strong></p><br/>
+                            <p>Safety warnings: </p><p><strong>{this.props.C}</strong></p><br/>
+                            <p>Installation instructions: </p><p><strong>{this.props.D}</strong></p><br/>
+                            <p>Description to operate: </p><p><strong>{this.props.E}</strong></p><br/>
+                            <p>Troubleshooting section: </p><p><strong>{this.props.F}</strong></p><br/>
+                            <p>Maintenance information: </p><p><strong>{this.props.G}</strong></p><br/>
+                            <p>Repair information: </p><p><strong>{this.props.H}</strong></p><br/>
+                            <p>Information on disposal of the product and packaging: </p><p><strong>{this.props.I}</strong></p><br/>
+                            <p>Technical specifications: </p><p><strong>{this.props.J}</strong></p>
                         </div>
                     </ModalBody>
                 </Modal>
@@ -120,8 +121,8 @@ const styles = {
         padding: 0,
         minWidth: 400,
         maxWidth: 500,
-        minHeight: 700,
-        maxHeight: 700,
+        minHeight: 800,
+        maxHeight: 800,
         borderRadius: 20,
         overflow: "hidden",
         backgroundImage: "none",
@@ -232,12 +233,13 @@ const styles = {
 
 
     cardContent: {
-        padding: 10,
+        padding: 5,
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "flex-start",
-        // border: "1px solid black"
+        // border: "1px solid black",
+        textAlign: "justify",
     },
     cardContentContainer: {
         padding: 10,

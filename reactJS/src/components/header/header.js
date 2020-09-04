@@ -101,7 +101,7 @@ class Header extends React.Component {
     render() {
         return (
             <>
-                <Container className="themed-container" fluid="xl" style={{margin: 0, padding: 0,}}>
+                <Container className="themed-container" fluid={true} style={{margin: 0, padding: 0,}}>
                     <Navbar color="light" light expand="md" style={{borderBottom: "0.5px solid rgba(0,0,0,0.1)", paddingLeft: 20, paddingRight: 20,}} fluid={true}>
                         <NavbarBrand><Link to="/" style={styles.linkstyle}><img src={vlogo} style={{width: 80, height: 50}}/></Link></NavbarBrand>
                         <NavbarToggler onClick={() => this.toggle()} style={{color: "white", ...PRIMARY_COLOR}}/>
