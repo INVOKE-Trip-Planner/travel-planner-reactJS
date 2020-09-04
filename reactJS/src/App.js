@@ -35,14 +35,14 @@ function App() {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/dashboard/:id" component={TripDetails} />
-              <Route exact path="/addtrip" component={AddTrip} />
-              <Route exact path="/profile" component={Profile} />
-              <Route path="/login" component={Login}/>
-              <Route path="/register" component={Register}/>
-              <Route path="/discover" component={TriposoArticle} />
+              {/* <Route exact path="/dashboard/:id" component={TripDetails} /> */}
+              {/* <Route exact path="/addtrip" component={AddTrip} /> */}
+              {/* <Route exact path="/profile" component={Profile} /> */}
+              {/* <Route path="/login" component={Login}/> */}
+              {/* <Route path="/register" component={Register}/> */}
+              {/* <Route path="/discover" component={TriposoArticle} /> */}
             </Switch>
-          <Footer />
+          {/* <Footer /> */}
         </Router>
 
       </PersistGate>

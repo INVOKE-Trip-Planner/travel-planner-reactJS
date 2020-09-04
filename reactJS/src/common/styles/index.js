@@ -10,7 +10,7 @@ export const REMOVESTRAP = {
 }
 
 export const PRIMARY_COLOR = {
-    backgroundImage: "linear-gradient(to bottom right, #CB4335, #E74C3C)",
+    backgroundImage: "#F1C40F",
     border: "none",
 }
 
@@ -21,7 +21,7 @@ export const SECONDARY_COLOR = {
 
 export const PRIMARY_COLOR_FONT = {
     // backgroundImage: "linear-gradient(to bottom right, #E74C3C, ##F7DC6F)",
-    color: "#E74C3C",
+    color: "#F1C40F",
 
     // border: "none",
     // outline: "black",
