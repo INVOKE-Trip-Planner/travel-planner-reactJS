@@ -1,7 +1,9 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Card, CardHeader, CardBody, CardFooter, CardImg} from "reactstrap";
+import fitri from "assets/images/brew/fitri.png"
+
+import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Card, CardHeader, CardBody, CardFooter, CardImg, Modal, ModalHeader, ModalBody, ModalFooter} from "reactstrap";
 
 import moment from "moment";
 
@@ -30,21 +32,17 @@ class TripsCard extends React.Component {
         }
     }
 
-    componentDidMount() {
+    handleEdit() {
         this.setState({
-            tripCreator: this.state.usersList.find(list => (list.id === this.props.tripCreatedBy) && list).name,
-        })
-    }
-
-    componentDidUpdate() {
-        
+            isOpen: true,
+        });
     }
 
     toggle() {
+
         this.setState({
-            dropdownOpen: !this.state.dropdownOpen,
-            selected: !this.state.selected,
-        })
+            isOpen: !this.state.isOpen,
+        });
     }
 
     // buttonPressed() {
@@ -56,84 +54,18 @@ class TripsCard extends React.Component {
     render() {
         return (
             <>
-                <Card body outline color="danger" style={styles.removeStrap}>
-                    <CardHeader style={{
-                        margin: 0, 
-                        padding: 0, 
-                        backgroundImage: "none",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        // zIndex: -2
-                        position: "relative",
-                        minHeight: 200,
-                        }}>
-                        {/* <div className="image-container" style={styles.imageContainer}> */}
-                            <div className="image-sizing" style={styles.tripImageBox}>
-                                {/* {console.log(this.props.tripBanner)} */}
-                                <img id="banner1" src={`http://localhost:8000/storage/trip_banners/${this.props.tripBanner}`} loading="lazy" alt="banner1" style={styles.imageSize}/>
-                            </div>
-                            <div className="trip-title-container" style={styles.cardTripTitle}>
-                                <h4>{this.props.tripTitle}</h4>
-                            </div>
-                            <div className="user-container" style={styles.usersContainer}>
-                                {
-                                    this.state.usersList.map( list => (
-                                        
-                                        <div className="avatar-sizing" style={styles.avatarContainer}>
-                                            {/* {console.log(list.avatar)} */}
-                                            <img id="user-avatar" src={`http://localhost:8000/storage/avatars/${list.avatar}`} loading="lazy" alt="placeholder" style={styles.avatarSize} />
-                                        </div>
-                                    ) )
-                                }
-                            </div>
-                        {/* </div> */}
-                    </CardHeader>
-                    {/* <CardImg /> */}
+                <Card body outline color="warning" style={styles.removeStrap}>
+                    <CardImg src={this.props.image} style={styles.imageSize}/>
                     <CardBody>
                         <div style={styles.cardContentContainer}>
                             <div style={styles.cardContent}>
-                                { this.props.tripStartDate !== null && (<p>Date: <strong>{moment(this.props.tripStartDate, "YYYY-MM-DD").format("D/M/YYYY")} - {moment(this.props.tripEndDate, "YYYY-MM-DD").format("D/M/YYYY")}</strong></p> ) }
-                                { this.props.tripOrigin !== null && (
-                                <p>Origin: <strong>{this.props.tripOrigin}</strong></p> )}
-                                <p>Created by: <strong>{this.state.tripCreator}</strong></p>
-                                <p>Trip Total: <strong>RM {(this.props.tripTotal).toFixed(2)}</strong></p>
+                                <p>Product Name: <strong>{this.props.productName}</strong></p>
+                                <p>Model: <strong>{this.props.model}</strong></p>
+                                <p>Intended Use: </p><p><strong>{this.props.intendedUse}</strong></p>
+                                <p>Features: </p><p><strong>{this.props.features}</strong></p>
                             </div>
 
-                            <div style={styles.cardContent}>
-                                <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} style={styles.dropdownStyle} size="sm" color="secondary">
-                                    <DropdownToggle style={this.state.selected ? SECONDARY_COLOR : PRIMARY_COLOR} color="secondary">
-                                        <ion-icon className="chevronDownOutline" name="caret-down" style={{fontSize: 16, color: "black"}}></ion-icon>
-                                    </DropdownToggle>
-                                    <DropdownMenu style={styles.dropdownStyle}>
-                                        <div style={styles.dropdownItemContainer} >
-                                            <ion-icon 
-                                                name="create-outline"
-                                                onClick={ this.props.handleEdit }
-                                                // size="large"
-                                                style={{
-                                                    cursor: 'pointer',
-                                                    fontSize: 24,
-                                                }}
-                                                >
-                                            </ion-icon>
-                                        </div>
-                                        <div style={styles.dropdownItemContainer} >
-                                            <ion-icon 
-                                                name="trash-outline"
-                                                onClick={ this.props.handleDelete }
-                                                // size="medium"
-                                                style={{
-                                                    cursor: 'pointer',
-                                                    fontSize: 24,
-                                                }}
-                                            >
-                                            </ion-icon>
-                                        </div>
-                                    </DropdownMenu>
-                                </Dropdown>
-                            </div>
+
                         </div>
                     </CardBody>
                     <CardFooter style={{width: "100%"}}>
@@ -142,11 +74,42 @@ class TripsCard extends React.Component {
                             type="submit"
                             color="link"
                             // size="sm"
-                            onClick={this.props.onClick}
+                            onClick={() => this.handleEdit()}
                             block
-                        >Trip Details</Button>
+                        >Product Details</Button>
                     </CardFooter>
                 </Card>
+
+                {/* -------------EDIT ACC MODAL-------------------- */}
+                <Modal 
+                    isOpen={this.state.isOpen} 
+                    centered={true}
+                    scrollable={true}
+                    backdrop={true}
+                    toggle={() => this.toggle()}
+                    size="lg"
+                >
+                    <ModalHeader>Product Details</ModalHeader>
+                    <ModalBody>
+                        <div style={styles.bodyContainer}>
+                            <p>Product Name: </p><p><strong>{this.props.productName}</strong></p><br/>
+
+                            <p>Model/Type Number: </p><p><strong>{this.props.model}</strong></p><br/>
+                            <p>Intended Use: </p><p><strong>{this.props.intendedUse}</strong></p><br/>
+                            <p>Features: </p><p><strong>{this.props.features}</strong></p><br/>
+                            <p>Description of main product elements: </p><p><strong>{this.props.A}</strong></p><br/>
+                            <p>Description of user interface: </p><p><strong>{this.props.B}</strong></p><br/>
+                            <p>Safety warnings: </p><p><strong>{this.props.C}</strong></p><br/>
+                            <p>Installation instructions: </p><p><strong>{this.props.D}</strong></p><br/>
+                            <p>Description to operate: </p><p><strong>{this.props.E}</strong></p><br/>
+                            <p>Troubleshooting section: </p><p><strong>{this.props.F}</strong></p><br/>
+                            <p>Maintenance information: </p><p><strong>{this.props.G}</strong></p><br/>
+                            <p>Repair information: </p><p><strong>{this.props.H}</strong></p><br/>
+                            <p>Information on disposal of the product and packaging: </p><p><strong>{this.props.I}</strong></p><br/>
+                            <p>Technical specifications: </p><p><strong>{this.props.J}</strong></p>
+                        </div>
+                    </ModalBody>
+                </Modal>
             </>
         )
     }
@@ -154,17 +117,26 @@ class TripsCard extends React.Component {
 
 const styles = {
     removeStrap: {
-        margin: 0,
+        margin: 10,
         padding: 0,
         minWidth: 400,
-        maxWidth: 400,
-        minHeight: 500,
-        maxHeight: 500,
+        maxWidth: 500,
+        minHeight: 800,
+        maxHeight: 800,
         borderRadius: 20,
         overflow: "hidden",
         backgroundImage: "none",
         shadowColor: "#000",
         boxShadow: "0.2px 0.2px 5px 0.7px rgba(0,0,0,0.4)"
+    },
+    imageSize: {
+        // border: "1px solid black",
+        width: "100%",
+        height: 350,
+        objectFit: "cover",
+        margin: "0 auto",
+        objectPosition: "0px 0px"
+        // zIndex: 1,
     },
     imageContainer: {
         width: "100%",
@@ -183,10 +155,10 @@ const styles = {
     },
     tripImageBox: {
         width: "100%",
-        height: "100%",
+        height: "20%",
         padding: 0,
-        position: "absolute",
-        zIndex: 0,
+        // position: "absolute",
+        // zIndex: 0,
     },
     cardTripTitle: {
         background: "none",
@@ -213,13 +185,6 @@ const styles = {
         // position: "absolute",
         padding: 20,
         zIndex: 2,
-    },
-    imageSize: {
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-        objectPosition: "center",
-        zIndex: 1,
     },
     avatarSize: {
         width: 30,
@@ -268,12 +233,13 @@ const styles = {
 
 
     cardContent: {
-        padding: 10,
+        padding: 5,
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "flex-start",
-        // border: "1px solid black"
+        // border: "1px solid black",
+        textAlign: "justify",
     },
     cardContentContainer: {
         padding: 10,

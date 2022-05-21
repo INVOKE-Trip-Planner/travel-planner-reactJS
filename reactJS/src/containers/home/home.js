@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import {Container, Row, Col, Button} from "reactstrap";
 
+import vlogo from "assets/images/brew/vlogo.png";
+
 import {PRIMARY_COLOR, PRIMARY_COLOR_FONT} from "common/styles/index.js";
 import "./home.css";
 
@@ -57,13 +59,22 @@ class Home extends React.Component {
                 <Container className="themed-container" fluid={true} style={styles.fillPage}>
                     <div style={styles.firstContainer}>
                         <div style={styles.imageContainer}>
-                            <img id="frontpage" src={FrontPageBanner} alt="frontpage" loading="lazy" style={styles.frontImage}/>
+                            <img id="frontpage"  alt="frontpage" loading="lazy" style={styles.frontImage}/>
                         </div>
                         <div style={styles.contentContainer}>
                             <div style={styles.contentTopContainer}>
+                                <div>
+                                    <img src={vlogo} style={{width: 200, height: 100}} />
+                                </div>
                                 <div style={styles.titleContainer}>
-                                    <h1>Plan your trip with Trip<span style={PRIMARY_COLOR_FONT}>Bantu</span></h1>
-                                    <h5>Making trip planning easier for all travellers</h5>
+                                    <h1>We are <span style={PRIMARY_COLOR_FONT}>V</span></h1>
+                                    <div style={styles.fiveVContainer}>
+                                        <div style={styles.fiveV}><h5><span style={PRIMARY_COLOR_FONT}>V</span>olume</h5></div>
+                                        <div style={styles.fiveV}><h5><span style={PRIMARY_COLOR_FONT}>V</span>elocity</h5></div>
+                                        <div style={styles.fiveV}><h5><span style={PRIMARY_COLOR_FONT}>V</span>ariety</h5></div>
+                                        <div style={styles.fiveV}><h5><span style={PRIMARY_COLOR_FONT}>V</span>eracity</h5></div>
+                                        <div style={styles.fiveV}><h5><span style={PRIMARY_COLOR_FONT}>V</span>alue</h5></div>
+                                    </div>
                                 </div>
 
 {/* 
@@ -73,26 +84,20 @@ class Home extends React.Component {
                                     <button style={styles.selectButton} onClick={() => this.handleExplore()}>Explore places</button>
                                 </div> */}
 
-                                <div style={styles.searchContainer}>
+                                {/* <div style={styles.searchContainer}>
 
-                                    {this.state.showExplore ?
-                                        (
                                         <div>
-                                        {/* <h4>Create a new trip</h4> */}
+                                        <h4>Create a new trip</h4>
                                             <Button 
                                                 style={{marginBottom: 10,...PRIMARY_COLOR}}
                                                 size="lg"
                                                 block
                                                 onClick={()=>this.handleAddTrip()}
-                                            >Begin Planning
+                                            >Learn More About V
                                             </Button>
                                             <p style={{fontSize: "16px"}}>Haven't registered? <Link to="/register" style={{textDecoration: "underline", fontWeight: "bold", ...PRIMARY_COLOR_FONT}}>Sign up now!</Link></p>
                                         </div>
-                                        )
-                                        : 
-                                        (<SearchForm />)
-                                    }
-                                </div>
+                                </div> */}
                             </div>
 
 
@@ -102,7 +107,7 @@ class Home extends React.Component {
                     {/* ---------------------LEARN MORE DIV------------------------- */}
                     <div className="learn-container" style={styles.learnContainer}>
                         <div className="learn-title">
-                            <h4>Learn More about Trip<span style={PRIMARY_COLOR_FONT}>Bantu</span></h4>
+                            <h4>Learn More About <span style={PRIMARY_COLOR_FONT}>V</span>s</h4>
 
                         </div>
                         <div className="down-icon">
@@ -113,42 +118,35 @@ class Home extends React.Component {
                 <Container fluid="xl" style={styles.fillPage}>
                     {/* --------------LEARN ROW 1------------------------ */}
                     <Row md="12" style={styles.learnRow}>
-                        <Col xs="12" sm="12" md="6" lg="6" xl="6" style={{borderRight: "1px solid rgba(0,0,0,0.4)", ...styles.learnColOne}}>
-                            {/* <div style={styles.learnImageContainer}> */}
-                                <img id="travelimg1" src={organize} alt="travelimg1" style={styles.undrawImage}/>
-                            {/* </div> */}
-                        </Col>
-                        <Col xs="12" sm="12" md="6" lg="6" xl="6" style={styles.learnColTwo}>
+                        <Col xs="12" sm="12" md="6" lg="12" xl="12" style={styles.learnColTwo}>
                             <div style={styles.textBox}>
-                                <p className="learn-text">We help you organize your travel arrangements.</p>
+                                <p className="learn-text">Objective:</p>
+                                <p className="learn-text"><strong>To provide Value with Variety,</strong></p>
+                                    <p className="learn-text"><strong> that speaks Volume, using Velocity, and Veracity</strong></p>
                             </div>
                         </Col>
                     </Row>
 
                     {/* -------------------LEARN ROW 2------------------------------------- */}
                     <Row md="12" style={styles.learnRow}>
-                        <Col xs="12" sm="12" md="6" lg="6" xl="6" style={styles.learnColTwoLeft}>
+                        <Col xs="12" sm="12" md="12" lg="12" xl="12" style={styles.learnColTwoLeft}>
                             <div style={styles.textBox}>
-                                <p className="learn-text">We store all your travel information so you can access the info whenever, wherever!</p>
+                                <p className="learn-text">The five pillars:</p>
+                                <p className="learn-text"><strong>Volume</strong></p>
+                                <p className="learn-text"><strong>Velocity</strong></p>
+                                <p className="learn-text"><strong>Variety</strong></p>
+                                <p className="learn-text"><strong>Veracity</strong></p>
+                                <p className="learn-text"><strong>Value</strong></p>
                             </div>
-                        </Col>
-                        <Col xs="12" sm="12" md="6" lg="6" xl="6" style={{borderLeft: "1px solid rgba(0,0,0,0.4)", ...styles.learnColOneRight}}>
-                            {/* <div style={styles.learnImageContainer}> */}
-                                <img id="travelimg1" src={mobile} alt="travelimg1" style={styles.undrawImage}/>
-                            {/* </div> */}
                         </Col>
                     </Row>
 
                     {/* -------------------LEARN ROW 3------------------------------------- */}
                     <Row md="12" style={styles.learnRow}>
-                        <Col xs="12" sm="12" md="6" lg="6" xl="6" style={{borderRight: "1px solid rgba(0,0,0,0.4)", ...styles.learnColOne}}>
-                            {/* <div style={styles.learnImageContainer}> */}
-                                <img id="travelimg1" src={buddy} alt="travelimg1" style={styles.undrawImageBuddy}/>
-                            {/* </div> */}
-                        </Col>
-                        <Col xs="12" sm="12" md="6" lg="6" xl="6" style={styles.learnColTwo}>
+                        <Col xs="12" sm="12" md="12" lg="12" xl="12" style={styles.learnColTwo}>
                             <div style={styles.textBox}>
-                                <p className="learn-text" >We make orgazining trips with your friends and family, effortless.</p>
+                                <p className="learn-text" >Ending statement:</p>
+                                <p className="learn-text"><strong>What is INVOKE without V</strong></p>
                             </div>
                         </Col>
                     </Row>
@@ -206,7 +204,7 @@ const styles = {
         backgroundSize: "stretch",
     },
     contentContainer: {
-        // border: "1px solid black",
+        border: "1px solid black",
         width: "70%",
         height: "70vh",
         backgroundColor: "none",
@@ -227,16 +225,41 @@ const styles = {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        alignItems: "flex-start",
+        alignItems: "center",
         
     },
     titleContainer: {
         minwidth: "100%",
         // height: 300,
         // backgroundColor: "black",
-        color: "white",
+        color: "black",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         
         padding: 20,
+    },
+    fiveVContainer: {
+        width: "200%",
+        // height: 45,
+        borderTop: "1px solid rgba(0,0,0,0.8)",
+        paddingTop: "10%",
+        backgroundColor: "white",
+        margin: 20,
+        overflow: "hidden",
+        // borderRadius: 10,
+        
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
+    fiveV: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%"
     },
     selectContainer: {
         // width: "80%",
@@ -278,7 +301,7 @@ const styles = {
         width: "100%",
         // border: "3px solid blue",
         // borderTop: "1px solid rgba(0,0,0,0.4)",
-        border: "1px solid rgba(0,0,0,0.4)",
+        border: "1px solid #F1C40F",
         borderRadius: 20,
         marginTop: 25,
         marginBottom: 25,
@@ -385,6 +408,7 @@ const styles = {
         height: "100%",
         width: "100%",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         // verticalAlign: "center",

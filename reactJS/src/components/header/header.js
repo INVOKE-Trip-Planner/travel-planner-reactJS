@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import vlogo from "assets/images/brew/vlogo.png"
+
 import {Container, Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,NavbarText} from 'reactstrap';
 
 // Redux
@@ -101,7 +103,7 @@ class Header extends React.Component {
             <>
                 <Container className="themed-container" fluid={true} style={{margin: 0, padding: 0,}}>
                     <Navbar color="light" light expand="md" style={{borderBottom: "0.5px solid rgba(0,0,0,0.1)", paddingLeft: 20, paddingRight: 20,}} fluid={true}>
-                        <NavbarBrand><Link to="/" style={styles.linkstyle}>Trip<span style={PRIMARY_COLOR_FONT}>Bantu</span></Link></NavbarBrand>
+                        <NavbarBrand><Link to="/" style={styles.linkstyle}><img src={vlogo} style={{width: 80, height: 50}}/></Link></NavbarBrand>
                         <NavbarToggler onClick={() => this.toggle()} style={{color: "white", ...PRIMARY_COLOR}}/>
                         <Collapse isOpen={this.state.isOpen} navbar>
 
@@ -118,14 +120,14 @@ class Header extends React.Component {
                                 ) : (
                                     <Nav className="mr-auto" navbar>
                                         <NavItem>
-                                            <NavLink><Link to="/dashboard" style={styles.linkstyle}>Dashboard</Link></NavLink>
+                                            <NavLink><Link to="/dashboard" style={styles.linkstyle}>Team <span style={PRIMARY_COLOR_FONT}>V</span></Link></NavLink>
                                         </NavItem>
-                                        <NavItem>
+                                        {/* <NavItem>
                                             <NavLink><Link to="/login" style={styles.linkstyle}>Login</Link></NavLink>
                                         </NavItem>
                                         <NavItem>
                                             <NavLink><Link to="/register" style={styles.linkstyle}>Register</Link></NavLink>
-                                        </NavItem>
+                                        </NavItem> */}
                                     </Nav>
                                 )}
 

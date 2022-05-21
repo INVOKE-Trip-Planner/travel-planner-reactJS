@@ -2,6 +2,16 @@ import React from "react";
 // import { Link } from "react-router-dom";
 
 import { Container, Row, Button, Spinner, ButtonGroup, CardDeck } from 'reactstrap';
+
+import fitri from "assets/images/brew/fitri.png"
+import affiq from "assets/images/brew/affiq.png"
+import aizat from "assets/images/brew/aizat.png"
+import aliya from "assets/images/brew/aliya.png"
+import lukman from "assets/images/brew/lukman.jpg"
+import shakti from "assets/images/brew/shakti.png"
+import shamiza from "assets/images/brew/shamiza.png"
+import sharafi from "assets/images/brew/sharafi.png"
+import siti from "assets/images/brew/siti.png"
 // import reducers from "../../reducers";
 
 import { connect } from 'react-redux';
@@ -37,79 +47,79 @@ class Dashboard extends React.Component {
         };
     }
 
-    componentDidMount() {
-        // console.log("DASHBOARD MOUNTED");
+    // componentDidMount() {
+    //     // console.log("DASHBOARD MOUNTED");
 
-        const { getUserSession } = this.props;
+    //     const { getUserSession } = this.props;
 
-        // console.log("DASHBOARD DATA", this.state.tripsList);
+    //     // console.log("DASHBOARD DATA", this.state.tripsList);
 
-        if (getUserSession.data.length === undefined || getUserSession.data.length === null || getUserSession.data.length === 0) {
-            alert('No user detected. Please login or sign up.')
-            this.props.history.push("/login");
-        }
+    //     if (getUserSession.data.length === undefined || getUserSession.data.length === null || getUserSession.data.length === 0) {
+    //         alert('No user detected. Please login or sign up.')
+    //         this.props.history.push("/login");
+    //     }
 
-        this.props.onGetAll();
-    }
+    //     this.props.onGetAll();
+    // }
 
-    componentDidUpdate(prevProps) {
-        // console.log("DASHBOARD UPDATE");
-        const { getGetAllData, getUpdateTripData, getDeleteTripData } = this.props;
+    // componentDidUpdate(prevProps) {
+    //     // console.log("DASHBOARD UPDATE");
+    //     const { getGetAllData, getUpdateTripData, getDeleteTripData } = this.props;
 
-        // console.log("DASHBOARD DATA", this.state.tripsList.filter(list => list.start_date > moment().format("YYYY-MM-DD") && list ));
+    //     // console.log("DASHBOARD DATA", this.state.tripsList.filter(list => list.start_date > moment().format("YYYY-MM-DD") && list ));
 
-        // console.log("TRIP DATA", getGetAllData);
-        // console.log("DELETETRIP DATA", getDeleteTripData);
+    //     // console.log("TRIP DATA", getGetAllData);
+    //     // console.log("DELETETRIP DATA", getDeleteTripData);
 
-        // console.log(getUpdateTripData)
+    //     // console.log(getUpdateTripData)
 
-        if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
+    //     if (prevProps.getGetAllData.isLoading && !getGetAllData.isLoading) {
 
-            if ( (Object.keys(getGetAllData.data).length !== 0) ) {
-                this.setState(
-                    {
-                        tripsList: getGetAllData.data,
-                        loading: false,
-                        openModalDelete: false,
-                        openModalEdit: false,
-                    }
-                )
-            } else {
-                this.setState({
-                    loading: false,
-                })
-            }
-        }
+    //         if ( (Object.keys(getGetAllData.data).length !== 0) ) {
+    //             this.setState(
+    //                 {
+    //                     tripsList: getGetAllData.data,
+    //                     loading: false,
+    //                     openModalDelete: false,
+    //                     openModalEdit: false,
+    //                 }
+    //             )
+    //         } else {
+    //             this.setState({
+    //                 loading: false,
+    //             })
+    //         }
+    //     }
 
-        // Update trip
-        if (prevProps.getUpdateTripData.isLoading && !getUpdateTripData.isLoading) {
-            if ( (Object.keys(getUpdateTripData.data).length !== 0) ) {
-                this.setState({
-                    loading: true,
-                    tripsList: getGetAllData.data,
-                    openModalEdit: false,
-                })
-                // alert(getEditAccData.data.message);
-                alert(getUpdateTripData.data.message);
-            } else {
-                alert(Object.values(getUpdateTripData.error.errors).flat().join('\n'));
-                alert("Update trip failed.")
-            }
-        }
+    //     // Update trip
+    //     if (prevProps.getUpdateTripData.isLoading && !getUpdateTripData.isLoading) {
+    //         if ( (Object.keys(getUpdateTripData.data).length !== 0) ) {
+    //             this.setState({
+    //                 loading: true,
+    //                 tripsList: getGetAllData.data,
+    //                 openModalEdit: false,
+    //             })
+    //             // alert(getEditAccData.data.message);
+    //             alert(getUpdateTripData.data.message);
+    //         } else {
+    //             alert(Object.values(getUpdateTripData.error.errors).flat().join('\n'));
+    //             alert("Update trip failed.")
+    //         }
+    //     }
 
-        // Delete trip
-        if (prevProps.getDeleteTripData.isLoading && !getDeleteTripData.isLoading) {
-            if ( getDeleteTripData.error === null ) {
-                this.setState({
-                    loading: true,
-                    tripsList: getGetAllData.data,
-                    openModalDelete: false,
-                })
-                // alert(getEditAccData.data.message);
-                alert("Successfully deleted trip.");
-            } else {alert("Delete trip failed.")}
-        }
-    }
+    //     // Delete trip
+    //     if (prevProps.getDeleteTripData.isLoading && !getDeleteTripData.isLoading) {
+    //         if ( getDeleteTripData.error === null ) {
+    //             this.setState({
+    //                 loading: true,
+    //                 tripsList: getGetAllData.data,
+    //                 openModalDelete: false,
+    //             })
+    //             // alert(getEditAccData.data.message);
+    //             alert("Successfully deleted trip.");
+    //         } else {alert("Delete trip failed.")}
+    //     }
+    // }
 
     detailsPressed(id) {
         this.props.history.push({
@@ -201,115 +211,181 @@ class Dashboard extends React.Component {
 
                                 <div style={{margin: 40,}}>
                                     <div style={styles.categoryTitleContainer}>
-                                        <h1>Your Trips</h1>
-                                        {/* <Link> */}
-                                            <button style={styles.selectButton} onClick={() => this.handleAddTrip()}>
+                                        <h1>Team V</h1>
+                                            {/* <button style={styles.selectButton} onClick={() => this.handleAddTrip()}>
                                                 <ion-icon name="add-circle-outline" style={{fontSize: 24}}></ion-icon
-                                            ></button>
-                                        {/* </Link> */}
+                                            ></button> */}
+
                                     </div>
                                 </div>
 
-                                {/* ------------------------DATE FILTER---------------------------- */}
-                                {/* <div style={styles.selectContainer}>
-                                    <button style={styles.selectButton}>Upcoming</button>
-                                    <button style={styles.selectButton}>Past Trips</button>
-                                </div> */}
-
-                                <div style={{margin: 40,}}>
-                                    <ButtonGroup>
-                                        {/* <Button style={this.state.selectedAll ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.buttonUpcomingPressed()}>Upcoming</Button> */}
-                                        <Button style={this.state.colorChangeAll ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.buttonAllPressed()}>All</Button>
-                                        <Button style={this.state.colorChangeUpcoming ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.buttonUpcomingPressed()}>Upcoming</Button>
-                                        <Button style={this.state.colorChangePast ? SECONDARY_COLOR : PRIMARY_COLOR} onClick={() => this.buttonPastPressed()}>Past Trips</Button>
-                                    </ButtonGroup>
-                                </div>
-
-                                {this.state.loading ? (
                                     
-                                    <Row style={{height: "40vh", justifyContent: "center", alignItems: "center"}}>
-                                    
-                                        <Spinner type="grow" color="danger">
-                                            <span className="sr-only">Loading...</span>
-                                        </Spinner>
-                                    </Row>) : 
-                                    (
-
-                                    <Row style={{justifyContent: "center", alignItems: "center",}}>
-
                                     
 
-                                        {   ( (!this.state.selected && (this.state.tripsList.length === 0)) || ( !this.state.selected && (this.state.tripsList.length === undefined)) || (this.state.selected && (this.state.filterTripsList.length === undefined)) || (this.state.selected && (this.state.filterTripsList.length === 0))  ) ?
-                                        
-                                            (
-                                                // <CardDeck>
-                                                    <div style={{height: 200, width: 200, display: "flex", flexDirection: "column", justifyContent: "space-around"}}>
-                                                        <h4>No trips found.</h4>
+                                    <Row style={{disply: "flex", justifyContent: "center", alignItems: "center", margin: "0 auto"}}>
 
-                                                        <Button 
-                                                            style={PRIMARY_COLOR}
-                                                            size="lg"
-                                                            // block
-                                                            onClick={()=>this.handleAddTrip()}
-                                                            >Create a New Trip
-                                                        </Button>
-                                                    </div>
-                                                // </CardDeck>
-
-                                            ) : (
-
-                                                (this.state.selected) ? (                                                this.state.filterTripsList.map( list => (
-                                                    <CardDeck style={{margin: 10,}}>
+                                                    <CardDeck style={{disply: "flex", justifyContent: "center", alignItems: "center", margin: 10}}>
 
                                                         <TripsCard
-                                                            tripData={list}
-                                                            tripId={list.id}
-                                                            tripTitle={list.trip_name}
-                                                            tripOrigin={list.origin}
-                                                            tripCreatedBy={list.created_by}
-                                                            tripStartDate={list.start_date}
-                                                            tripEndDate={list.end_date}
-                                                            tripTotal={list.total}
-                                                            tripUsers={list.users}
-                                                            tripBanner={list.trip_banner}
-                                                            onClick={() => this.detailsPressed(list.id)}
-                                                            handleEdit={ () => this.handleShowModal('EDIT', list)}
-                                                            handleDelete={ () => this.handleShowModal('DELETE', list)}
+                                                            image={fitri}
+                                                            productName={"Fitri Ishak"}
+                                                            model={"95062810"}
+                                                            intendedUse={"To be a doer, a thinker and executor to solve the problem "}
+                                                            features={["Think and execute the plan as solution to a problem"]}
+                                                            A={"We think about something, use the brain and a little heart. It works"}
+                                                            B={"He is a nice guy. Moderate in terms of style and fashion."}
+                                                            C={"Do not make him exhausted or angry"}
+                                                            D={"Every 6am, he will wake up by his own. Then, he take a nap. Will operate properly after 9 am. "}
+                                                            E={"Use with care"}
+                                                            F={""}
+                                                            G={"Keep him motivate, money and maybe some foods :p"}
+                                                            H={"Give him rest during weekend and public holiday"}
+                                                            I={"Handle with care. He don't bite, but he might hurt your heart"}
+                                                            J={"Operation: 9 hours per day, cannot eat spicy food"}
+
+
                                                         />
-                                            
-                                                    </CardDeck>
-                                                    ) )) : (                                                this.state.tripsList.map( list => (
-                                                    <CardDeck style={{margin: 10,}}>
 
                                                         <TripsCard
-                                                            tripData={list}
-                                                            tripId={list.id}
-                                                            tripTitle={list.trip_name}
-                                                            tripOrigin={list.origin}
-                                                            tripCreatedBy={list.created_by}
-                                                            tripStartDate={list.start_date}
-                                                            tripEndDate={list.end_date}
-                                                            tripTotal={list.total}
-                                                            tripUsers={list.users}
-                                                            tripBanner={list.trip_banner}
-                                                            onClick={() => this.detailsPressed(list.id)}
-                                                            handleEdit={ () => this.handleShowModal('EDIT', list)}
-                                                            handleDelete={ () => this.handleShowModal('DELETE', list)}
+                                                            image={sharafi}
+                                                            productName={"SHARAFI ILMAN"}
+                                                            model={"June 1993"}
+                                                            intendedUse={"To build the best solution to solve the problem"}
+                                                            features={["Trust with capability"]}
+                                                            A={"Can do anything as much as you want"}
+                                                            B={"Moderate, pragmatic"}
+                                                            C={"Dont give the  wrong instruction"}
+                                                            D={"As simple as you can"}
+                                                            E={"Use with care"}
+                                                            F={""}
+                                                            G={"Give some motivation "}
+                                                            H={"Give some space and time to do the better"}
+                                                            I={"Happy go lucky person"}
+                                                            J={"strong at sport"}
+
+
+                                                        />
+                                                        <TripsCard
+                                                            image={siti}
+                                                            productName={"CURIOSITI"}
+                                                            model={"24"}
+                                                            intendedUse={"To create better versions of objects with artistic individual expression."}
+                                                            features={["Turn passion into reality by realising your vision."]}
+                                                            A={"handy, creative, passionate and resourceful"}
+                                                            B={"Aged yet powerful "}
+                                                            C={"No cockiness or negative energy allowed "}
+                                                            D={"You need passion and the ability to explain your idea to her clearly and effectively. "}
+                                                            E={"Provide your motivations with a deeper literary significance for superior effect "}
+                                                            F={"Feed with motivation/encouragement. She tends to burn out when she feels overworked."}
+                                                            G={"Give me room to express myself/have autonomy to decide and for people to trust my decisions.  "}
+                                                            H={"Send food as fuel/treat me to my favourite treats."}
+                                                            I={""}
+                                                            J={"needs time for breaks/needs encouragement/ needs good guidance and patience/ needs physical outlet "}
+
+                                                        />
+                                                        <TripsCard
+                                                            image={lukman}
+                                                            productName={"LookMan"}
+                                                            model={"3669"}
+                                                            intendedUse={"menghiburkan "}
+                                                            features={""}
+
+                                                        />
+                                                        <TripsCard
+                                                            image={shakti}
+                                                            productName={"shakti"}
+                                                            model={"710"}
+                                                            intendedUse={"calling"}
+                                                            features={["headset charger"]}
+                                                            A={"system used for calling"}
+                                                            B={"same android usage"}
+                                                            C={"only can use 8hr per day"}
+                                                            D={"pnp "}
+                                                            E={"as easy as other phone"}
+                                                            F={"if any problem don't use for 1day"}
+                                                            G={"free maintenance"}
+                                                            H={"send to factory for any faulty"}
+                                                            I={"send to recycle centre"}
+                                                            J={"12gb ram expandable 512gb hd expandable"}
+
+                                                        />
+                                                        <TripsCard
+                                                            image={shamiza}
+                                                            productName={"Shamiza abdullah"}
+                                                            model={"2497"}
+                                                            intendedUse={"sebagai pendengar setia"}
+                                                            features={["recorder"]}
+                                                            A={"sentiasa meluangkan masa untuk mendengar luahan hati kawan kawan"}
+                                                            B={"senyum dan gelak"}
+                                                            C={"dont like fake stories and people"}
+                                                            D={"i got some stories to be share "}
+                                                            E={"hanya just come and stories everything"}
+                                                            F={"akan terlebih fikir penyelesaiannya tonton movie"}
+                                                            G={"just be yourself "}
+                                                            H={"get rid toxic in my life"}
+                                                            I={""}
+                                                            J={""}
+
+                                                        />
+                                                        <TripsCard
+                                                            image={aliya}
+                                                            productName={"Aliya"}
+                                                            model={"AC80663"}
+                                                            intendedUse={"To be helpful as possible in terms of career or as a person"}
+                                                            features={["Easily influenced (good way), flexible, simple"]}
+                                                            A={"Positive vibes, energetic, cognitive empathy"}
+                                                            B={"Simple, Outgoing"}
+                                                            C={"Fragile, no negative vibe allowed"}
+                                                            D={"Explain nicely and professionally"}
+                                                            E={"Need clear instructions with good manners"}
+                                                            F={"Talk nicely and lend an ears to give opinions "}
+                                                            G={"Give attention, positivity and motivation to move forward"}
+                                                            H={"Give time and space. (Easy to cool and easy to burn out)"}
+                                                            I={"Same way you when you get the product"}
+                                                            J={"Understand the problem and find suitable solution for it"}
+
+                                                        />
+                                                            <TripsCard
+                                                                image={affiq}
+                                                                productName={"Affiq PRGF"}
+                                                                model={"V. 29"}
+                                                                intendedUse={"To create solutions for visual communications and ideation for a better way to communicate visually and creatively with audience/   happiness and solution to those needed"}
+                                                                features={["Morph great ideas and concept into a stunning visual language"]}
+                                                                A={"Unique, Witty, Enlightening, Speaks Volume, Bold"}
+                                                                B={"Simple, Straight-forward"}
+                                                                C={"Self-entitlement, Condescending, Judgemental, Toxic"}
+                                                                D={"Assignment briefs, Clear message or instructions, Provide the support and materials required, Be professional"}
+                                                                E={"Design is how it works"}
+                                                                F={" Verbal communication is the best way to solve problems."}
+                                                                G={"Work-life balance, Creative freedom, Faith and Chances"}
+                                                                H={"Motivational talks, Self-improvement class, Counselling session"}
+                                                                I={"Send back to factory "}
+                                                                J={"A graphic artist that aims to solve the visual communication and ideation limitation from the product owner/ clients or customers"}
+    
+                                                            />
+                                                        <TripsCard
+                                                            image={aizat}
+                                                            productName={"AZT"}
+                                                            model={"v2.5"}
+                                                            intendedUse={""}
+                                                            features={[""]}
+                                                            A={""}
+                                                            B={""}
+                                                            C={""}
+                                                            D={""}
+                                                            E={"s"}
+                                                            F={""}
+                                                            G={""}
+                                                            H={""}
+                                                            I={" "}
+                                                            J={""}
+
                                                         />
                                             
-                                                    </CardDeck>
-                                                    ) ))
-
-                                               
-                                                ) 
-                                        }
+                                                    </CardDeck>                                        
 
                                     </Row>
-                                )}
                             </Container>
-                        {/* </Col> */}
-                        
-                    {/* </Row> */}
                 </Container>
                 {/* --------------------------------------MODALS FOR CREATE FORMS----------------------------------- */}
                 <EditTripModal
